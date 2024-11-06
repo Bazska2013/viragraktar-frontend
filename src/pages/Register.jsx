@@ -2,8 +2,14 @@ import {Formik} from 'formik';
 import {Button, Form} from 'react-bootstrap';
 import * as yup from 'yup';
 import axios from "../axiosConfig.js";
+import {login} from "../features/auth/authSlice.js";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const Register = () => {
+    const [serverError, setServerError] = useState(null);
+
+    const navigate = useNavigate();
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
@@ -28,6 +34,17 @@ const Register = () => {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                }).then((response) => {
+                    console.log(response);
+                    if (response.status === 204) {
+                        login({
+                            user: response.data.user,
+                            accessToken: response.data.token
+                        });
+                        navigate('/profile', {replace: true});
+                    } else {
+                        setServerError(response.data.message);
+                    }
                 })
             })
             // const result = await authRegister(
@@ -120,6 +137,7 @@ const Register = () => {
                     </Form>
                 )}
             </Formik>
+            {serverError && <p>{serverError}</p>}
         </>
     )
 }
