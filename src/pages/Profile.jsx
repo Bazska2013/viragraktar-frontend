@@ -2,11 +2,13 @@ import {Button} from "react-bootstrap";
 import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import {logout} from "../features/auth/authSlice.js";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {removeUser, selectCurrentUser} from "../features/auth/userSlice.js";
 
 const Profile = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const user = useSelector(selectCurrentUser);
 
     const handleLogout = async () => {
         try {
@@ -21,6 +23,7 @@ const Profile = () => {
                     'Content-Type': 'application/json',
                 }).then(() => {
                     dispatch(logout());
+                    dispatch(removeUser());
                     navigate('/login', {replace: true});
                 })
             })
@@ -29,11 +32,17 @@ const Profile = () => {
         }
     }
 
+
     return (
         <div>
             <h1>Profile</h1>
-            <p>Name: </p>
-            <p>Email: </p>
+            {user ? <>
+                <p>Name: {user.name}</p>
+                <p>Email: {user.email}</p>
+            </> : <>
+                <p>Loading...</p>
+            </>}
+
             <Button onClick={handleLogout}>
                 Log out
             </Button>
