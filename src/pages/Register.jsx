@@ -5,8 +5,10 @@ import axios from "../axiosConfig.js";
 import {login} from "../features/auth/authSlice.js";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
 
 const Register = () => {
+    const dispatch = useDispatch();
     const [serverError, setServerError] = useState(null);
 
     const navigate = useNavigate();
@@ -36,10 +38,7 @@ const Register = () => {
                 'Content-Type': 'application/json',
             });
             if (response.status === 204) {
-                login({
-                    user: response.data.user,
-                    accessToken: response.data.token
-                });
+                dispatch(login());
                 navigate('/profile', {replace: true});
             }
         } catch (error) {

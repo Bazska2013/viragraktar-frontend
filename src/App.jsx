@@ -8,6 +8,7 @@ import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
+import {RequireAuth} from "./features/auth/RequireAuth.jsx";
 
 function App() {
 
@@ -17,7 +18,11 @@ function App() {
             <Routes>
                 <Route element={<Layout/>}>
                     <Route path={'/'} element={<Home/>}/>
-                    <Route path={'/profile'} element={<Profile/>}/>
+                    <Route path={'/profile'} element={
+                        <RequireAuth>
+                            <Profile/>
+                        </RequireAuth>
+                    }/>
                     <Route path={'/login'} element={<Login/>}/>
                     <Route path={'/register'} element={<Register/>}/>
                 </Route>

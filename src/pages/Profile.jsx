@@ -2,8 +2,10 @@ import {Button} from "react-bootstrap";
 import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import {logout} from "../features/auth/authSlice.js";
+import {useDispatch} from "react-redux";
 
 const Profile = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -18,7 +20,7 @@ const Profile = () => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 }).then(() => {
-                    logout();
+                    dispatch(logout());
                     navigate('/login', {replace: true});
                 })
             })
