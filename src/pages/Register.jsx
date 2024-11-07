@@ -20,46 +20,30 @@ const Register = () => {
 
     const handleSubmit = async (values) => {
         try {
-            await axios.get('/sanctum/csrf-cookie', {
+            const response = await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }).then(async () => {
-                await axios.post('/register', {
-                    email: values.email,
-                    name: values.name,
-                    password: values.password1,
-                    password_confirmation: values.password2
-                }, {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }).then((response) => {
-                    console.log(response);
-                    if (response.status === 204) {
-                        login({
-                            user: response.data.user,
-                            accessToken: response.data.token
-                        });
-                        navigate('/profile', {replace: true});
-                    } else {
-                        setServerError(response.data.message);
-                    }
-                })
-            })
-            // const result = await authRegister(
-            // {
-            //         email: values.email,
-            //         name: values.name,
-            //         password: values.password1
-            //     },
-            //     {
-            //         credentials: 'include',
-            //     }
-            // ).unwrap();
-            // console.log(result);
-        } catch (e) {
-            console.log(e);
+            });
+            await axios.post('/register', {
+                email: values.email,
+                name: values.name,
+                password: values.password1,
+                password_confirmation: values.password2
+            }, {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            });
+            if (response.status === 204) {
+                login({
+                    user: response.data.user,
+                    accessToken: response.data.token
+                });
+                navigate('/profile', {replace: true});
+            }
+        } catch (error) {
+            setServerError(error.response.data.message);
         }
     }
 

@@ -7,7 +7,6 @@ const Profile = () => {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        console.log('pressed')
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -18,8 +17,7 @@ const Profile = () => {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                }).then((response) => {
-                    console.log(response);
+                }).then(() => {
                     logout();
                     navigate('/login', {replace: true});
                 })

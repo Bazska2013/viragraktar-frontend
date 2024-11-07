@@ -3,7 +3,7 @@ import {Button, Form} from "react-bootstrap";
 import * as yup from "yup";
 import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {login} from "../features/auth/authSlice.js";
 
 const Login = () => {
@@ -21,29 +21,24 @@ const Login = () => {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }).then(async () => {
-                await axios.post('/login', {
-                    email: values.email,
-                    password: values.password
-                }, {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }).then((response) => {
-                    console.log(response);
-                    if (response.status === 204) {
-                        login({
-                            user: response.data.user,
-                            accessToken: response.data.token
-                        });
-                        navigate('/profile', {replace: true});
-                    } else {
-                        setServerError(response.data.message);
-                    }
-                })
-            })
+            });
+            const response = await axios.post('/login', {
+                email: values.email,
+                password: values.password
+            }, {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            });
+            if (response.status === 204) {
+                login({
+                    user: response.data.user,
+                    accessToken: response.data.token
+                });
+                navigate('/profile', {replace: true});
+            }
         } catch (error) {
-            console.log(error);
+            setServerError(error.response.data.message);
         }
     }
 
