@@ -4,11 +4,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeUser, selectCurrentUser} from "../features/auth/userSlice.js";
 import axios from "../axiosConfig.js";
 import {logout} from "../features/auth/authSlice.js";
+import {deleteStore, selectStore} from "../features/store/storeSlice.js";
+import {useState} from "react";
 
 const NavBar = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
+    const store = useSelector(selectStore);
 
     const handleLogout = async () => {
         try {
@@ -22,13 +26,17 @@ const NavBar = () => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 }).then(() => {
-                    dispatch(logout());
-                    dispatch(removeUser());
-                    navigate('/login', {replace: true});
+                    setIsLoading(true);
                 })
             })
         } catch (error) {
             console.log(error);
+        } finally {
+            dispatch(logout());
+            dispatch(removeUser());
+            dispatch(deleteStore());
+            setIsLoading(false);
+            navigate('/login', {replace: true});
         }
     }
 
@@ -39,8 +47,15 @@ const NavBar = () => {
                     <Navbar.Brand onClick={() => navigate('/', {replace: true})}>Home</Navbar.Brand>
                     <Nav>
                         {user ? <>
-                            <Nav.Link onClick={() => navigate('/profile')} >Profile</Nav.Link>
-                            <Nav.Link onClick={handleLogout}>Log out</Nav.Link>
+                            {store ? <>
+                                <Nav.Link onClick={() => navigate('/sell')} >Sell</Nav.Link>
+                                <Nav.Link onClick={() => navigate('/buy')} >Buy</Nav.Link>
+                                <Nav.Link onClick={() => navigate('/profile')} >Profile</Nav.Link>
+                                {isLoading ? <>Loading...</> : <Nav.Link onClick={handleLogout}>Log out</Nav.Link>}
+                            </> : <>
+                                <Nav.Link onClick={() => navigate('/profile')} >Profile</Nav.Link>
+                                {isLoading ? <>Loading...</> : <Nav.Link onClick={handleLogout}>Log out</Nav.Link>}
+                            </>}
                         </> : <>
                             <Nav.Link onClick={() => navigate('/login')} >Log in</Nav.Link>
                             <Nav.Link onClick={() => navigate('/register')} >Register</Nav.Link>

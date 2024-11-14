@@ -39,7 +39,7 @@ const Register = () => {
             });
             if (response.status === 204) {
                 dispatch(login());
-                navigate('/profile', {replace: true});
+                navigate('/sell', {replace: true});
             }
         } catch (error) {
             setServerError(error.response.data.message);

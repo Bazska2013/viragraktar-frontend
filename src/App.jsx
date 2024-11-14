@@ -12,6 +12,7 @@ import {RequireAuth} from "./features/auth/RequireAuth.jsx";
 import Sell from "./pages/Sell.jsx";
 import Buy from "./pages/Buy.jsx";
 import NewStore from "./pages/NewStore.jsx";
+import {RequireStore} from "./features/store/RequireStore.jsx";
 
 function App() {
 
@@ -28,12 +29,16 @@ function App() {
                     }/>
                     <Route path={'/sell'} element={
                         <RequireAuth>
-                            <Sell/>
+                            <RequireStore>
+                                <Sell/>
+                            </RequireStore>
                         </RequireAuth>
                     }/>
                     <Route path={'/buy'} element={
                         <RequireAuth>
-                            <Buy/>
+                            <RequireStore>
+                                <Buy/>
+                            </RequireStore>
                         </RequireAuth>
                     }/>
                     <Route path={'/new/store'} element={
