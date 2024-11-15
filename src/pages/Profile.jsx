@@ -5,36 +5,12 @@ import {logout} from "../features/auth/authSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import {removeUser, selectCurrentUser} from "../features/auth/userSlice.js";
 import {useState} from "react";
+import {selectStore} from "../features/store/storeSlice.js";
 
 const Profile = () => {
+    const navigate = useNavigate();
     const user = useSelector(selectCurrentUser);
-    const [store, setStore] = useState(null);
-    const [openingHours, setOpeningHours] = useState(null);
-
-    const handleStore = async () => {
-        try {
-            await axios.get('/sanctum/csrf-cookie', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
-            const response = await axios.get('/api/store', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
-            if (response.status === 200) {
-                setStore(response.data);
-                setOpeningHours(JSON.parse(response.data.opening_hours));
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const store = useSelector(selectStore);
 
     return (
         <div>
@@ -42,20 +18,14 @@ const Profile = () => {
             {user ? <>
                 <p>Name: {user.name}</p>
                 <p>Email: {user.email}</p>
+                {store ? <>
+                    <p>Store name: {store.name}</p>
+                </> : <>
+                    <Button onClick={() => navigate('/new/store', {replace: true})}>Join or Create a Store</Button>
+                </>}
             </> : <>
                 <p>Loading...</p>
             </>}
-            <Button onClick={handleStore}>View Store</Button>
-            {store ? <>
-                <p>Store name: {store.name}</p>
-                <p>Opening hours:</p>
-                <ul>
-                    {Object.keys(openingHours).map((day, index) => (
-                        <li key={index}>{day}: {openingHours[day].from} - {openingHours[day].to}</li>
-                    ))}
-                </ul>
-                <p>Calculation enabled: {store.calculation_enabled}</p>
-            </> : <></>}
         </div>
     )
 }
