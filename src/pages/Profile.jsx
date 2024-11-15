@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeUser, selectCurrentUser} from "../features/auth/userSlice.js";
 import {useState} from "react";
 import {selectStore} from "../features/store/storeSlice.js";
+import StoreUsers from "../components/StoreUsers.jsx";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -53,6 +54,9 @@ const Profile = () => {
                             Show Store ID
                         </Button>
                     </>}
+                    {user.is_admin ? <>
+                        <StoreUsers />
+                    </> : <></>}
                 </> : <>
                     <Button onClick={() => navigate('/new/store', {replace: true})}>Join or Create a Store</Button>
                 </>}

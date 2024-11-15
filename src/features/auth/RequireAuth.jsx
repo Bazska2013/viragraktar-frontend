@@ -44,7 +44,7 @@ export const RequireAuth = ({ children }) => {
     }, [auth]);
 
     if (isLoading) {
-        return <div>Loading...</div>;  // Optional loading indicator
+        return <div>Loading...</div>;
     }
 
     return isAuthenticated ? children : <Navigate to="/login" replace />;
