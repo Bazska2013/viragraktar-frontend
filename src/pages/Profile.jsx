@@ -11,6 +11,27 @@ const Profile = () => {
     const navigate = useNavigate();
     const user = useSelector(selectCurrentUser);
     const store = useSelector(selectStore);
+    const [storeId, setStoreId] = useState(null);
+
+    const handleShowStoreId = async () => {
+        try {
+            await axios.get('/sanctum/csrf-cookie', {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            });
+            const response = await axios.get('/api/store/id', {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            });
+            if (response.status === 200) {
+                setStoreId(response.data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div>
@@ -20,6 +41,18 @@ const Profile = () => {
                 <p>Email: {user.email}</p>
                 {store ? <>
                     <p>Store name: {store.name}</p>
+                    {storeId ? <>
+                        <Button onClick={() => {
+                            setStoreId(null)
+                        }}>
+                            Hide Store ID
+                        </Button>
+                        <p>Store ID: {storeId}</p>
+                    </> : <>
+                        <Button onClick={() => {handleShowStoreId()}}>
+                            Show Store ID
+                        </Button>
+                    </>}
                 </> : <>
                     <Button onClick={() => navigate('/new/store', {replace: true})}>Join or Create a Store</Button>
                 </>}
