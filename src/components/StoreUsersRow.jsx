@@ -3,14 +3,12 @@ import {Button, Form} from "react-bootstrap";
 import axios from "../axiosConfig.js";
 import {useSelector} from "react-redux";
 import {selectCurrentUser} from "../features/auth/userSlice.js";
-import {useNavigate} from "react-router-dom";
 
 const StoreUsersRow = ({ user, refetchUsers }) => {
     const [isSeller, setIsSeller] = useState(user.is_seller);
     const [isBuyer, setIsBuyer] = useState(user.is_buyer);
     const [isAdmin, setIsAdmin] = useState(user.is_admin);
     const currentUser = useSelector(selectCurrentUser);
-    const navigate = useNavigate();
 
     const [isChanged, setIsChanged] = useState(false);
 

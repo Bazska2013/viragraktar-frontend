@@ -1,9 +1,8 @@
 import {Button} from "react-bootstrap";
 import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
-import {logout} from "../features/auth/authSlice.js";
-import {useDispatch, useSelector} from "react-redux";
-import {removeUser, selectCurrentUser} from "../features/auth/userSlice.js";
+import {useSelector} from "react-redux";
+import {selectCurrentUser} from "../features/auth/userSlice.js";
 import {useState} from "react";
 import {selectStore} from "../features/store/storeSlice.js";
 import StoreUsers from "../components/StoreUsers.jsx";
