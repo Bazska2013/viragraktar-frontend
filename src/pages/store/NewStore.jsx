@@ -1,7 +1,7 @@
 import {Button, Container, Row} from "react-bootstrap";
 import {useState} from "react";
-import JoinStore from "../components/JoinStore.jsx";
-import CreateStore from "../components/CreateStore.jsx";
+import JoinStore from "../../components/store/JoinStore.jsx";
+import CreateStore from "../../components/store/CreateStore.jsx";
 
 const NewStore = () => {
     const [joinStore, setJoinStore] = useState(true);

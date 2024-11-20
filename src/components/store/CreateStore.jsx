@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import axios from "../axiosConfig.js";
+import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import {Button, Form, Row} from "react-bootstrap";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";

@@ -48,14 +48,17 @@ const NavBar = () => {
                     <Nav>
                         {user ? <>
                             {store ? <>
-                                <Nav.Link onClick={() => navigate('/sell')} >Sell</Nav.Link>
-                                <Nav.Link onClick={() => navigate('/buy')} >Buy</Nav.Link>
-                                <Nav.Link onClick={() => navigate('/profile')} >Profile</Nav.Link>
-                                {isLoading ? <>Loading...</> : <Nav.Link onClick={handleLogout}>Log out</Nav.Link>}
-                            </> : <>
-                                <Nav.Link onClick={() => navigate('/profile')} >Profile</Nav.Link>
-                                {isLoading ? <>Loading...</> : <Nav.Link onClick={handleLogout}>Log out</Nav.Link>}
-                            </>}
+                                {(user.is_seller && user.is_buyer) ? <>
+                                    <Nav.Link onClick={() => navigate('/sell')} >Sell</Nav.Link>
+                                    <Nav.Link onClick={() => navigate('/buy')} >Buy</Nav.Link>
+                                </> : user.is_seller ? <>
+                                    <Nav.Link onClick={() => navigate('/sell')} >Sell</Nav.Link>
+                                </> : user.is_buyer ? <>
+                                    <Nav.Link onClick={() => navigate('/buy')} >Buy</Nav.Link>
+                                </> : <></>}
+                            </> : <></>}
+                            <Nav.Link onClick={() => navigate('/profile')} >Profile</Nav.Link>
+                            {isLoading ? <>Loading...</> : <Nav.Link onClick={handleLogout}>Log out</Nav.Link>}
                         </> : <>
                             <Nav.Link onClick={() => navigate('/login')} >Log in</Nav.Link>
                             <Nav.Link onClick={() => navigate('/register')} >Register</Nav.Link>

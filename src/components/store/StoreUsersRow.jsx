@@ -1,14 +1,15 @@
 import {useState} from "react";
 import {Button, Form} from "react-bootstrap";
-import axios from "../axiosConfig.js";
-import {useSelector} from "react-redux";
-import {selectCurrentUser} from "../features/auth/userSlice.js";
+import axios from "../../axiosConfig.js";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
 
 const StoreUsersRow = ({ user, refetchUsers }) => {
     const [isSeller, setIsSeller] = useState(user.is_seller);
     const [isBuyer, setIsBuyer] = useState(user.is_buyer);
     const [isAdmin, setIsAdmin] = useState(user.is_admin);
     const currentUser = useSelector(selectCurrentUser);
+    const dispatch = useDispatch();
 
     const [isChanged, setIsChanged] = useState(false);
 
@@ -48,9 +49,34 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
             });
             if (response.status === 204) {
                 setIsChanged(false);
+                await updateUser()
             }
         } catch (error) {
             console.error(error);
+        }
+    }
+
+    const updateUser = async () => {
+        try {
+            await axios.get('/sanctum/csrf-cookie', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            });
+            const response = await axios.get('/api/user', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (response.status === 200) {
+                dispatch(setUser(response.data));
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 

@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import {selectCurrentUser} from "../features/auth/userSlice.js";
 import {useState} from "react";
 import {selectStore} from "../features/store/storeSlice.js";
-import StoreUsers from "../components/StoreUsers.jsx";
+import StoreUsers from "../components/store/StoreUsers.jsx";
 
 const Profile = () => {
     const navigate = useNavigate();

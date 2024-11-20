@@ -6,10 +6,12 @@ import Profile from "./pages/Profile.jsx";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import {RequireAuth} from "./features/auth/RequireAuth.jsx";
-import Sell from "./pages/Sell.jsx";
-import Buy from "./pages/Buy.jsx";
-import NewStore from "./pages/NewStore.jsx";
+import Sell from "./pages/store/Sell.jsx";
+import Buy from "./pages/store/Buy.jsx";
+import NewStore from "./pages/store/NewStore.jsx";
 import {RequireStore} from "./features/store/RequireStore.jsx";
+import {RequireSeller} from "./features/store/RequireSeller.jsx";
+import {RequireBuyer} from "./features/store/RequireBuyer.jsx";
 
 function App() {
 
@@ -27,14 +29,18 @@ function App() {
                     <Route path={'/sell'} element={
                         <RequireAuth>
                             <RequireStore>
-                                <Sell/>
+                                <RequireSeller>
+                                    <Sell/>
+                                </RequireSeller>
                             </RequireStore>
                         </RequireAuth>
                     }/>
                     <Route path={'/buy'} element={
                         <RequireAuth>
                             <RequireStore>
-                                <Buy/>
+                                <RequireBuyer>
+                                    <Buy/>
+                                </RequireBuyer>
                             </RequireStore>
                         </RequireAuth>
                     }/>
