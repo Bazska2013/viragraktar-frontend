@@ -39,7 +39,7 @@ const Item = ({props}) => {
                 setItem({...item, stock: item.stock - 1});
                 break;
             case 'field':
-                setItem({...item, [e.target.name]: e.target.value});
+                setItem({...item, [e.target.name]: e.target.name === 'stock' ? Number(e.target.value) : e.target.value});
                 break;
         }
         setIsChanged(true);
