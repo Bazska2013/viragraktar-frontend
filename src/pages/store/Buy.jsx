@@ -39,7 +39,7 @@ const Buy = () => {
             </Row>
             <Row>
                 {items.map((item) => (
-                    <Item key={item.id} props={item}/>
+                    <Item key={item.id} props={item} refetch={fetchItems} />
                 ))}
             </Row>
         </>

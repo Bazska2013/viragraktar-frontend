@@ -3,7 +3,7 @@ import {useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 
-const Item = ({props}) => {
+const Item = ({props, refetch}) => {
 
     const [item, setItem] = useState(props);
     const navigate = useNavigate();
@@ -24,6 +24,7 @@ const Item = ({props}) => {
             if (response.status === 200) {
                 setItem(response.data);
                 setIsChanged(false);
+                refetch();
             }
         } catch (error) {
             console.error(error);
