@@ -7,28 +7,47 @@ const Item = ({props}) => {
 
     const [item, setItem] = useState(props);
     const navigate = useNavigate();
+    const [isChanged, setIsChanged] = useState(false);
 
-    const handleChange = async (type) => {
+    const handleSubmit = async () => {
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.put('/api/item', {
-                id: item.id,
-                stock: type === 'add' ? item.stock + 1 : item.stock - 1
-            }, {
+            const response = await axios.put('/api/item/' + item.id, item, {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
             if (response.status === 200) {
                 setItem(response.data);
+                setIsChanged(false);
             }
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const handleChange = (e, type) => {
+        switch (type) {
+            case 'add':
+                setItem({...item, stock: item.stock + 1});
+                break;
+            case 'remove':
+                setItem({...item, stock: item.stock - 1});
+                break;
+            case 'field':
+                setItem({...item, [e.target.name]: e.target.value});
+                break;
+        }
+        setIsChanged(true);
+    }
+
+    const handleCancel = () => {
+        setItem(props);
+        setIsChanged(false);
     }
 
     return (
@@ -45,19 +64,24 @@ const Item = ({props}) => {
                 </Col>
                 <Col>
                     <InputGroup>
-                        <Button onClick={() => {handleChange('remove')}}>
+                        <Button onClick={(e) => {handleChange(e, 'remove')}}>
                             -
                         </Button>
                         <Form.Control
                             type='number'
+                            name='stock'
                             value={item.stock}
-                            readOnly
+                            onChange={(e) => handleChange(e, 'field')}
                         />
-                        <Button onClick={() => {handleChange('add')}}>
+                        {isChanged ? <>
+                            <Button onClick={() => handleSubmit()}>Save changes</Button>
+                            <Button onClick={() => handleCancel()}>Cancel changes</Button>
+                        </> : <></>}
+                        <Button onClick={(e) => {handleChange(e, 'add')}}>
                             +
                         </Button>
                     </InputGroup>
-                    <Button onClick={() => navigate('edit/item/' + item.id, {replace:true})}>
+                    <Button onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
                         Edit Item
                     </Button>
                 </Col>

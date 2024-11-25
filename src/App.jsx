@@ -13,6 +13,7 @@ import {RequireStore} from "./features/store/RequireStore.jsx";
 import {RequireSeller} from "./features/store/RequireSeller.jsx";
 import {RequireBuyer} from "./features/store/RequireBuyer.jsx";
 import NewItem from "./pages/item/NewItem.jsx";
+import EditItem from "./pages/item/EditItem.jsx";
 
 function App() {
 
@@ -50,6 +51,15 @@ function App() {
                             <RequireStore>
                                 <RequireBuyer>
                                     <NewItem />
+                                </RequireBuyer>
+                            </RequireStore>
+                        </RequireAuth>
+                    } />
+                    <Route path={'/edit/item/:id'} element={
+                        <RequireAuth>
+                            <RequireStore>
+                                <RequireBuyer>
+                                    <EditItem />
                                 </RequireBuyer>
                             </RequireStore>
                         </RequireAuth>

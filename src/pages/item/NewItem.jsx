@@ -10,7 +10,7 @@ const NewItem = () => {
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
         description: yup.string().required('Description is required'),
-        price: yup.number().min(0, 'Price must be greater than 0').required('Price is required'),
+        price: yup.number().min(0, 'Price must be greater than or equal 0').required('Price is required'),
         stock: yup.number().min(1, 'Stock must be greater than 0').required('Stock is required'),
         /*image: yup.mixed().required('Image is required')*/
     });
