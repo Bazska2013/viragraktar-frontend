@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
 import axios from '../../axiosConfig.js';
 import {Row} from "react-bootstrap";
-import Item from "../../components/item/sell/Item.jsx";
+import ListItem from "../../components/item/sell/ListItem.jsx";
+import Cart from "../../components/item/sell/Cart.jsx";
 
 const Sell = () => {
     const [items, setItems] = useState([]);
+    const [cart, setCart] = useState([]);
 
     const fetchItems = async () => {
         try {
@@ -30,13 +32,34 @@ const Sell = () => {
         fetchItems();
     }, []);
 
+    const addToCart = (item) => {
+        setCart([...cart, item]);
+    }
+
+    const removeFromCart = (item) => {
+        setCart(cart.filter((i) => i.id !== item.id));
+    }
+
+    const editCart = (item) => {
+        setCart(cart.map((i) => i.id === item.id ? item : i));
+    }
+
+    const isItemInCart = (item) => {
+        return cart.some((i) => i.id === item.id);
+    }
+
     return (
         <>
-            <Row>
-                {items.map((item) => (
-                    <Item key={item.id} props={item} />
-                ))}
-            </Row>
+            {(cart.length > 0) ? <Row>
+                <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} />
+            </Row> : <></>}
+            {items.map((item) => (
+                <Row key={item.id}>
+                    {isItemInCart(item) ? <></> : <>
+                        <ListItem item={item} addToCart={addToCart} />
+                    </>}
+                </Row>
+            ))}
         </>
     )
 }

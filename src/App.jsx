@@ -14,6 +14,7 @@ import {RequireSeller} from "./features/store/RequireSeller.jsx";
 import {RequireBuyer} from "./features/store/RequireBuyer.jsx";
 import NewItem from "./pages/item/NewItem.jsx";
 import EditItem from "./pages/item/EditItem.jsx";
+import Checkout from "./pages/store/Checkout.jsx";
 
 function App() {
 
@@ -33,6 +34,15 @@ function App() {
                             <RequireStore>
                                 <RequireSeller>
                                     <Sell/>
+                                </RequireSeller>
+                            </RequireStore>
+                        </RequireAuth>
+                    }/>
+                    <Route path={'/checkout'} element={
+                        <RequireAuth>
+                            <RequireStore>
+                                <RequireSeller>
+                                    <Checkout/>
                                 </RequireSeller>
                             </RequireStore>
                         </RequireAuth>
