@@ -1,11 +1,11 @@
-import {Button, Col, Row} from "react-bootstrap";
+import {Button, Col, Modal, Row, Table} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import CartItem from "./CartItem.jsx";
-import {useNavigate} from "react-router-dom";
 
 const Cart = ({cart, removeFromCart, editCart}) => {
     const [total, setTotal] = useState(0);
-    const navigate = useNavigate();
+    const [show, setShow] = useState(false);
+    const [cash, setCash] = useState(true);
 
     useEffect(() => {
         let total = 0;
@@ -17,15 +17,63 @@ const Cart = ({cart, removeFromCart, editCart}) => {
 
     return (
         <>
+            <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Checkout</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cart.map((item, index) => (
+                                    <tr key={item.id}>
+                                        <td>{index + 1}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.amount}</td>
+                                        <td>{item.price}</td>
+                                        <td>{item.price * item.amount}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Row>
+                    <Row>
+                        <Col>
+                            {cash ? <>
+                                <Button variant="primary" onClick={() => setCash(!cash)}>Cash</Button>
+                                <Button variant="secondary" onClick={() => setCash(!cash)}>Card</Button>
+                            </> : <>
+                                <Button variant="secondary" onClick={() => setCash(!cash)}>Cash</Button>
+                                <Button variant="primary" onClick={() => setCash(!cash)}>Card</Button>
+                            </>}
+                        </Col>
+                        <Col>
+                            Total: {total} HUF
+                        </Col>
+                        <Col>
+                            <Button variant="success">Sell</Button>
+                        </Col>
+                    </Row>
+                </Modal.Body>
+            </Modal>
             {cart.map((item) => (
                 <CartItem key={item.id} item={item} removeFromCart={removeFromCart} editCart={editCart} />
             ))}
-            <Row>
+            <Row style={{borderBottom: "1px solid black"}}>
                 <Col>
                     Total: {total}
                 </Col>
                 <Col>
-                    <Button onClick={() => navigate('/checkout', {state: {cart}})}>Checkout</Button>
+                    <Button onClick={() => setShow(true)}>Checkout</Button>
                 </Col>
             </Row>
         </>
