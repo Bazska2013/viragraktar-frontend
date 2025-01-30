@@ -40,6 +40,10 @@ const Sell = () => {
         setCart(cart.filter((i) => i.id !== item.id));
     }
 
+    const emptyCart = () => {
+        setCart([]);
+    }
+
     const editCart = (item) => {
         setCart(cart.map((i) => i.id === item.id ? item : i));
     }
@@ -51,7 +55,7 @@ const Sell = () => {
     return (
         <>
             {(cart.length > 0) ? <Row>
-                <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} />
+                <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} />
             </Row> : <></>}
             {items.map((item) => (
                 <Row key={item.id}>

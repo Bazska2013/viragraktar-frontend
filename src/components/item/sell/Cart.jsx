@@ -1,8 +1,9 @@
 import {Button, Col, Modal, Row, Table} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import CartItem from "./CartItem.jsx";
+import axios from "../../../axiosConfig.js";
 
-const Cart = ({cart, removeFromCart, editCart}) => {
+const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
     const [total, setTotal] = useState(0);
     const [show, setShow] = useState(false);
     const [cash, setCash] = useState(true);
@@ -14,6 +15,34 @@ const Cart = ({cart, removeFromCart, editCart}) => {
         });
         setTotal(total);
     }, [cart]);
+
+    const handleCheckout = async () => {
+        try {
+            await axios.get('/sanctum/csrf-cookie', {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            });
+            const response = await axios.post('/api/new/transaction', {
+                items: cart,
+                total: total,
+                credit: !cash,
+            }, {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            });
+            console.log(response);
+            if (response.status === 201) {
+                setShow(false);
+                setTotal(0);
+                emptyCart();
+                fetchItems();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <>
@@ -60,7 +89,7 @@ const Cart = ({cart, removeFromCart, editCart}) => {
                             Total: {total} HUF
                         </Col>
                         <Col>
-                            <Button variant="success">Sell</Button>
+                            <Button onClick={() => handleCheckout()} variant="success">Sell</Button>
                         </Col>
                     </Row>
                 </Modal.Body>
