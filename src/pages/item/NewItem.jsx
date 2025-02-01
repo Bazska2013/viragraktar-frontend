@@ -22,7 +22,7 @@ const NewItem = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.post('/api/new/item', {
+            const response = await axios.post('/api/item', {
                 name: values.name,
                 description: values.description,
                 price: values.price,

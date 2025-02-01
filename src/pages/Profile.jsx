@@ -98,7 +98,7 @@ const Profile = () => {
                                         </Button>
                                     </>}
                                 </Row>
-                                <Row><Button>Edit store</Button></Row>
+                                <Row><Button onClick={() => navigate('/edit/store')}>Edit store</Button></Row>
                             </Col>
                         </> : <>
                             <Button onClick={() => navigate('/new/store', {replace: true})}>Join or Create a Store</Button>

@@ -14,7 +14,7 @@ const CreateStore = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.post('/api/new/store', {
+            const response = await axios.post('/api/store', {
                 name: values.name,
                 opening_hours: values.opening_hours,
                 calculation_enabled: values.calculation_enabled,
