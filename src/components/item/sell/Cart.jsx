@@ -32,7 +32,6 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            console.log(response);
             if (response.status === 201) {
                 setShow(false);
                 setTotal(0);
