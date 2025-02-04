@@ -4,12 +4,13 @@ import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {selectStore} from "../../features/store/storeSlice.js";
+import {useDispatch, useSelector} from "react-redux";
+import {createStore, selectStore} from "../../features/store/storeSlice.js";
 
 const UpdateStore = () => {
     const store = useSelector(selectStore);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (values) => {
         try {
@@ -28,6 +29,7 @@ const UpdateStore = () => {
                 'Content-Type': 'application/json',
             });
             if (response.status === 200) {
+                dispatch(createStore(response.data));
                 navigate('/profile', {replace: true});
             }
         } catch (error) {
@@ -64,7 +66,7 @@ const UpdateStore = () => {
                                 {errors.name}
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} />
+                        <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} defaultValue={store.opening_hours} />
                         <Form.Group controlId="calculation_enabled">
                             <Form.Check
                                 type="checkbox"

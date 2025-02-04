@@ -10,7 +10,7 @@ const SelectHours = (props) => {
             </Col>
             <Col>
                 <Row>
-                    <Form.Select onChange={props.onSelectFrom}>
+                    <Form.Select value={props.from} onChange={props.onSelectFrom}>
                         <option>00:00</option>
                         <option>01:00</option>
                         <option>02:00</option>
@@ -36,7 +36,7 @@ const SelectHours = (props) => {
                         <option>22:00</option>
                         <option>23:00</option>
                     </Form.Select>
-                    <Form.Select onChange={props.onSelectTo}>
+                    <Form.Select value={props.to} onChange={props.onSelectTo}>
                         <option>00:00</option>
                         <option>01:00</option>
                         <option>02:00</option>
@@ -66,7 +66,7 @@ const SelectHours = (props) => {
             </Col>
             <Col>
                 <Row>
-                    <Form.Check type="checkbox" label="Closed" onClick={props.onClick}/>
+                    <Form.Check type="checkbox" checked={props.closed} label="Closed" onChange={props.onClick}/>
                 </Row>
             </Col>
         </Container>

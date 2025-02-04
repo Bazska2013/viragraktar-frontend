@@ -1,7 +1,7 @@
 import SelectHours from "./SelectHours.jsx";
 import { useState, useEffect } from "react";
 
-const SelectOpeningHours = ({ setFieldValue }) => {
+const SelectOpeningHours = ({ setFieldValue, defaultValue }) => {
     const [openingHours, setOpeningHours] = useState({
         Mon: { from: "00:00", to: "00:00", closed: false },
         Tue: { from: "00:00", to: "00:00", closed: false },
@@ -11,6 +11,12 @@ const SelectOpeningHours = ({ setFieldValue }) => {
         Sat: { from: "00:00", to: "00:00", closed: false },
         Sun: { from: "00:00", to: "00:00", closed: false },
     });
+
+    useEffect(() => {
+        if (defaultValue) {
+            setOpeningHours(JSON.parse(defaultValue));
+        }
+    }, [defaultValue]);
 
     useEffect(() => {
         // Convert openingHours to a JSON string and store it in Formik
@@ -44,6 +50,9 @@ const SelectOpeningHours = ({ setFieldValue }) => {
                 <SelectHours
                     key={index}
                     day={day}
+                    from={openingHours[day].from}
+                    to={openingHours[day].to}
+                    closed={openingHours[day].closed}
                     onSelectFrom={(e) => handleSelectFrom(day, e.target.value)}
                     onSelectTo={(e) => handleSelectTo(day, e.target.value)}
                     onClick={() => handleClick(day)}
