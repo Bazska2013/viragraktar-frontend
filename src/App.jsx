@@ -2,7 +2,7 @@ import './App.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Layout} from "./Layout.jsx";
 import Home from "./pages/Home.jsx";
-import Profile from "./pages/Profile.jsx";
+import Profile from "./pages/profile/Profile.jsx";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import {RequireAuth} from "./features/auth/RequireAuth.jsx";
@@ -14,7 +14,7 @@ import {RequireSeller} from "./features/store/RequireSeller.jsx";
 import {RequireBuyer} from "./features/store/RequireBuyer.jsx";
 import NewItem from "./pages/item/NewItem.jsx";
 import EditItem from "./pages/item/EditItem.jsx";
-import UpdateStore from "./components/store/UpdateStore.jsx";
+import UpdateStore from "./pages/store/UpdateStore.jsx";
 import {RequireAdmin} from "./features/store/RequireAdmin.jsx";
 
 function App() {

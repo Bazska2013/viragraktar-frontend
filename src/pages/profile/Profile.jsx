@@ -1,17 +1,18 @@
-import {Button, Col, Container, Row} from "react-bootstrap";
-import axios from "../axiosConfig.js";
+import {Button, Card, Col, Collapse, Container, Fade, Row} from "react-bootstrap";
+import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {selectCurrentUser} from "../features/auth/userSlice.js";
+import {selectCurrentUser} from "../../features/auth/userSlice.js";
 import {useEffect, useState} from "react";
-import {selectStore} from "../features/store/storeSlice.js";
-import StoreUsers from "../components/store/StoreUsers.jsx";
+import {selectStore} from "../../features/store/storeSlice.js";
+import StoreUsers from "../../components/store/StoreUsers.jsx";
 
 const Profile = () => {
     const navigate = useNavigate();
     const user = useSelector(selectCurrentUser);
     const store = useSelector(selectStore);
     const [storeId, setStoreId] = useState(null);
+    const [storeIdVisible, setStoreIdVisible] = useState(false);
     const [profit, setProfit] = useState(0);
 
     const getTodayProfit = async () => {
@@ -57,6 +58,7 @@ const Profile = () => {
     useEffect(() => {
         if (store) {
             getTodayProfit();
+            handleShowStoreId();
         }
     }, []);
 
@@ -81,22 +83,20 @@ const Profile = () => {
                                     <Col><Button onClick={() => {getTodayProfit()}}>Refresh</Button></Col>
                                 </Row>
                                 <Row>
-                                    {storeId ? <>
-                                        <Col>
-                                            <Button onClick={() => {
-                                                setStoreId(null)
-                                            }}>
-                                                Hide Store ID
-                                            </Button>
-                                        </Col>
-                                        <Col>
-                                            Store ID: {storeId}
-                                        </Col>
-                                    </> : <>
-                                        <Button onClick={() => {handleShowStoreId()}}>
-                                            Show Store ID
+                                    <Col>
+                                        <Button onClick={() => {setStoreIdVisible(!storeIdVisible)}}>
+                                            {storeIdVisible ? 'Hide' : 'Show'} Store ID
                                         </Button>
-                                    </>}
+                                    </Col>
+                                    <Fade in={storeIdVisible} dimension={'width'}>
+                                        <Col>
+                                            <Card>
+                                                <Card.Body>
+                                                    {storeId}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Fade>
                                 </Row>
                                 <Row><Button onClick={() => navigate('/edit/store')}>Edit store</Button></Row>
                             </Col>

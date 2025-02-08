@@ -2,7 +2,7 @@ import {Button, Form, Row} from "react-bootstrap";
 import {Formik} from "formik";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
-import SelectOpeningHours from "./SelectOpeningHours.jsx";
+import SelectOpeningHours from "../../components/store/SelectOpeningHours.jsx";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createStore, selectStore} from "../../features/store/storeSlice.js";
