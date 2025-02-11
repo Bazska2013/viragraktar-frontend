@@ -1,10 +1,21 @@
-import {Row} from 'react-bootstrap';
+import {Col, Container} from 'react-bootstrap';
+import {selectCurrentUser} from "../../features/auth/userSlice.js";
+import {useSelector} from "react-redux";
+import ChangeName from "../../components/profile/ChangeName.jsx";
+import ChangePassword from "../../components/profile/ChangePassword.jsx";
 
 const EditProfile = () => {
-    return (
-        <Row>
+    const user = useSelector(selectCurrentUser);
 
-        </Row>
+    return (
+        <Container>
+            <Col>
+                <ChangeName user={user}/>
+            </Col>
+            <Col>
+                <ChangePassword user={user}/>
+            </Col>
+        </Container>
     )
 }
 

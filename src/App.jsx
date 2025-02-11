@@ -16,6 +16,7 @@ import NewItem from "./pages/item/NewItem.jsx";
 import EditItem from "./pages/item/EditItem.jsx";
 import UpdateStore from "./pages/store/UpdateStore.jsx";
 import {RequireAdmin} from "./features/store/RequireAdmin.jsx";
+import EditProfile from "./pages/profile/EditProfile.jsx";
 
 function App() {
 
@@ -73,6 +74,11 @@ function App() {
                                     <UpdateStore />
                                 </RequireAdmin>
                             </RequireStore>
+                        </RequireAuth>
+                    } />
+                    <Route path={'/edit/profile'} element={
+                        <RequireAuth>
+                            <EditProfile />
                         </RequireAuth>
                     } />
                     <Route path={'/new/store'} element={

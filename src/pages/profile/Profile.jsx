@@ -72,7 +72,9 @@ const Profile = () => {
                             <Row><h2>User info</h2></Row>
                             <Row>Name: {user.name}</Row>
                             <Row>Email: {user.email}</Row>
-                            <Row><Button>Edit profile</Button></Row>
+                            <Row>
+                                <Button onClick={() => navigate('/edit/profile')}>Edit profile</Button>
+                            </Row>
                         </Col>
                         {store ? <>
                             <Col>
