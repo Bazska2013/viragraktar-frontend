@@ -1,4 +1,4 @@
-import {Button, Col, Modal, Row, Table} from "react-bootstrap";
+import {Button, Col, Modal, Row, Spinner, Table} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import CartItem from "./CartItem.jsx";
 import axios from "../../../axiosConfig.js";
@@ -7,6 +7,8 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
     const [total, setTotal] = useState(0);
     const [show, setShow] = useState(false);
     const [cash, setCash] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         let total = 0;
@@ -17,13 +19,15 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
     }, [cart]);
 
     const handleCheckout = async () => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.post('/api/new/transaction', {
+            response = await axios.post('/api/new/transaction', {
                 items: cart,
                 total: total,
                 credit: !cash,
@@ -32,14 +36,17 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 201) {
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 201) {
                 setShow(false);
                 setTotal(0);
                 emptyCart();
                 fetchItems();
             }
-        } catch (error) {
-            console.error(error);
         }
     }
 
@@ -50,9 +57,14 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                     <Modal.Title>Checkout</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row>
-                        <Table>
-                            <thead>
+                    {isLoading ? <>
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </> : <>
+                        <Row>
+                            <Table>
+                                <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
@@ -60,8 +72,8 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                                     <th>Price</th>
                                     <th>Total</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 {cart.map((item, index) => (
                                     <tr key={item.id}>
                                         <td>{index + 1}</td>
@@ -71,26 +83,28 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                                         <td>{item.price * item.amount}</td>
                                     </tr>
                                 ))}
-                            </tbody>
-                        </Table>
-                    </Row>
-                    <Row>
-                        <Col>
-                            {cash ? <>
-                                <Button variant="primary" onClick={() => setCash(!cash)}>Cash</Button>
-                                <Button variant="secondary" onClick={() => setCash(!cash)}>Card</Button>
-                            </> : <>
-                                <Button variant="secondary" onClick={() => setCash(!cash)}>Cash</Button>
-                                <Button variant="primary" onClick={() => setCash(!cash)}>Card</Button>
-                            </>}
-                        </Col>
-                        <Col>
-                            Total: {total} HUF
-                        </Col>
-                        <Col>
-                            <Button onClick={() => handleCheckout()} variant="success">Sell</Button>
-                        </Col>
-                    </Row>
+                                </tbody>
+                            </Table>
+                        </Row>
+                        <Row>
+                            <Col>
+                                {cash ? <>
+                                    <Button variant="primary" onClick={() => setCash(!cash)}>Cash</Button>
+                                    <Button variant="secondary" onClick={() => setCash(!cash)}>Card</Button>
+                                </> : <>
+                                    <Button variant="secondary" onClick={() => setCash(!cash)}>Cash</Button>
+                                    <Button variant="primary" onClick={() => setCash(!cash)}>Card</Button>
+                                </>}
+                            </Col>
+                            <Col>
+                                Total: {total} HUF
+                            </Col>
+                            <Col>
+                                <Button onClick={() => handleCheckout()} variant="success">Sell</Button>
+                            </Col>
+                        </Row>
+                        {error && <p>{error}</p>}
+                    </>}
                 </Modal.Body>
             </Modal>
             {cart.map((item) => (

@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { selectAuth } from "./authSlice";
 import axios from "../../axiosConfig.js";
 import {setUser} from "./userSlice.js";
+import {Spinner} from "react-bootstrap";
 
 export const RequireAuth = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +45,9 @@ export const RequireAuth = ({ children }) => {
     }, [auth]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>;
     }
 
     return isAuthenticated ? children : <Navigate to="/login" replace />;

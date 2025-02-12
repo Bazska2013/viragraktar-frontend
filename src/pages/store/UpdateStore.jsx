@@ -1,4 +1,4 @@
-import {Button, Form, Row} from "react-bootstrap";
+import {Button, Form, Row, Spinner} from "react-bootstrap";
 import {Formik} from "formik";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
@@ -12,14 +12,19 @@ const UpdateStore = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
     const handleSubmit = async (values) => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.put('/api/store', {
+            response = await axios.put('/api/store', {
                 name: values.name,
                 opening_hours: values.opening_hours,
                 calculation_enabled: values.calculation_enabled,
@@ -28,13 +33,24 @@ const UpdateStore = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 200) {
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 200) {
                 dispatch(createStore(response.data));
                 navigate('/profile', {replace: true});
             }
-        } catch (error) {
-            console.error(error);
         }
+    }
+
+    if (isLoading) {
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
     }
 
     return (
@@ -79,6 +95,7 @@ const UpdateStore = () => {
                         <Button type="submit">
                             Update store
                         </Button>
+                        {error ? <>{error}</> : <></>}
                     </Form>
                 )}
 

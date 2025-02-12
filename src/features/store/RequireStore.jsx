@@ -3,6 +3,7 @@ import {createStore, selectStore} from "./storeSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import axios from "../../axiosConfig.js";
 import {Navigate} from "react-router-dom";
+import {Spinner} from "react-bootstrap";
 
 export const RequireStore = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +49,9 @@ export const RequireStore = ({children}) => {
     }, [store]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>;
     }
 
     return hasStore ? children : <Navigate to={'/profile'} replace />

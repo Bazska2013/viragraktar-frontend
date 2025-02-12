@@ -1,4 +1,4 @@
-import {Button, Col, Container, InputGroup, Row, Form} from "react-bootstrap";
+import {Button, Col, Container, InputGroup, Row, Form, Spinner} from "react-bootstrap";
 import {useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
@@ -8,26 +8,33 @@ const Item = ({props, refetch}) => {
     const [item, setItem] = useState(props);
     const navigate = useNavigate();
     const [isChanged, setIsChanged] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleSubmit = async () => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.put('/api/item/' + item.id, item, {
+            response = await axios.put('/api/item/' + item.id, item, {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 200) {
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 200) {
                 setItem(response.data);
                 setIsChanged(false);
                 refetch();
             }
-        } catch (error) {
-            console.error(error);
         }
     }
 
@@ -49,6 +56,20 @@ const Item = ({props, refetch}) => {
     const handleCancel = () => {
         setItem(props);
         setIsChanged(false);
+    }
+
+    if (isLoading) {
+        return (
+            <Spinner animation='border' role='status'>
+                <span className='sr-only'>Loading...</span>
+            </Spinner>
+        )
+    }
+
+    if (error) {
+        return (
+            <p>{error}</p>
+        )
     }
 
     return (

@@ -1,5 +1,5 @@
 import {Formik} from "formik";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import * as yup from "yup";
 import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
@@ -11,6 +11,7 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [serverError, setServerError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const schema = yup.object().shape({
         email: yup.string().email('Invalid email').required('Email is required'),
@@ -18,27 +19,47 @@ const Login = () => {
     });
 
     const handleSubmit = async (values) => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.post('/login', {
+            response = await axios.post('/login', {
                 email: values.email,
                 password: values.password
             }, {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            });
-            if (response.status === 204) {
+            })
+        } catch (error) {
+            setIsLoading(false);
+            setServerError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 204) {
                 dispatch(login());
                 navigate('/sell', {replace: true});
             }
-        } catch (error) {
-            setServerError(error.response.data.message);
         }
+    }
+
+    const handleAdminLogin = () => {
+        handleSubmit({
+            email: 'test@test.com',
+            password: '12345678',
+        })
+    }
+
+    if (isLoading) {
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
     }
 
     return (
@@ -81,6 +102,7 @@ const Login = () => {
                         <Button type="submit">
                             Log in
                         </Button>
+                        <Button variant="secondary" onClick={() => handleAdminLogin()}>Log in as Admin (Dev)</Button>
                     </Form>
                 )}
             </Formik>

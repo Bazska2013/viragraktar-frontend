@@ -2,30 +2,38 @@ import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import * as yup from "yup";
 
 const EditItem = () => {
     const [item, setItem] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [serverError, setServerError] = useState(null);
+    const [fetchError, setFetchError] = useState(null);
     const id = useParams().id;
 
     const fetchItem = async () => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.get('/api/item/' + id, {
+            response = await axios.get('/api/item/' + id, {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 200) {
+        } catch (error) {
+            setIsLoading(false);
+            setFetchError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 200) {
                 setItem(response.data);
             }
-        } catch (error) {
-            console.error(error);
         }
     }
 
@@ -40,13 +48,15 @@ const EditItem = () => {
     });
 
     const handleSubmit = async (values) => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.put('/api/item/' + item.id, {
+            response = await axios.put('/api/item/' + item.id, {
                 name: values.name,
                 description: values.description,
                 price: values.price,
@@ -57,17 +67,34 @@ const EditItem = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 200) {
+        } catch (error) {
+            setIsLoading(false);
+            setServerError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 200) {
                 navigate('/buy', {replace: true});
             }
-        } catch (error) {
-            console.error(error);
         }
     }
 
     useEffect(() => {
         fetchItem();
     }, []);
+
+    if (isLoading) {
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
+    }
+
+    if (fetchError) {
+        return (
+            <p>{fetchError}</p>
+        )
+    }
 
     return (
         <Formik
@@ -163,6 +190,7 @@ const EditItem = () => {
                         </Form.Control.Feedback>
                     </Form.Group>*/}
                     <Button type="submit">Confirm changes</Button>
+                    {serverError && <p>{serverError}</p>}
                 </Form>
             )}
         </Formik>

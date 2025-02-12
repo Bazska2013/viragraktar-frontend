@@ -1,31 +1,55 @@
-import {Container, Table} from "react-bootstrap";
+import {Container, Spinner, Table} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 import StoreUsersRow from "./StoreUsersRow.jsx";
 
 const StoreUsers = () => {
     const [users, setUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const fetchUsers = async () => {
+        let response;
+        setIsLoading(true);
         try {
-            const response = await axios.get('/api/store/users', {
+            response = await axios.get('/api/store/users', {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 }
             });
-            if (response.status === 200) {
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 200) {
                 setUsers(response.data);
             }
-        } catch (error) {
-            console.log(error);
         }
     };
 
     useEffect(() => {
         fetchUsers();
     }, []);
+
+    if (isLoading) {
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
+    }
+
+    if (error) {
+        return (
+            <Container>
+                <h1>Error</h1>
+                <p>{error}</p>
+            </Container>
+        )
+    }
 
     return (
         <Container>

@@ -1,4 +1,4 @@
-import {Button, Card, Col, Collapse, Container, Fade, Row} from "react-bootstrap";
+import {Button, Card, Col, Collapse, Container, Fade, Row, Spinner} from "react-bootstrap";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
@@ -14,44 +14,58 @@ const Profile = () => {
     const [storeId, setStoreId] = useState(null);
     const [storeIdVisible, setStoreIdVisible] = useState(false);
     const [profit, setProfit] = useState(0);
+    const [isProfitLoading, setIsProfitLoading] = useState(false);
+    const [profitError, setProfitError] = useState(null);
+    const [isStoreIdLoading, setIsStoreIdLoading] = useState(false);
+    const [storeIdError, setStoreIdError] = useState(null);
 
     const getTodayProfit = async () => {
+        let response;
+        setIsProfitLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.get('/api/store/profit/today', {
+            response = await axios.get('/api/store/profit/today', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 200) {
+        } catch (error) {
+            setIsProfitLoading(false);
+            setProfitError(error.response.data.message);
+        } finally {
+            setIsProfitLoading(false);
+            if (response?.status === 200) {
                 setProfit(response.data);
             }
-        } catch (error) {
-            console.error(error);
         }
     }
 
     const handleShowStoreId = async () => {
+        let response;
+        setIsStoreIdLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.get('/api/store/id', {
+            response = await axios.get('/api/store/id', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 200) {
+        } catch (error) {
+            setIsStoreIdLoading(false);
+            setStoreIdError(error.response.data.message);
+        } finally {
+            setIsStoreIdLoading(false);
+            if (response?.status === 200) {
                 setStoreId(response.data);
             }
-        } catch (error) {
-            console.error(error);
         }
     }
 
@@ -81,14 +95,36 @@ const Profile = () => {
                                 <Row><h2>Store info</h2></Row>
                                 <Row>Store name: {store.name}</Row>
                                 <Row>
-                                    <Col>Today's profit: {profit}</Col>
+                                    <Col>Today's profit: {isProfitLoading ? <>
+                                        <Spinner animation="border" role="status" size='sm'>
+                                            <span className="visually-hidden">Loading...</span>
+                                        </Spinner>
+                                    </> : <>
+                                        {profitError ? <>
+                                            <p>{profitError}</p>
+                                        </> : <>
+                                            {profit}
+                                        </>}
+                                    </>}</Col>
                                     <Col><Button onClick={() => {getTodayProfit()}}>Refresh</Button></Col>
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Button onClick={() => {setStoreIdVisible(!storeIdVisible)}}>
-                                            {storeIdVisible ? 'Hide' : 'Show'} Store ID
-                                        </Button>
+                                        {isStoreIdLoading ? <>
+                                            <Button disabled>
+                                                <Spinner animation="border" role="status" size='sm'>
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </Spinner>
+                                            </Button>
+                                        </> : <>
+                                            {storeIdError ? <>
+                                                <Button variant="secondary" onClick={() => {handleShowStoreId()}}>Retry</Button>
+                                            </> : <>
+                                                <Button onClick={() => {setStoreIdVisible(!storeIdVisible)}}>
+                                                    {storeIdVisible ? 'Hide' : 'Show'} Store ID
+                                                </Button>
+                                            </>}
+                                        </>}
                                     </Col>
                                     <Fade in={storeIdVisible} dimension={'width'}>
                                         <Col>
@@ -100,7 +136,7 @@ const Profile = () => {
                                         </Col>
                                     </Fade>
                                 </Row>
-                                <Row><Button onClick={() => navigate('/edit/store')}>Edit store</Button></Row>
+                                {user.is_admin && <Row><Button onClick={() => navigate('/edit/store')}>Edit store</Button></Row>}
                             </Col>
                         </> : <>
                             <Button onClick={() => navigate('/new/store', {replace: true})}>Join or Create a Store</Button>
@@ -113,7 +149,9 @@ const Profile = () => {
                     </Row>
                 </Container>
             </> : <>
-                <p>Loading...</p>
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
             </>}
         </div>
     )

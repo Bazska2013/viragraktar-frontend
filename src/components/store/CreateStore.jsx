@@ -1,20 +1,25 @@
 import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
-import {Button, Form, Row} from "react-bootstrap";
+import {Button, Form, Row, Spinner} from "react-bootstrap";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
+import {useState} from "react";
 
 const CreateStore = () => {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleSubmit = async (values) => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.post('/api/store', {
+            response = await axios.post('/api/store', {
                 name: values.name,
                 opening_hours: values.opening_hours,
                 calculation_enabled: values.calculation_enabled,
@@ -23,12 +28,25 @@ const CreateStore = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 201) {
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 201) {
                 navigate('/sell', {replace: true});
             }
-        } catch (error) {
-            console.error(error);
         }
+    }
+
+    if (isLoading) {
+        return (
+            <Row>
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            </Row>
+        )
     }
 
     return (
@@ -73,6 +91,7 @@ const CreateStore = () => {
                         <Button type="submit">
                             Create store
                         </Button>
+                        {error && <Row>{error}</Row>}
                     </Form>
                 )}
             </Formik>

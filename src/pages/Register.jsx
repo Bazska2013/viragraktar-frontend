@@ -1,5 +1,5 @@
 import {Formik} from 'formik';
-import {Button, Form} from 'react-bootstrap';
+import {Button, Form, Spinner} from 'react-bootstrap';
 import * as yup from 'yup';
 import axios from "../axiosConfig.js";
 import {login} from "../features/auth/authSlice.js";
@@ -10,6 +10,7 @@ import {useDispatch} from "react-redux";
 const Register = () => {
     const dispatch = useDispatch();
     const [serverError, setServerError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -21,13 +22,15 @@ const Register = () => {
     })
 
     const handleSubmit = async (values) => {
+        let response;
+        setIsLoading(true);
         try {
-            const response = await axios.get('/sanctum/csrf-cookie', {
+            await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            await axios.post('/register', {
+            response = await axios.post('/register', {
                 email: values.email,
                 name: values.name,
                 password: values.password1,
@@ -37,13 +40,24 @@ const Register = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 204) {
+        } catch (error) {
+            setIsLoading(false);
+            setServerError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 204) {
                 dispatch(login());
                 navigate('/sell', {replace: true});
             }
-        } catch (error) {
-            setServerError(error.response.data.message);
         }
+    }
+
+    if (isLoading) {
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
     }
 
     return (

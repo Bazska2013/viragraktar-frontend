@@ -1,4 +1,4 @@
-import {Container, Nav, Navbar} from "react-bootstrap";
+import {Container, Nav, Navbar, Spinner} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {removeUser, selectCurrentUser} from "../features/auth/userSlice.js";
@@ -58,7 +58,11 @@ const NavBar = () => {
                                 </> : <></>}
                             </> : <></>}
                             <Nav.Link onClick={() => navigate('/profile')} >Profile</Nav.Link>
-                            {isLoading ? <>Loading...</> : <Nav.Link onClick={handleLogout}>Log out</Nav.Link>}
+                            {isLoading ? <>
+                                <Spinner animation="border" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </Spinner>
+                            </> : <Nav.Link onClick={handleLogout}>Log out</Nav.Link>}
                         </> : <>
                             <Nav.Link onClick={() => navigate('/login')} >Log in</Nav.Link>
                             <Nav.Link onClick={() => navigate('/register')} >Register</Nav.Link>

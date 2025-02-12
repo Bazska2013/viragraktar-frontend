@@ -1,11 +1,14 @@
 import {Formik} from "formik";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const NewItem = () => {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [serverError, setServerError] = useState(null);
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
@@ -16,13 +19,15 @@ const NewItem = () => {
     });
 
     const handleSubmit = async (values) => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.post('/api/item', {
+            response = await axios.post('/api/item', {
                 name: values.name,
                 description: values.description,
                 price: values.price,
@@ -33,12 +38,23 @@ const NewItem = () => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 201) {
+        } catch (error) {
+            setIsLoading(false);
+            setServerError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 201) {
                 navigate('/buy', {replace: true});
             }
-        } catch (error) {
-            console.error(error);
         }
+    }
+
+    if (isLoading) {
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        )
     }
 
     return (
@@ -134,6 +150,7 @@ const NewItem = () => {
                         </Form.Control.Feedback>
                     </Form.Group>*/}
                     <Button type="submit">Add new Item</Button>
+                    {serverError && <p>{serverError}</p>}
                 </Form>
             )}
         </Formik>

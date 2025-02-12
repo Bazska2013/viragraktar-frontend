@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import axios from "../../axiosConfig.js";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
@@ -8,6 +8,8 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
     const [isSeller, setIsSeller] = useState(user.is_seller);
     const [isBuyer, setIsBuyer] = useState(user.is_buyer);
     const [isAdmin, setIsAdmin] = useState(user.is_admin);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
 
@@ -32,13 +34,15 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
     }
 
     const handleSave = async () => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.post('/update-privileges/' + user.id, {
+            response = await axios.post('/update-privileges/' + user.id, {
                 is_seller: isSeller,
                 is_buyer: isBuyer,
                 is_admin: isAdmin
@@ -47,16 +51,21 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 204) {
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 204) {
                 setIsChanged(false);
                 await updateUser()
             }
-        } catch (error) {
-            console.error(error);
         }
     }
 
     const updateUser = async () => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 headers: {
@@ -65,39 +74,69 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
                     'Content-Type': 'application/json',
                 }
             });
-            const response = await axios.get('/api/user', {
+            response = await axios.get('/api/user', {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 }
             });
-            if (response.status === 200) {
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 200) {
                 dispatch(setUser(response.data));
             }
-        } catch (error) {
-            console.log(error);
         }
     }
 
     const handleDelete = async () => {
+        let response;
+        setIsLoading(true);
         try {
             await axios.get('/sanctum/csrf-cookie', {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            const response = await axios.post('/api/store/users/remove/' + user.id, {
+            response = await axios.post('/api/store/users/remove/' + user.id, {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             });
-            if (response.status === 204) {
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 204) {
                 refetchUsers();
             }
-        } catch (error) {
-            console.error(error);
         }
+    }
+
+    if (isLoading) {
+        return (
+            <tr>
+                <td colSpan={6}>
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </td>
+            </tr>
+        )
+    }
+
+    if (error) {
+        return (
+            <tr>
+                <td colSpan={6}>
+                    <p>{error}</p>
+                </td>
+            </tr>
+        )
     }
 
     return (
