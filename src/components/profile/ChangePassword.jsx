@@ -3,8 +3,10 @@ import {Formik} from "formik";
 import * as yup from 'yup';
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
-import {setUser} from "../../features/auth/userSlice.js";
+import {removeUser, setUser} from "../../features/auth/userSlice.js";
 import {useDispatch} from "react-redux";
+import {logout} from "../../features/auth/authSlice.js";
+import {deleteStore} from "../../features/store/storeSlice.js";
 
 const ChangePassword = () => {
     const navigate = useNavigate();
@@ -33,11 +35,33 @@ const ChangePassword = () => {
                 'Content-Type': 'application/json',
             });
             if (response.status === 200) {
-                dispatch(setUser(response.data));
-                navigate('/edit/profile', {replace: true});
+                handleLogout();
             }
         } catch (error) {
             console.error(error);
+        }
+    }
+
+    const handleLogout = async () => {
+        try {
+            await axios.get('/sanctum/csrf-cookie', {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }).then(async () => {
+                await axios.post('/logout', {}, {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                })
+            })
+        } catch (error) {
+            console.log(error);
+        } finally {
+            dispatch(logout());
+            dispatch(removeUser());
+            dispatch(deleteStore());
+            navigate('/login', {replace: true});
         }
     }
 
@@ -103,6 +127,9 @@ const ChangePassword = () => {
                         </Form>
                     )}
                 </Formik>
+            </Row>
+            <Row>
+                Disclaimer: You have to log in again after changing your password.
             </Row>
         </Container>
     );
