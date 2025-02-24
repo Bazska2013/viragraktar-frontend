@@ -19,19 +19,10 @@ const UpdateStore = () => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
             response = await axios.put('/api/store', {
                 name: values.name,
                 opening_hours: values.opening_hours,
                 calculation_enabled: values.calculation_enabled,
-            }, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
             });
         } catch (error) {
             setIsLoading(false);

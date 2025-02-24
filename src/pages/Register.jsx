@@ -25,30 +25,18 @@ const Register = () => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.post('/register', {
+            response = await axios.post('/api/register', {
                 email: values.email,
                 name: values.name,
                 password: values.password1,
                 password_confirmation: values.password2
-            }, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
             });
         } catch (error) {
             setIsLoading(false);
             setServerError(error.response.data.message);
         } finally {
             setIsLoading(false);
-            if (response?.status === 204) {
-                dispatch(login());
-                navigate('/sell', {replace: true});
-            }
+            navigate('/login', {replace: true});
         }
     }
 

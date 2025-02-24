@@ -14,16 +14,7 @@ const Sell = () => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.get('/api/items', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
+            response = await axios.get('/api/items');
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);

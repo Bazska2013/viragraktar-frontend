@@ -22,27 +22,26 @@ const Login = () => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.post('/login', {
+            response = await axios.post('/api/login', {
                 email: values.email,
-                password: values.password
-            }, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            })
+                password: values.password,
+                device_name: 'web'
+            });
+            console.log(response);
         } catch (error) {
             setIsLoading(false);
-            setServerError(error.response.data.message);
+            setServerError(error.response?.data?.message);
         } finally {
             setIsLoading(false);
-            if (response?.status === 204) {
-                dispatch(login());
-                navigate('/sell', {replace: true});
+            let token;
+            if (typeof response?.data === 'string') {
+                token = response.data.split('|')[1];
+            } else {
+                token = response?.data?.token;
+            }
+            if (token) {
+                dispatch(login(token));
+                navigate('/sell', { replace: true });
             }
         }
     }

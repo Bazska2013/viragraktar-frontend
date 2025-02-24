@@ -16,16 +16,7 @@ const EditItem = () => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.get('/api/item/' + id, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
+            response = await axios.get('/api/item/' + id);
         } catch (error) {
             setIsLoading(false);
             setFetchError(error.response.data.message);
@@ -51,21 +42,12 @@ const EditItem = () => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
             response = await axios.put('/api/item/' + item.id, {
                 name: values.name,
                 description: values.description,
                 price: values.price,
                 stock: values.stock,
                 /*image: values.image*/
-            }, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
             });
         } catch (error) {
             setIsLoading(false);

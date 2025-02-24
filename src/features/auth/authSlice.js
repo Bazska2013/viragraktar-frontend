@@ -4,13 +4,16 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: {
         isAuthenticated: false,
+        token: JSON.parse(localStorage.getItem('token')) || null,
     },
     reducers: {
-        login: (state) => {
+        login: (state, {payload: token}) => {
             state.isAuthenticated = true;
+            localStorage.setItem('token', JSON.stringify(token));
         },
         logout: (state) => {
             state.isAuthenticated = false;
+            localStorage.removeItem('token');
         }
     }
 });

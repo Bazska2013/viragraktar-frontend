@@ -23,16 +23,7 @@ const Profile = () => {
         let response;
         setIsProfitLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.get('/api/store/profit/today', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
+            response = await axios.get('/api/store/profit/today');
         } catch (error) {
             setIsProfitLoading(false);
             setProfitError(error.response.data.message);
@@ -48,16 +39,7 @@ const Profile = () => {
         let response;
         setIsStoreIdLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.get('/api/store/id', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
+            response = await axios.get('/api/store/id');
         } catch (error) {
             setIsStoreIdLoading(false);
             setStoreIdError(error.response.data.message);

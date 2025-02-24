@@ -37,23 +37,14 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.post('/update-privileges/' + user.id, {
+            response = await axios.post('/api/update-privileges/' + user.id, {
                 is_seller: isSeller,
                 is_buyer: isBuyer,
                 is_admin: isAdmin
-            }, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
             });
         } catch (error) {
             setIsLoading(false);
-            setError(error.response.data.message);
+            setError(error.response?.data?.message);
         } finally {
             setIsLoading(false);
             if (response?.status === 204) {
@@ -67,20 +58,7 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
-            response = await axios.get('/api/user', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
+            response = await axios.get('/api/user');
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);
@@ -96,16 +74,7 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.post('/api/store/users/remove/' + user.id, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
+            response = await axios.post('/api/store/users/remove/' + user.id);
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);

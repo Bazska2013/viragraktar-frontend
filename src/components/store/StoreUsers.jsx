@@ -12,13 +12,7 @@ const StoreUsers = () => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.get('/api/store/users', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
+            response = await axios.get('/api/store/users');
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);

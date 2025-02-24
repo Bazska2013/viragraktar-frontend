@@ -15,16 +15,7 @@ const Item = ({props, refetch}) => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.put('/api/item/' + item.id, item, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
+            response = await axios.put('/api/item/' + item.id, item);
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);

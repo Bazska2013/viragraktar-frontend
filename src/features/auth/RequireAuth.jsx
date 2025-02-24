@@ -15,24 +15,9 @@ export const RequireAuth = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                await axios.get('/sanctum/csrf-cookie', {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    }
-                });
-                const response = await axios.get('/api/user', {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    }
-                });
-                if (response.status === 200) {
-                    setIsAuthenticated(true);
-                    dispatch(setUser(response.data));
-                }
+                const response = await axios.get('/api/user');
+                setIsAuthenticated(true);
+                dispatch(setUser(response.data));
             } catch (error) {
                 console.log(error);
                 setIsAuthenticated(false);

@@ -22,19 +22,10 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
             response = await axios.post('/api/new/transaction', {
                 items: cart,
                 total: total,
                 credit: !cash,
-            }, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
             });
         } catch (error) {
             setIsLoading(false);

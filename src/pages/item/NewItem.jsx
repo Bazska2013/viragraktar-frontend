@@ -22,21 +22,12 @@ const NewItem = () => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
             response = await axios.post('/api/item', {
                 name: values.name,
                 description: values.description,
                 price: values.price,
                 stock: values.stock,
                 /*image: values.image*/
-            }, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
             });
         } catch (error) {
             setIsLoading(false);

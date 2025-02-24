@@ -19,20 +19,7 @@ export const RequireStore = ({children}) => {
                 return;
             }
             try {
-                await axios.get('/sanctum/csrf-cookie', {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    }
-                });
-                const response = await axios.get('/api/store', {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    }
-                });
+                const response = await axios.get('/api/store');
                 if (response.status === 200 && Object.keys(response.data).length > 0) {
                     setHasStore(true);
                     dispatch(createStore(response.data));

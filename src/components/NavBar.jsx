@@ -16,18 +16,8 @@ const NavBar = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }).then(async () => {
-                await axios.post('/logout', {}, {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }).then(() => {
-                    setIsLoading(true);
-                })
+            await axios.post('/api/logout').then(() => {
+                setIsLoading(true);
             })
         } catch (error) {
             console.log(error);

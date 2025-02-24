@@ -25,19 +25,10 @@ const ChangePassword = () => {
         let response;
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            });
-            response = await axios.post('/change-password', {
+            response = await axios.post('/api/change-password', {
                 old_password: values.old_password,
                 new_password: values.password1,
                 new_password_confirmation: values.password2
-            }, {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
             });
         } catch (error) {
             setIsLoading(false);
@@ -53,17 +44,7 @@ const ChangePassword = () => {
     const handleLogout = async () => {
         setIsLoading(true);
         try {
-            await axios.get('/sanctum/csrf-cookie', {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }).then(async () => {
-                await axios.post('/logout', {}, {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                })
-            })
+            await axios.post('/logout');
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);
