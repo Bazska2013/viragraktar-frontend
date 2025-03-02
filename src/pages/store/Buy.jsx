@@ -22,6 +22,7 @@ const Buy = () => {
             setIsLoading(false);
             if (response?.status === 200) {
                 setItems(response.data);
+                console.log(response.data);
             }
         }
     }

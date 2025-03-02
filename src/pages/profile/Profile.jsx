@@ -58,6 +58,15 @@ const Profile = () => {
         }
     }, []);
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            handleShowStoreId();
+        }, 30000); // 30000 milliseconds = 30 seconds
+
+        // Cleanup interval on component unmount
+        return () => clearInterval(intervalId);
+    }, []);
+
     return (
         <div>
             <h1>Profile</h1>

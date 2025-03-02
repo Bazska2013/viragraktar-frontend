@@ -1,7 +1,8 @@
-import {Button, Col, Container, InputGroup, Row, Form, Spinner} from "react-bootstrap";
+import {Button, Col, Container, InputGroup, Row, Form, Spinner, Image} from "react-bootstrap";
 import {useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
+import flowerImage from "../../../assets/defaultFlower.svg";
 
 const Item = ({props, refetch}) => {
 
@@ -74,6 +75,8 @@ const Item = ({props, refetch}) => {
                 <Col>
                     <p>{item.description}</p>
                     <p>{item.price}</p>
+                    <p>{item.image}</p>
+                    <Image src={item.image ? "http://localhost:8000/images/" + item.image : flowerImage} rounded fluid />
                 </Col>
                 <Col>
                     <InputGroup>

@@ -9,26 +9,28 @@ const NewItem = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [serverError, setServerError] = useState(null);
+    const [image, setImage] = useState(null);
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
         description: yup.string().required('Description is required'),
         price: yup.number().min(0, 'Price must be greater than or equal 0').required('Price is required'),
         stock: yup.number().min(1, 'Stock must be greater than 0').required('Stock is required'),
-        /*image: yup.mixed().required('Image is required')*/
     });
 
     const handleSubmit = async (values) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.post('/api/item', {
-                name: values.name,
-                description: values.description,
-                price: values.price,
-                stock: values.stock,
-                /*image: values.image*/
-            });
+            const formData = new FormData();
+            formData.append('name', values.name);
+            formData.append('description', values.description);
+            formData.append('price', values.price);
+            formData.append('stock', values.stock);
+            if (image) {
+                formData.append('image', image);
+            }
+            response = await axios.post('/api/item', formData);
         } catch (error) {
             setIsLoading(false);
             setServerError(error.response.data.message);
@@ -56,11 +58,10 @@ const NewItem = () => {
                 description: '',
                 price: 1000,
                 stock: 1,
-                /*image: ''*/
             }}
             onSubmit={(values) => handleSubmit(values)}
         >
-            {({handleSubmit, handleChange, values, errors}) => (
+            {({handleSubmit, handleChange, setFieldValue, values, errors}) => (
                 <Form noValidate onSubmit={handleSubmit}>
                     <Form.Label column="lg">
                         Name of the item
@@ -125,21 +126,20 @@ const NewItem = () => {
                             {errors.stock}
                         </Form.Control.Feedback>
                     </Form.Group>
-                    {/*<Form.Group controlId="image">
+                    <Form.Group controlId="image">
                         <Form.Label column="lg">
                             Image of the item
                         </Form.Label>
                         <Form.Control
                             type="file"
                             name="image"
-                            value={values.image}
-                            onChange={handleChange}
-                            isInvalid={!!errors.image}
+                            accept='image/*'
+                            onChange={(event) => {
+                                setFieldValue('image', event.currentTarget.files[0]);
+                                setImage(event.currentTarget.files[0]);
+                            }}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.image}
-                        </Form.Control.Feedback>
-                    </Form.Group>*/}
+                    </Form.Group>
                     <Button type="submit">Add new Item</Button>
                     {serverError && <p>{serverError}</p>}
                 </Form>

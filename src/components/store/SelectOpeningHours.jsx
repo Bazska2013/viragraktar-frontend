@@ -1,7 +1,8 @@
 import SelectHours from "./SelectHours.jsx";
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
-const SelectOpeningHours = ({ setFieldValue, defaultValue }) => {
+const SelectOpeningHours = ({ setFieldValue }) => {
     const [openingHours, setOpeningHours] = useState({
         Mon: { from: "00:00", to: "00:00", closed: false },
         Tue: { from: "00:00", to: "00:00", closed: false },
@@ -13,13 +14,6 @@ const SelectOpeningHours = ({ setFieldValue, defaultValue }) => {
     });
 
     useEffect(() => {
-        if (defaultValue) {
-            setOpeningHours(JSON.parse(defaultValue));
-        }
-    }, [defaultValue]);
-
-    useEffect(() => {
-        // Convert openingHours to a JSON string and store it in Formik
         setFieldValue('opening_hours', JSON.stringify(openingHours));
     }, [openingHours, setFieldValue]);
 
@@ -60,6 +54,10 @@ const SelectOpeningHours = ({ setFieldValue, defaultValue }) => {
             ))}
         </>
     );
+};
+
+SelectOpeningHours.propTypes = {
+    setFieldValue: PropTypes.func.isRequired,
 };
 
 export default SelectOpeningHours;
