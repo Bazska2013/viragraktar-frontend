@@ -3,8 +3,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
-import {SizableText, Button, Form, Spinner, Group, Label, Input, TextArea, XStack, Image} from "tamagui";
-import flowerImage from "../../assets/defaultFlower.svg";
+import {SizableText, Button, Form, Spinner, Label, Input, TextArea, XStack, Image, YStack} from "tamagui";
+import {Save, Upload} from "@tamagui/lucide-icons";
 
 const EditItem = () => {
     const [item, setItem] = useState({});
@@ -87,113 +87,147 @@ const EditItem = () => {
     }
 
     return (
-        <Formik
-            enableReinitialize
-            validationSchema={schema}
-            initialValues={{
-                name: item.name || '',
-                description: item.description || '',
-                price: item.price || 0,
-                stock: item.stock || 1,
-                /*image: item.image || ''*/
-            }}
-            onSubmit={(values) => handleSubmit(values)}
+        <YStack
+            flex={1}
+            borderWidth={2}
+            borderColor="$color"
+            borderRadius="$4"
+            gap="$2"
+            padding="$2"
         >
-            {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
-                <Form noValidate onSubmit={formikSubmit}>
-                    <Group orientation='vertical'>
-                        <Label htmlFor="name">
-                            Name of the item
-                        </Label>
-                        <Input
-                            type="text"
-                            id="name"
-                            value={values.name}
-                            onChange={handleChange}
-                            isInvalid={!!errors.name}
-                        />
-                        <SizableText size='small' color='red'>
-                            {errors.name}
-                        </SizableText>
-                    </Group>
-                    <Group orientation='vertical'>
-                        <Label htmlFor="description">
-                            Description of the item
-                        </Label>
-                        <TextArea
-                            rows={3}
-                            id="description"
-                            value={values.description}
-                            onChange={handleChange}
-                            isInvalid={!!errors.description}
-                        />
-                        <SizableText size='small' color='red'>
-                            {errors.description}
-                        </SizableText>
-                    </Group>
-                    <Group orientation='vertical'>
-                        <Label htmlFor="price">
-                            Price of the item
-                        </Label>
-                        <Input
-                            type="number"
-                            id="price"
-                            min={0}
-                            value={values.price}
-                            onChange={handleChange}
-                            isInvalid={!!errors.price}
-                        />
-                        <SizableText size='small' color='red'>
-                            {errors.price}
-                        </SizableText>
-                    </Group>
-                    <Group orientation='vertical'>
-                        <Label htmlFor="stock">
-                            Stock of the item
-                        </Label>
-                        <Input
-                            type="number"
-                            id="stock"
-                            min={1}
-                            value={values.stock}
-                            onChange={handleChange}
-                            isInvalid={!!errors.stock}
-                        />
-                        <SizableText size='small' color='red'>
-                            {errors.stock}
-                        </SizableText>
-                    </Group>
-                    <Group>
-                        {item.image && <XStack>
-                            <SizableText>Current image:</SizableText>
-                            <Image source={{
-                                uri: "http://localhost:8000/images/" + item.image,
-                                width: 100,
-                                height: 100,
-                            }} />
-                        </XStack>}
-                        <Label htmlFor='image'>
-                            {item.image? "Change image of the item" : "Image of the item"}
-                        </Label>
-                        <input
-                            type="file"
-                            id="image"
-                            accept='image/*'
-                            hidden
-                            onChange={(event) => {
-                                setImage(event.currentTarget.files[0]);
-                            }}
-                        />
-                        <Button onClick={() => document.getElementById('image').click()}>Choose File</Button>
-                        {image && <SizableText>Selected file: {image.name}</SizableText>}
-                    </Group>
-                    <Form.Trigger asChild>
-                        <Button type='submit'>Confirm changes</Button>
-                    </Form.Trigger>
-                    {serverError && <p>{serverError}</p>}
-                </Form>
-            )}
-        </Formik>
+            <Formik
+                enableReinitialize
+                validationSchema={schema}
+                initialValues={{
+                    name: item.name || '',
+                    description: item.description || '',
+                    price: item.price || 0,
+                    stock: item.stock || 1,
+                    /*image: item.image || ''*/
+                }}
+                onSubmit={(values) => handleSubmit(values)}
+            >
+                {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                    <Form noValidate onSubmit={formikSubmit}>
+                        <YStack
+                            flex={1}
+                            borderWidth={2}
+                            borderColor="$color"
+                            borderRadius="$4"
+                            gap="$2"
+                            padding="$2"
+                        >
+                            <YStack>
+                                <Label htmlFor="name">
+                                    Name of the item
+                                </Label>
+                                <Input
+                                    flex={1}
+                                    size="$3"
+                                    borderWidth={2}
+                                    type="text"
+                                    id="name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.name}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.name}
+                                </SizableText>
+                            </YStack>
+                            <YStack>
+                                <Label htmlFor="description">
+                                    Description of the item
+                                </Label>
+                                <TextArea
+                                    flex={1}
+                                    size="$3"
+                                    borderWidth={2}
+                                    rows={3}
+                                    id="description"
+                                    value={values.description}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.description}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.description}
+                                </SizableText>
+                            </YStack>
+                            <YStack>
+                                <Label htmlFor="price">
+                                    Price of the item
+                                </Label>
+                                <Input
+                                    flex={1}
+                                    size="$3"
+                                    borderWidth={2}
+                                    type="number"
+                                    id="price"
+                                    min={0}
+                                    value={values.price}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.price}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.price}
+                                </SizableText>
+                            </YStack>
+                            <YStack>
+                                <Label htmlFor="stock">
+                                    Stock of the item
+                                </Label>
+                                <Input
+                                    flex={1}
+                                    size="$3"
+                                    borderWidth={2}
+                                    type="number"
+                                    id="stock"
+                                    min={1}
+                                    value={values.stock}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.stock}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.stock}
+                                </SizableText>
+                            </YStack>
+                            <YStack>
+                                {item.image &&
+                                    <XStack>
+                                        <SizableText>Current image:</SizableText>
+                                        <Image source={{
+                                            uri: "http://localhost:8000/images/" + item.image,
+                                            width: 100,
+                                            height: 100,
+                                        }} />
+                                    </XStack>
+                                }
+                                <Label htmlFor='image'>
+                                    {item.image? "Change image of the item" : "Image of the item"}
+                                </Label>
+                                <input
+                                    type="file"
+                                    id="image"
+                                    accept='image/*'
+                                    hidden
+                                    onChange={(event) => {
+                                        setImage(event.currentTarget.files[0]);
+                                    }}
+                                />
+                                <Button icon={Upload} size="$3" onClick={() => document.getElementById('image').click()}>Choose File</Button>
+                                {image &&
+                                    <SizableText>Selected file: {image.name}</SizableText>
+                                }
+                            </YStack>
+                            <Form.Trigger asChild>
+                                <Button icon={Save} theme="accent" size="$6" type='submit'>Confirm changes</Button>
+                            </Form.Trigger>
+                            {serverError && <SizableText color="red">{serverError}</SizableText>}
+                        </YStack>
+                    </Form>
+                )}
+            </Formik>
+        </YStack>
     )
 }
 

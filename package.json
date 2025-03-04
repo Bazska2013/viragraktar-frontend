@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.3.0",
     "@tamagui/config": "^1.125.22",
     "@tamagui/core": "^1.125.22",
+    "@tamagui/lucide-icons": "^1.125.22",
     "@tamagui/vite-plugin": "^1.125.22",
     "axios": "^1.7.7",
     "formik": "^2.4.6",
