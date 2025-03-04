@@ -4,11 +4,15 @@ import './index.css'
 import App from './App.jsx'
 import {Provider} from 'react-redux'
 import store from './store'
+import {TamaguiProvider} from "@tamagui/core";
+import {config} from "./tamagui.config.ts";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
       <Provider store={store}>
-            <App/>
+          <TamaguiProvider config={config}>
+              <App/>
+          </TamaguiProvider>
       </Provider>
   </StrictMode>,
 )

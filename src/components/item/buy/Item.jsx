@@ -1,8 +1,9 @@
-import {Button, Col, Container, InputGroup, Row, Form, Spinner, Image} from "react-bootstrap";
+import {Col, Container, InputGroup, Row, Form} from "react-bootstrap";
 import {useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
+import {Button, Spinner, YStack, SizableText, XStack, Image} from "tamagui"
 
 const Item = ({props, refetch}) => {
 
@@ -52,7 +53,7 @@ const Item = ({props, refetch}) => {
 
     if (isLoading) {
         return (
-            <Spinner animation='border' role='status'>
+            <Spinner>
                 <span className='sr-only'>Loading...</span>
             </Spinner>
         )
@@ -65,44 +66,41 @@ const Item = ({props, refetch}) => {
     }
 
     return (
-        <Container>
-            <Row>
-                <Col>
-                    <h1>
-                        {item.name}
-                    </h1>
-                </Col>
-                <Col>
-                    <p>{item.description}</p>
-                    <p>{item.price}</p>
-                    <p>{item.image}</p>
-                    <Image src={item.image ? "http://localhost:8000/images/" + item.image : flowerImage} rounded fluid />
-                </Col>
-                <Col>
-                    <InputGroup>
-                        <Button onClick={(e) => {handleChange(e, 'remove')}}>
-                            -
-                        </Button>
-                        <Form.Control
-                            type='number'
-                            name='stock'
-                            value={item.stock}
-                            onChange={(e) => handleChange(e, 'field')}
-                        />
-                        {isChanged ? <>
-                            <Button onClick={() => handleSubmit()}>Save changes</Button>
-                            <Button onClick={() => handleCancel()}>Cancel changes</Button>
-                        </> : <></>}
-                        <Button onClick={(e) => {handleChange(e, 'add')}}>
-                            +
-                        </Button>
-                    </InputGroup>
-                    <Button onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
-                        Edit Item
+        <XStack>
+            <YStack>
+                <Image source={{
+                    uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
+                    width: 100,
+                    height: 100,
+                }} />
+                <SizableText>{item.name}</SizableText>
+                <SizableText>{item.description}</SizableText>
+                <SizableText>{item.price}</SizableText>
+            </YStack>
+            <YStack>
+                <InputGroup>
+                    <Button onClick={(e) => {handleChange(e, 'remove')}}>
+                        -
                     </Button>
-                </Col>
-            </Row>
-        </Container>
+                    <Form.Control
+                        type='number'
+                        name='stock'
+                        value={item.stock}
+                        onChange={(e) => handleChange(e, 'field')}
+                    />
+                    {isChanged ? <>
+                        <Button onClick={() => handleSubmit()}>Save changes</Button>
+                        <Button onClick={() => handleCancel()}>Cancel changes</Button>
+                    </> : <></>}
+                    <Button onClick={(e) => {handleChange(e, 'add')}}>
+                        +
+                    </Button>
+                </InputGroup>
+                <Button onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
+                    Edit Item
+                </Button>
+            </YStack>
+        </XStack>
     )
 }
 
