@@ -1,5 +1,5 @@
 import {Formik} from "formik";
-import {Button, Form, Spinner} from "react-bootstrap";
+import {Button, Form, Spinner, Label, Group, Input, SizableText, TextArea} from "tamagui";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
@@ -22,15 +22,19 @@ const NewItem = () => {
         let response;
         setIsLoading(true);
         try {
-            const formData = new FormData();
-            formData.append('name', values.name);
-            formData.append('description', values.description);
-            formData.append('price', values.price);
-            formData.append('stock', values.stock);
+            const formDataForNew = new FormData();
+            formDataForNew.set('name', values.name);
+            formDataForNew.set('description', values.description);
+            formDataForNew.set('price', values.price);
+            formDataForNew.set('stock', values.stock);
             if (image) {
-                formData.append('image', image);
+                formDataForNew.set('image', image);
             }
-            response = await axios.post('/api/item', formData);
+            response = await axios.post('/api/item', formDataForNew, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
         } catch (error) {
             setIsLoading(false);
             setServerError(error.response.data.message);
@@ -44,7 +48,7 @@ const NewItem = () => {
 
     if (isLoading) {
         return (
-            <Spinner animation="border" role="status">
+            <Spinner>
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
         )
@@ -61,87 +65,90 @@ const NewItem = () => {
             }}
             onSubmit={(values) => handleSubmit(values)}
         >
-            {({handleSubmit, handleChange, setFieldValue, values, errors}) => (
-                <Form noValidate onSubmit={handleSubmit}>
-                    <Form.Label column="lg">
-                        Name of the item
-                    </Form.Label>
-                    <Form.Group controlId="name">
-                        <Form.Control
+            {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                <Form noValidate onSubmit={formikSubmit}>
+                    <Group orientation='vertical'>
+                        <Label htmlFor="name">
+                            Name of the item
+                        </Label>
+                        <Input
                             type="text"
-                            name="name"
+                            id="name"
                             value={values.name}
                             onChange={handleChange}
                             isInvalid={!!errors.name}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <SizableText size='small' color='red'>
                             {errors.name}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="description">
-                        <Form.Label column="lg">
+                        </SizableText>
+                    </Group>
+                    <Group orientation='vertical'>
+                        <Label htmlFor="description">
                             Description of the item
-                        </Form.Label>
-                        <Form.Control
-                            as="textarea"
+                        </Label>
+                        <TextArea
                             rows={3}
-                            name="description"
+                            id="description"
                             value={values.description}
                             onChange={handleChange}
                             isInvalid={!!errors.description}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <SizableText size='small' color='red'>
                             {errors.description}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="price">
-                        <Form.Label column="lg">
+                        </SizableText>
+                    </Group>
+                    <Group orientation='vertical'>
+                        <Label htmlFor="price">
                             Price of the item
-                        </Form.Label>
-                        <Form.Control
+                        </Label>
+                        <Input
                             type="number"
-                            name="price"
+                            id="price"
                             min={0}
                             value={values.price}
                             onChange={handleChange}
                             isInvalid={!!errors.price}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <SizableText size='small' color='red'>
                             {errors.price}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="stock">
-                        <Form.Label column="lg">
+                        </SizableText>
+                    </Group>
+                    <Group orientation='vertical'>
+                        <Label htmlFor="stock">
                             Stock of the item
-                        </Form.Label>
-                        <Form.Control
+                        </Label>
+                        <Input
                             type="number"
-                            name="stock"
+                            id="stock"
                             min={1}
                             value={values.stock}
                             onChange={handleChange}
                             isInvalid={!!errors.stock}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <SizableText size='small' color='red'>
                             {errors.stock}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="image">
-                        <Form.Label column="lg">
+                        </SizableText>
+                    </Group>
+                    <Group orientation='vertical'>
+                        <Label htmlFor='image'>
                             Image of the item
-                        </Form.Label>
-                        <Form.Control
+                        </Label>
+                        <input
                             type="file"
-                            name="image"
+                            id="image"
                             accept='image/*'
+                            hidden
                             onChange={(event) => {
-                                setFieldValue('image', event.currentTarget.files[0]);
                                 setImage(event.currentTarget.files[0]);
                             }}
                         />
-                    </Form.Group>
-                    <Button type="submit">Add new Item</Button>
-                    {serverError && <p>{serverError}</p>}
+                        <Button onClick={() => document.getElementById('image').click()}>Choose File</Button>
+                        {image && <SizableText>Selected file: {image.name}</SizableText>}
+                    </Group>
+                    <Form.Trigger asChild>
+                        <Button type="submit">Add new Item</Button>
+                    </Form.Trigger>
+                    {serverError && <SizableText color='red' >{serverError}</SizableText>}
                 </Form>
             )}
         </Formik>

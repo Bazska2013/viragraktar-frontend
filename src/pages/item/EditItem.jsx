@@ -2,8 +2,9 @@ import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
-import {Button, Form, Spinner} from "react-bootstrap";
 import * as yup from "yup";
+import {SizableText, Button, Form, Spinner, Group, Label, Input, TextArea, XStack, Image} from "tamagui";
+import flowerImage from "../../assets/defaultFlower.svg";
 
 const EditItem = () => {
     const [item, setItem] = useState({});
@@ -11,6 +12,7 @@ const EditItem = () => {
     const [serverError, setServerError] = useState(null);
     const [fetchError, setFetchError] = useState(null);
     const id = useParams().id;
+    const [image, setImage] = useState(null);
 
     const fetchItem = async () => {
         let response;
@@ -35,23 +37,29 @@ const EditItem = () => {
         description: yup.string().required('Description is required'),
         price: yup.number().min(0, 'Price must be greater than or equal 0').required('Price is required'),
         stock: yup.number().min(0, 'Stock must be greater than or equal 0').required('Stock is required'),
-        /*image: yup.mixed().required('Image is required')*/
     });
 
     const handleSubmit = async (values) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.put('/api/item/' + item.id, {
-                name: values.name,
-                description: values.description,
-                price: values.price,
-                stock: values.stock,
-                /*image: values.image*/
+            const formDataForEdit = new FormData();
+            formDataForEdit.set('name', values.name);
+            formDataForEdit.set('description', values.description);
+            formDataForEdit.set('price', values.price);
+            formDataForEdit.set('stock', values.stock);
+            for (let [key, value] of formDataForEdit.entries()) {
+                console.log(key, value);
+            }
+            response = await axios.post('/api/item/edit/' + item.id, formDataForEdit, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
         } catch (error) {
             setIsLoading(false);
             setServerError(error.response.data.message);
+            console.log(error.response)
         } finally {
             setIsLoading(false);
             if (response?.status === 200) {
@@ -66,7 +74,7 @@ const EditItem = () => {
 
     if (isLoading) {
         return (
-            <Spinner animation="border" role="status">
+            <Spinner>
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
         )
@@ -74,7 +82,7 @@ const EditItem = () => {
 
     if (fetchError) {
         return (
-            <p>{fetchError}</p>
+            <SizableText color="red" >{fetchError}</SizableText>
         )
     }
 
@@ -91,87 +99,97 @@ const EditItem = () => {
             }}
             onSubmit={(values) => handleSubmit(values)}
         >
-            {({handleSubmit, handleChange, values, errors}) => (
-                <Form noValidate onSubmit={handleSubmit}>
-                    <Form.Label column="lg">
-                        Name of the item
-                    </Form.Label>
-                    <Form.Group controlId="name">
-                        <Form.Control
+            {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                <Form noValidate onSubmit={formikSubmit}>
+                    <Group orientation='vertical'>
+                        <Label htmlFor="name">
+                            Name of the item
+                        </Label>
+                        <Input
                             type="text"
-                            name="name"
+                            id="name"
                             value={values.name}
                             onChange={handleChange}
                             isInvalid={!!errors.name}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <SizableText size='small' color='red'>
                             {errors.name}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="description">
-                        <Form.Label column="lg">
+                        </SizableText>
+                    </Group>
+                    <Group orientation='vertical'>
+                        <Label htmlFor="description">
                             Description of the item
-                        </Form.Label>
-                        <Form.Control
-                            as="textarea"
+                        </Label>
+                        <TextArea
                             rows={3}
-                            name="description"
+                            id="description"
                             value={values.description}
                             onChange={handleChange}
                             isInvalid={!!errors.description}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <SizableText size='small' color='red'>
                             {errors.description}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="price">
-                        <Form.Label column="lg">
+                        </SizableText>
+                    </Group>
+                    <Group orientation='vertical'>
+                        <Label htmlFor="price">
                             Price of the item
-                        </Form.Label>
-                        <Form.Control
+                        </Label>
+                        <Input
                             type="number"
-                            name="price"
+                            id="price"
                             min={0}
                             value={values.price}
                             onChange={handleChange}
                             isInvalid={!!errors.price}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <SizableText size='small' color='red'>
                             {errors.price}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="stock">
-                        <Form.Label column="lg">
+                        </SizableText>
+                    </Group>
+                    <Group orientation='vertical'>
+                        <Label htmlFor="stock">
                             Stock of the item
-                        </Form.Label>
-                        <Form.Control
+                        </Label>
+                        <Input
                             type="number"
-                            name="stock"
-                            min={0}
+                            id="stock"
+                            min={1}
                             value={values.stock}
                             onChange={handleChange}
                             isInvalid={!!errors.stock}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <SizableText size='small' color='red'>
                             {errors.stock}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    {/*<Form.Group controlId="image">
-                        <Form.Label column="lg">
-                            Image of the item
-                        </Form.Label>
-                        <Form.Control
+                        </SizableText>
+                    </Group>
+                    <Group>
+                        {item.image && <XStack>
+                            <SizableText>Current image:</SizableText>
+                            <Image source={{
+                                uri: "http://localhost:8000/images/" + item.image,
+                                width: 100,
+                                height: 100,
+                            }} />
+                        </XStack>}
+                        <Label htmlFor='image'>
+                            {item.image? "Change image of the item" : "Image of the item"}
+                        </Label>
+                        <input
                             type="file"
-                            name="image"
-                            value={values.image}
-                            onChange={handleChange}
-                            isInvalid={!!errors.image}
+                            id="image"
+                            accept='image/*'
+                            hidden
+                            onChange={(event) => {
+                                setImage(event.currentTarget.files[0]);
+                            }}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.image}
-                        </Form.Control.Feedback>
-                    </Form.Group>*/}
-                    <Button type="submit">Confirm changes</Button>
+                        <Button onClick={() => document.getElementById('image').click()}>Choose File</Button>
+                        {image && <SizableText>Selected file: {image.name}</SizableText>}
+                    </Group>
+                    <Form.Trigger asChild>
+                        <Button type='submit'>Confirm changes</Button>
+                    </Form.Trigger>
                     {serverError && <p>{serverError}</p>}
                 </Form>
             )}

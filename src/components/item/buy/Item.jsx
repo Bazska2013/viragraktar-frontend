@@ -1,9 +1,9 @@
-import {Col, Container, InputGroup, Row, Form} from "react-bootstrap";
+import {Form} from "react-bootstrap";
 import {useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
-import {Button, Spinner, YStack, SizableText, XStack, Image} from "tamagui"
+import {Button, Spinner, YStack, SizableText, XStack, Image, Group, Input} from "tamagui"
 
 const Item = ({props, refetch}) => {
 
@@ -17,7 +17,12 @@ const Item = ({props, refetch}) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.put('/api/item/' + item.id, item);
+            response = await axios.put('/api/item/' + item.id, {
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                stock: item.stock,
+            });
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);
@@ -40,7 +45,7 @@ const Item = ({props, refetch}) => {
                 setItem({...item, stock: item.stock - 1});
                 break;
             case 'field':
-                setItem({...item, [e.target.name]: e.target.name === 'stock' ? Number(e.target.value) : e.target.value});
+                setItem({...item, stock: Number(e.target.value)});
                 break;
         }
         setIsChanged(true);
@@ -61,7 +66,9 @@ const Item = ({props, refetch}) => {
 
     if (error) {
         return (
-            <p>{error}</p>
+            <XStack>
+                <SizableText>{error}</SizableText>
+            </XStack>
         )
     }
 
@@ -78,24 +85,24 @@ const Item = ({props, refetch}) => {
                 <SizableText>{item.price}</SizableText>
             </YStack>
             <YStack>
-                <InputGroup>
+                <Group orientation='horizontal'>
                     <Button onClick={(e) => {handleChange(e, 'remove')}}>
                         -
                     </Button>
-                    <Form.Control
-                        type='number'
-                        name='stock'
-                        value={item.stock}
-                        onChange={(e) => handleChange(e, 'field')}
+                    <Input type='number'
+                           name='stock'
+                           value={item.stock}
+                           key={item.stock}
+                           onChange={(e) => handleChange(e, 'field')}
                     />
-                    {isChanged ? <>
-                        <Button onClick={() => handleSubmit()}>Save changes</Button>
-                        <Button onClick={() => handleCancel()}>Cancel changes</Button>
-                    </> : <></>}
                     <Button onClick={(e) => {handleChange(e, 'add')}}>
                         +
                     </Button>
-                </InputGroup>
+                </Group>
+                {isChanged ? <Group orientation='horizontal'>
+                    <Button onClick={() => handleSubmit()}>Save changes</Button>
+                    <Button onClick={() => handleCancel()}>Cancel changes</Button>
+                </Group> : <></>}
                 <Button onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
                     Edit Item
                 </Button>
