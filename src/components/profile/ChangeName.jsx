@@ -1,4 +1,3 @@
-import {Button, Container, Form, Row, Spinner} from "react-bootstrap";
 import {Formik} from "formik";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
@@ -6,6 +5,8 @@ import {setUser} from "../../features/auth/userSlice.js";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {H1, H2, Input, Label, SizableText, YStack, Form, Spinner, Button} from "tamagui";
+import {Save} from "@tamagui/lucide-icons";
 
 const ChangeName = ({user}) => {
     const dispatch = useDispatch();
@@ -37,16 +38,29 @@ const ChangeName = ({user}) => {
     }
 
     return (
-        <Container>
+        <YStack
+            flex={1}
+            borderWidth={2}
+            borderColor="$color"
+            borderRadius="$4"
+            gap="$2"
+            padding="$2"
+            justifyContent="space-between"
+        >
             {isLoading ? <>
-                <Spinner animation="border" role="status">
+                <Spinner>
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
-            </> : <>
-                <Row>
-                    <h1>Change Name</h1>
-                </Row>
-                <Row>
+            </> : <YStack
+                flex={1}
+                borderWidth={2}
+                borderColor="$color"
+                borderRadius="$4"
+                gap="$2"
+                padding="$2"
+                justifyContent="space-between"
+            >
+                <H2>Change Name</H2>
                     <Formik
                         validationSchema={schema}
                         initialValues={{
@@ -55,40 +69,61 @@ const ChangeName = ({user}) => {
                         }}
                         onSubmit={(values) => {handleSubmit(values)}}
                     >
-                        {({handleSubmit, handleChange, values, errors}) => (
-                            <Form noValidate onSubmit={handleSubmit}>
-                                <Form.Group controlId="name">
-                                    <Form.Label column="lg">Name</Form.Label>
-                                    <Form.Control
+                        {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                            <Form noValidate onSubmit={formikSubmit}>
+                                <YStack
+                                    flex={1}
+                                    borderWidth={2}
+                                    borderColor="$color"
+                                    borderRadius="$4"
+                                    gap="$2"
+                                    padding="$2"
+                                    justifyContent="space-between"
+                                >
+                                    <Label htmlFor='name'>Name</Label>
+                                    <Input
+                                        flex={1}
+                                        size="$3"
+                                        borderWidth={2}
                                         type="text"
                                         name="name"
                                         value={values.name}
                                         onChange={handleChange}
                                         isInvalid={!!errors.name}
                                     />
-                                    <Form.Control.Feedback type="invalid">
+                                    <SizableText size='small' color='red'>
                                         {errors.name}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group controlId="email">
-                                    <Form.Label column="lg">Email</Form.Label>
-                                    <Form.Control
+                                    </SizableText>
+                                </YStack>
+                                <YStack
+                                    flex={1}
+                                    borderWidth={2}
+                                    borderColor="$color"
+                                    borderRadius="$4"
+                                    gap="$2"
+                                    padding="$2"
+                                    justifyContent="space-between"
+                                >
+                                    <Label htmlFor='email'>Email</Label>
+                                    <Input
+                                        flex={1}
+                                        size="$3"
+                                        borderWidth={2}
                                         type="email"
                                         name="email"
                                         value={values.email}
                                         disabled
                                     />
-                                </Form.Group>
-                                <Button type="submit">
-                                    Change Name
-                                </Button>
+                                </YStack>
+                                <Form.Trigger asChild>
+                                    <Button icon={Save} theme="accent" size="$6" type='submit'>Change name</Button>
+                                </Form.Trigger>
+                                {error && <SizableText color="red">{error}</SizableText>}
                             </Form>
                         )}
                     </Formik>
-                </Row>
-                {error && <Row>{error}</Row>}
-            </>}
-        </Container>
+            </YStack>}
+        </YStack>
     );
 }
 

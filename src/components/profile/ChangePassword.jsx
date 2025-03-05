@@ -1,4 +1,3 @@
-import {Button, Container, Form, Row, Spinner} from "react-bootstrap";
 import {Formik} from "formik";
 import * as yup from 'yup';
 import axios from "../../axiosConfig.js";
@@ -8,6 +7,8 @@ import {useDispatch} from "react-redux";
 import {logout} from "../../features/auth/authSlice.js";
 import {deleteStore} from "../../features/store/storeSlice.js";
 import {useState} from "react";
+import {H2, Input, Label, SizableText, YStack, Form, Button, Spinner} from "tamagui";
+import {Save} from "@tamagui/lucide-icons";
 
 const ChangePassword = () => {
     const navigate = useNavigate();
@@ -58,79 +59,122 @@ const ChangePassword = () => {
     }
 
     return (
-        <Container>
+        <YStack
+            flex={1}
+            borderWidth={2}
+            borderColor="$color"
+            borderRadius="$4"
+            gap="$2"
+            padding="$2"
+            justifyContent="space-between"
+        >
             {isLoading ? <>
-                <Spinner animation="border" role="status">
+                <Spinner>
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
-            </> : <>
-                <Row>
-                    <h1>Change Password</h1>
-                </Row>
-                <Row>
-                    <Formik
-                        validationSchema={schema}
-                        initialValues={{
-                            old_password: '',
-                            password1: '',
-                            password2: ''
-                        }}
-                        onSubmit={(values) => {handleSubmit(values)}}
-                    >
-                        {({handleSubmit, handleChange, values, errors}) => (
-                            <Form noValidate onSubmit={handleSubmit}>
-                                <Form.Group controlId="old_password">
-                                    <Form.Label column="lg">Old password</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="old_password"
-                                        value={values.old_password}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.old_password}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.old_password}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group controlId="password1">
-                                    <Form.Label column="lg">New password</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="password1"
-                                        value={values.password1}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.password1}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.password1}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group controlId="password2">
-                                    <Form.Label column="lg">New password again</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        name="password2"
-                                        value={values.password2}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.password2}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.password2}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Button type="submit">
-                                    Change Password
-                                </Button>
-                            </Form>
-                        )}
-                    </Formik>
-                </Row>
-                <Row>
-                    Disclaimer: You have to log in again after changing your password.
-                </Row>
-                {error && <Row>{error}</Row>}
-            </>}
-        </Container>
+            </> : <YStack
+                flex={1}
+                borderWidth={2}
+                borderColor="$color"
+                borderRadius="$4"
+                gap="$2"
+                padding="$2"
+                justifyContent="space-between"
+            >
+                <H2>Change Password</H2>
+                <Formik
+                    validationSchema={schema}
+                    initialValues={{
+                        old_password: '',
+                        password1: '',
+                        password2: ''
+                    }}
+                    onSubmit={(values) => {handleSubmit(values)}}
+                >
+                    {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                        <Form noValidate onSubmit={formikSubmit}>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                                justifyContent="space-between"
+                            >
+                                <Label htmlFor="old_password">Old password</Label>
+                                <Input
+                                    flex={1}
+                                    size="$3"
+                                    borderWidth={2}
+                                    type="password"
+                                    name="old_password"
+                                    value={values.old_password}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.old_password}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.old_password}
+                                </SizableText>
+                            </YStack>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                                justifyContent="space-between"
+                            >
+                                <Label htmlFor="password1">New password</Label>
+                                <Input
+                                    flex={1}
+                                    size="$3"
+                                    borderWidth={2}
+                                    type="password"
+                                    name="password1"
+                                    value={values.password1}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.password1}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.password1}
+                                </SizableText>
+                            </YStack>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                                justifyContent="space-between"
+                            >
+                                <Label htmlFor="password2">New password again</Label>
+                                <Input
+                                    flex={1}
+                                    size="$3"
+                                    borderWidth={2}
+                                    type="password"
+                                    name="password2"
+                                    value={values.password2}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.password2}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.password2}
+                                </SizableText>
+                            </YStack>
+                            <Form.Trigger asChild>
+                                <Button icon={Save} theme="accent" size="$6" type='submit'>Change password</Button>
+                            </Form.Trigger>
+                            {error && <SizableText color="red">{error}</SizableText>}
+                            <SizableText>Disclaimer: You have to log in again after changing your password.</SizableText>
+                        </Form>
+                    )}
+                </Formik>
+            </YStack>}
+        </YStack>
     );
 }
 

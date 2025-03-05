@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
 import axios from '../../axiosConfig.js';
-import {Row, Spinner} from "react-bootstrap";
 import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
-import {SizableText, XStack, YStack} from "tamagui";
+import {SizableText, XStack, YStack, Spinner} from "tamagui";
 
 const Sell = () => {
     const [items, setItems] = useState([]);
@@ -52,12 +51,19 @@ const Sell = () => {
     }
 
     return (
-        <YStack>
+        <YStack
+            flex={1}
+            borderWidth={2}
+            borderColor="$color"
+            borderRadius="$4"
+            gap="$5"
+            padding="$5"
+        >
             {(cart.length > 0) &&
                 <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} />
             }
             {isLoading ?
-                <Spinner animation="border" role="status">
+                <Spinner alignSelf="center">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner> : error ?
                     <SizableText color="red">
@@ -72,13 +78,13 @@ const Sell = () => {
                             flexWrap: 'nowrap',
                         }}
                     >
-                        {items.map((item) => (
-                            <XStack key={item.id}>
-                                {isItemInCart(item) ? <></> : <>
-                                    <ListItem item={item} addToCart={addToCart} />
-                                </>}
-                            </XStack>
-                        ))}
+                        {items.map((item) => {
+                            if (!isItemInCart(item)) {
+                                return (
+                                    <ListItem key={item.id} item={item} addToCart={addToCart} />
+                                )
+                            }
+                        })}
                     </XStack>
             }
         </YStack>
