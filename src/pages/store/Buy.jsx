@@ -42,25 +42,27 @@ const Buy = () => {
             padding="$5"
         >
             <Button alignSelf="center" icon={ShoppingBasket} size="$6" theme="accent" onClick={() => {navigate('/new/item', {replace: true})}}>New Item</Button>
-            {isLoading ? <>
+            {isLoading ?
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </> : <>{error ? <SizableText color="red">
-                {error}
-            </SizableText> : <XStack
-                flex={1}
-                flexWrap="wrap"
-                gap="$5"
-                $gtSm={{
-                    flexDirection: 'column',
-                    flexWrap: 'nowrap',
-                }}
-            >
-                {items.map((item) => (
-                    <Item key={item.id} props={item} refetch={fetchItems} />
-                ))}
-            </XStack>}</>}
+                </Spinner> : error ?
+                    <SizableText color="red">
+                        {error}
+                    </SizableText> :
+                    <XStack
+                        flex={1}
+                        flexWrap="wrap"
+                        gap="$5"
+                        $gtSm={{
+                            flexDirection: 'column',
+                            flexWrap: 'nowrap',
+                        }}
+                    >
+                        {items.map((item) => (
+                            <Item key={item.id} props={item} refetch={fetchItems} />
+                        ))}
+                    </XStack>
+            }
         </YStack>
     )
 }

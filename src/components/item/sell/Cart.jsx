@@ -1,7 +1,9 @@
-import {Button, Col, Modal, Row, Spinner, Table} from "react-bootstrap";
+import {Col, Modal, Row, Table} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import CartItem from "./CartItem.jsx";
 import axios from "../../../axiosConfig.js";
+import {H3, XStack, YStack, Button, Spinner, Sheet, H2, Group, SizableText} from "tamagui";
+import {Banknote, CreditCard, DollarSign, Trash} from "@tamagui/lucide-icons";
 
 const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
     const [total, setTotal] = useState(0);
@@ -43,72 +45,128 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
 
     return (
         <>
-            <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Checkout</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {isLoading ? <>
-                        <Spinner animation="border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </Spinner>
-                    </> : <>
-                        <Row>
-                            <Table>
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Amount</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+            <Sheet
+                modal={true}
+                open={show}
+                onOpenChange={setShow}
+                snapPoints={[95]}
+                snapPointsMode='percent'
+                dismissOnSnapToBottom
+                position={0}
+                zIndex={100_000}
+                animation='medium'
+            >
+                <Sheet.Overlay
+                    animation='lazy'
+                    backgroundColor="$shadow6"
+                    enterStyle={{opacity: 0}}
+                    exitStyle={{opacity: 0}}
+                />
+                <Sheet.Handle />
+                <Sheet.Frame padding="$4" justifyContent="center" alignItems="center" gap="$5">
+                    <YStack
+                        flex={1}
+                        borderWidth={2}
+                        borderColor="$color"
+                        borderRadius="$4"
+                        gap="$2"
+                        padding="$2"
+                        justifyContent="space-between"
+                    >
+                        <H2>Checkout</H2>
+                        {isLoading ?
+                            <Spinner>
+                                <span className="sr-only">Loading...</span>
+                            </Spinner> :
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                                justifyContent="space-between"
+                            >
+                                <XStack
+                                    flex={1}
+                                    borderWidth={2}
+                                    borderColor="$color"
+                                    borderRadius="$4"
+                                    gap="$2"
+                                    padding="$2"
+                                    justifyContent="space-between"
+                                >
+                                    <H3>#</H3>
+                                    <H3>Name</H3>
+                                    <H3>Amount</H3>
+                                    <H3>Price</H3>
+                                    <H3>Total</H3>
+                                </XStack>
                                 {cart.map((item, index) => (
-                                    <tr key={item.id}>
-                                        <td>{index + 1}</td>
-                                        <td>{item.name}</td>
-                                        <td>{item.amount}</td>
-                                        <td>{item.price}</td>
-                                        <td>{item.price * item.amount}</td>
-                                    </tr>
+                                    <XStack key={item.id}
+                                            flex={1}
+                                            borderWidth={2}
+                                            borderColor="$color"
+                                            borderRadius="$4"
+                                            gap="$2"
+                                            padding="$2"
+                                            justifyContent="space-between"
+                                    >
+                                        <SizableText>{index + 1}</SizableText>
+                                        <SizableText>{item.name}</SizableText>
+                                        <SizableText>{item.amount}</SizableText>
+                                        <SizableText>{item.price}</SizableText>
+                                        <SizableText>{item.price * item.amount}</SizableText>
+                                    </XStack>
                                 ))}
-                                </tbody>
-                            </Table>
-                        </Row>
-                        <Row>
-                            <Col>
-                                {cash ? <>
-                                    <Button variant="primary" onClick={() => setCash(!cash)}>Cash</Button>
-                                    <Button variant="secondary" onClick={() => setCash(!cash)}>Card</Button>
-                                </> : <>
-                                    <Button variant="secondary" onClick={() => setCash(!cash)}>Cash</Button>
-                                    <Button variant="primary" onClick={() => setCash(!cash)}>Card</Button>
-                                </>}
-                            </Col>
-                            <Col>
-                                Total: {total} HUF
-                            </Col>
-                            <Col>
-                                <Button onClick={() => handleCheckout()} variant="success">Sell</Button>
-                            </Col>
-                        </Row>
-                        {error && <p>{error}</p>}
-                    </>}
-                </Modal.Body>
-            </Modal>
-            {cart.map((item) => (
-                <CartItem key={item.id} item={item} removeFromCart={removeFromCart} editCart={editCart} />
-            ))}
-            <Row style={{borderBottom: "1px solid black"}}>
-                <Col>
-                    Total: {total}
-                </Col>
-                <Col>
-                    <Button onClick={() => setShow(true)}>Checkout</Button>
-                </Col>
-            </Row>
+                                <XStack
+                                    flex={1}
+                                    borderWidth={2}
+                                    borderColor="$color"
+                                    borderRadius="$4"
+                                    gap="$2"
+                                    padding="$2"
+                                    justifyContent="space-between"
+                                >
+                                    <Group orientation='horizontal'>
+                                        <Button icon={Banknote} size="$3" theme={cash ? 'accent' : ''} variant="primary" onClick={() => setCash(!cash)}>Cash</Button>
+                                        <Button icon={CreditCard} size="$3" theme={!cash ? 'accent' : ''} variant="secondary" onClick={() => setCash(!cash)}>Credit</Button>
+                                    </Group>
+                                    <H3>
+                                        Total: {total} HUF
+                                    </H3>
+                                    <Button icon={DollarSign} size="$6" theme='accent' onClick={() => handleCheckout()} variant="success">Sell</Button>
+                                </XStack>
+                                {error && <SizableText color='red' >{error}</SizableText>}
+                            </YStack>
+                        }
+                    </YStack>
+                </Sheet.Frame>
+            </Sheet>
+            <YStack
+                flex={1}
+                borderWidth={2}
+                borderColor="$color"
+                borderRadius="$4"
+                gap="$5"
+                padding="$2"
+            >
+                {cart.map((item) => (
+                    <CartItem key={item.id} item={item} removeFromCart={removeFromCart} editCart={editCart} />
+                ))}
+                <XStack
+                    flex={1}
+                    borderWidth={2}
+                    borderColor="$color"
+                    borderRadius="$4"
+                    gap="$2"
+                    padding="$2"
+                    justifyContent="space-between"
+                >
+                    <H3>Total: {total}</H3>
+                    <Button icon={CreditCard} size="$6" theme="accent" onClick={() => setShow(true)}>Checkout</Button>
+                </XStack>
+            </YStack>
         </>
     )
 }

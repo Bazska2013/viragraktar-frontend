@@ -3,6 +3,7 @@ import axios from '../../axiosConfig.js';
 import {Row, Spinner} from "react-bootstrap";
 import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
+import {SizableText, XStack, YStack} from "tamagui";
 
 const Sell = () => {
     const [items, setItems] = useState([]);
@@ -51,26 +52,36 @@ const Sell = () => {
     }
 
     return (
-        <>
-            {(cart.length > 0) ? <Row>
+        <YStack>
+            {(cart.length > 0) &&
                 <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} />
-            </Row> : <></>}
-            {isLoading ? <>
+            }
+            {isLoading ?
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </> : <>{error ? <>
-                {error}
-            </> : <>
-                {items.map((item) => (
-                    <Row key={item.id}>
-                        {isItemInCart(item) ? <></> : <>
-                            <ListItem item={item} addToCart={addToCart} />
-                        </>}
-                    </Row>
-                ))}
-            </>}</>}
-        </>
+                </Spinner> : error ?
+                    <SizableText color="red">
+                        {error}
+                    </SizableText> :
+                    <XStack
+                        flex={1}
+                        flexWrap="wrap"
+                        gap="$5"
+                        $gtSm={{
+                            flexDirection: 'column',
+                            flexWrap: 'nowrap',
+                        }}
+                    >
+                        {items.map((item) => (
+                            <XStack key={item.id}>
+                                {isItemInCart(item) ? <></> : <>
+                                    <ListItem item={item} addToCart={addToCart} />
+                                </>}
+                            </XStack>
+                        ))}
+                    </XStack>
+            }
+        </YStack>
     )
 }
 
