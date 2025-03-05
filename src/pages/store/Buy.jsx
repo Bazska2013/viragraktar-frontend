@@ -23,7 +23,6 @@ const Buy = () => {
             setIsLoading(false);
             if (response?.status === 200) {
                 setItems(response.data);
-                console.log(response.data);
             }
         }
     }
@@ -53,10 +52,6 @@ const Buy = () => {
                         flex={1}
                         flexWrap="wrap"
                         gap="$5"
-                        $gtSm={{
-                            flexDirection: 'column',
-                            flexWrap: 'nowrap',
-                        }}
                     >
                         {items.map((item) => (
                             <Item key={item.id} props={item} refetch={fetchItems} />

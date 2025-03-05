@@ -1,4 +1,3 @@
-import {Button, Form, Row, Spinner} from "react-bootstrap";
 import {Formik} from "formik";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
@@ -6,6 +5,8 @@ import SelectOpeningHours from "../../components/store/SelectOpeningHours.jsx";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createStore, selectStore} from "../../features/store/storeSlice.js";
+import {Checkbox, Input, Label, SizableText, XStack, YStack, Button, Form, Spinner} from "tamagui";
+import {Check, Save} from "@tamagui/lucide-icons";
 
 const UpdateStore = () => {
     const store = useSelector(selectStore);
@@ -38,60 +39,93 @@ const UpdateStore = () => {
 
     if (isLoading) {
         return (
-            <Spinner animation="border" role="status">
+            <Spinner>
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
         )
     }
 
     return (
-        <Row>
+        <YStack
+            flex={1}
+            borderWidth={2}
+            borderColor="$color"
+            borderRadius="$4"
+            gap="$2"
+            padding="$2"
+        >
             <Formik
                 initialValues={{
                     name: store ? store.name : '',
                     opening_hours: store ? store.opening_hours : '',
-                    calculation_enabled: store ? store.calculation_enabled : false,
+                    calculation_enabled: store ? !!store.calculation_enabled : false,
                 }}
                 onSubmit={(values) => {
                     handleSubmit(values)
                 }}
             >
-                {({handleSubmit, handleChange, values, errors, setFieldValue}) => (
-                    <Form noValidate onSubmit={handleSubmit}>
-                        <Form.Group controlId="name">
-                            <Form.Label column="lg">
-                                Name of your store
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="name"
-                                value={values.name}
-                                onChange={handleChange}
-                                isInvalid={!!errors.name}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.name}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} defaultValue={store.opening_hours} />
-                        <Form.Group controlId="calculation_enabled">
-                            <Form.Check
-                                type="checkbox"
-                                name="calculation_enabled"
-                                label="Enable price calculation"
-                                checked={values.calculation_enabled}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                        <Button type="submit">
-                            Update store
-                        </Button>
-                        {error ? <>{error}</> : <></>}
+                {({handleSubmit: formikSubmit, handleChange, values, errors, setFieldValue}) => (
+                    <Form noValidate onSubmit={formikSubmit}>
+                        <YStack
+                            flex={1}
+                            borderWidth={2}
+                            borderColor="$color"
+                            borderRadius="$4"
+                            gap="$2"
+                            padding="$2"
+                        >
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                            >
+                                <Label htmlFor="name">
+                                    Name of your store
+                                </Label>
+                                <Input
+                                    flex={1}
+                                    size="$3"
+                                    borderWidth={2}
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.name}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.name}
+                                </SizableText>
+                            </YStack>
+                            <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} defaultValue={store.opening_hours} />
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                            >
+                                <Label htmlFor="calculation_enabled">Enable price calculation</Label>
+                                <Checkbox id="calculation_enabled" name="calculation_enabled" size="$3" checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
+                                    <Checkbox.Indicator>
+                                        <Check />
+                                    </Checkbox.Indicator>
+                                </Checkbox>
+                            </YStack>
+                            <Form.Trigger asChild>
+                                <Button icon={Save} theme="accent" size="$6" type="submit">Update store</Button>
+                            </Form.Trigger>
+                            {error && <SizableText color='red' >{error}</SizableText>}
+                        </YStack>
                     </Form>
                 )}
 
             </Formik>
-        </Row>
+        </YStack>
     )
 }
 

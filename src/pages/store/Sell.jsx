@@ -73,10 +73,6 @@ const Sell = () => {
                         flex={1}
                         flexWrap="wrap"
                         gap="$5"
-                        $gtSm={{
-                            flexDirection: 'column',
-                            flexWrap: 'nowrap',
-                        }}
                     >
                         {items.map((item) => {
                             if (!isItemInCart(item)) {

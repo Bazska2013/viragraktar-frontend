@@ -1,6 +1,7 @@
 import SelectHours from "./SelectHours.jsx";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import {XStack} from "tamagui";
 
 const SelectOpeningHours = ({ setFieldValue }) => {
     const [openingHours, setOpeningHours] = useState({
@@ -39,7 +40,11 @@ const SelectOpeningHours = ({ setFieldValue }) => {
     };
 
     return (
-        <>
+        <XStack
+            flex={1}
+            flexWrap="wrap"
+            gap="$5"
+        >
             {Object.keys(openingHours).map((day, index) => (
                 <SelectHours
                     key={index}
@@ -52,7 +57,7 @@ const SelectOpeningHours = ({ setFieldValue }) => {
                     onClick={() => handleClick(day)}
                 />
             ))}
-        </>
+        </XStack>
     );
 };
 

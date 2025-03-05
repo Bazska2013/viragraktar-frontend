@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import axios from '../../axiosConfig.js';
-import {Button, Form, Row, Spinner} from "react-bootstrap";
 import {Formik} from "formik";
 import * as yup from "yup";
 import {useState} from "react";
+import {Input, Label, SizableText, YStack, Button, Form, Spinner} from "tamagui";
+import {LogIn, PenSquare} from "@tamagui/lucide-icons";
 
 const JoinStore = () => {
     const navigate = useNavigate();
@@ -33,12 +34,28 @@ const JoinStore = () => {
     }
 
     return (
-        <Row>
+        <YStack
+            flex={1}
+            borderWidth={2}
+            borderColor="$color"
+            borderRadius="$4"
+            gap="$2"
+            padding="$2"
+            justifyContent="space-between"
+        >
             {isLoading ? <>
-                <Spinner animation="border" role="status">
+                <Spinner>
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
-            </> : <>
+            </> : <YStack
+                flex={1}
+                borderWidth={2}
+                borderColor="$color"
+                borderRadius="$4"
+                gap="$2"
+                padding="$2"
+                justifyContent="space-between"
+            >
                 <Formik
                     validationSchema={schema}
                     initialValues={{
@@ -46,33 +63,55 @@ const JoinStore = () => {
                     }}
                     onSubmit={(values) => {handleSubmit(values)}}
                 >
-                    {({handleSubmit, handleChange, values, errors}) => (
-                        <Form noValidate onSubmit={handleSubmit}>
-                            <Form.Group controlId='code'>
-                                <Form.Label column="lg">
-                                    Enter the unique ID of the Store you want to join
-                                </Form.Label>
-                                <Form.Control
-                                    type='text'
-                                    name='code'
-                                    value={values.code}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.code}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.code}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Button type='submit'>
-                                Join Store
-                            </Button>
-                            {error && <p>{error}</p>}
+                    {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                        <Form noValidate onSubmit={formikSubmit}>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                                justifyContent="space-between"
+                            >
+                                <YStack
+                                    flex={1}
+                                    borderWidth={2}
+                                    borderColor="$color"
+                                    borderRadius="$4"
+                                    gap="$2"
+                                    padding="$2"
+                                    justifyContent="space-between"
+                                >
+                                    <Label htmlFor="code">
+                                        Enter the unique ID of the Store you want to join
+                                    </Label>
+                                    <Input
+                                        flex={1}
+                                        size="$3"
+                                        borderWidth={2}
+                                        type='text'
+                                        name='code'
+                                        id='code'
+                                        value={values.code}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.code}
+                                    />
+                                    <SizableText size='small' color='red'>
+                                        {errors.code}
+                                    </SizableText>
+                                </YStack>
+                                <Form.Trigger asChild>
+                                    <Button icon={PenSquare} theme="accent" size="$6" type="submit">Join store</Button>
+                                </Form.Trigger>
+                                {error && <SizableText color='red' >{error}</SizableText>}
+                            </YStack>
                         </Form>
                     )
                     }
                 </Formik>
-            </>}
-        </Row>
+            </YStack>}
+        </YStack>
     )
 }
 

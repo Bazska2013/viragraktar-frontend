@@ -84,7 +84,14 @@ const NewItem = () => {
                             gap="$2"
                             padding="$2"
                         >
-                            <YStack>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                            >
                                 <Label htmlFor="name">
                                     Name of the item
                                 </Label>
@@ -99,7 +106,14 @@ const NewItem = () => {
                                     {errors.name}
                                 </SizableText>
                             </YStack>
-                            <YStack>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                            >
                                 <Label htmlFor="description">
                                     Description of the item
                                 </Label>
@@ -114,7 +128,14 @@ const NewItem = () => {
                                     {errors.description}
                                 </SizableText>
                             </YStack>
-                            <YStack>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                            >
                                 <Label htmlFor="price">
                                     Price of the item
                                 </Label>
@@ -130,7 +151,14 @@ const NewItem = () => {
                                     {errors.price}
                                 </SizableText>
                             </YStack>
-                            <YStack>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                            >
                                 <Label htmlFor="stock">
                                     Stock of the item
                                 </Label>
@@ -146,7 +174,14 @@ const NewItem = () => {
                                     {errors.stock}
                                 </SizableText>
                             </YStack>
-                            <YStack>
+                            <YStack
+                                flex={1}
+                                borderWidth={2}
+                                borderColor="$color"
+                                borderRadius="$4"
+                                gap="$2"
+                                padding="$2"
+                            >
                                 <Label htmlFor='image'>
                                     Image of the item
                                 </Label>
