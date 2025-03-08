@@ -5,6 +5,7 @@ import * as yup from "yup";
 import {useState} from "react";
 import {Input, Label, SizableText, YStack, Button, Form, Spinner} from "tamagui";
 import {LogIn, PenSquare} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const JoinStore = () => {
     const navigate = useNavigate();
@@ -34,28 +35,12 @@ const JoinStore = () => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <EditContainer>
             {isLoading ? <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
-            </> : <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="space-between"
-            >
+            </> : <VerticalContainer>
                 <Formik
                     validationSchema={schema}
                     initialValues={{
@@ -65,30 +50,14 @@ const JoinStore = () => {
                 >
                     {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                         <Form noValidate onSubmit={formikSubmit}>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
-                                <YStack
-                                    flex={1}
-                                    borderWidth={2}
-                                    borderColor="$color"
-                                    borderRadius="$4"
-                                    gap="$2"
-                                    padding="$2"
-                                    justifyContent="space-between"
-                                >
+                            <VerticalContainer>
+                                <VerticalContainer>
                                     <Label htmlFor="code">
                                         Enter the unique ID of the Store you want to join
                                     </Label>
                                     <Input
                                         flex={1}
-                                        size="$3"
+                                        // size="$3"
                                         borderWidth={2}
                                         type='text'
                                         name='code'
@@ -100,18 +69,18 @@ const JoinStore = () => {
                                     <SizableText size='small' color='red'>
                                         {errors.code}
                                     </SizableText>
-                                </YStack>
+                                </VerticalContainer>
                                 <Form.Trigger asChild>
-                                    <Button icon={PenSquare} theme="accent" size="$6" type="submit">Join store</Button>
+                                    <BigButton icon={PenSquare} type="submit">Join store</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color='red' >{error}</SizableText>}
-                            </YStack>
+                            </VerticalContainer>
                         </Form>
                     )
                     }
                 </Formik>
-            </YStack>}
-        </YStack>
+            </VerticalContainer>}
+        </EditContainer>
     )
 }
 

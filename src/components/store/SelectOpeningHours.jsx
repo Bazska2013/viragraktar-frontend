@@ -2,6 +2,7 @@ import SelectHours from "./SelectHours.jsx";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {XStack} from "tamagui";
+import {HorizontalContainer} from "../../tamagui.config.ts";
 
 const SelectOpeningHours = ({ setFieldValue }) => {
     const [openingHours, setOpeningHours] = useState({
@@ -40,11 +41,7 @@ const SelectOpeningHours = ({ setFieldValue }) => {
     };
 
     return (
-        <XStack
-            flex={1}
-            flexWrap="wrap"
-            gap="$5"
-        >
+        <HorizontalContainer flexWrap="wrap">
             {Object.keys(openingHours).map((day, index) => (
                 <SelectHours
                     key={index}
@@ -57,7 +54,7 @@ const SelectOpeningHours = ({ setFieldValue }) => {
                     onClick={() => handleClick(day)}
                 />
             ))}
-        </XStack>
+        </HorizontalContainer>
     );
 };
 

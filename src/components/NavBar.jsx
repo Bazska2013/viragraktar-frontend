@@ -6,6 +6,9 @@ import axios from "../axiosConfig.js";
 import {logout} from "../features/auth/authSlice.js";
 import {deleteStore, selectStore} from "../features/store/storeSlice.js";
 import {useState} from "react";
+import {Tabs} from "tamagui";
+import {SmallButtonWithAccent} from "../tamagui.config.ts";
+import {ShoppingBasket, Store, User} from "@tamagui/lucide-icons";
 
 const NavBar = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +35,19 @@ const NavBar = () => {
 
     return (
         <>
+            {/*<Tabs>*/}
+            {/*    <Tabs.List>*/}
+            {/*        <Tabs.Tab value="sell">*/}
+            {/*            <SmallButtonWithAccent icon={Store}>Sell</SmallButtonWithAccent>*/}
+            {/*        </Tabs.Tab>*/}
+            {/*        <Tabs.Tab value="buy">*/}
+            {/*            <SmallButtonWithAccent icon={ShoppingBasket}>Buy</SmallButtonWithAccent>*/}
+            {/*        </Tabs.Tab>*/}
+            {/*        <Tabs.Tab value="profile">*/}
+            {/*            <SmallButtonWithAccent icon={User}>Profile</SmallButtonWithAccent>*/}
+            {/*        </Tabs.Tab>*/}
+            {/*    </Tabs.List>*/}
+            {/*</Tabs>*/}
             <Navbar expand="lg">
                 <Container>
                     <Navbar.Brand onClick={() => navigate('/', {replace: true})}>Home</Navbar.Brand>

@@ -8,6 +8,7 @@ import {selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
 import {YStack, Button, Spinner, XStack, H3, SizableText, Accordion, Paragraph, Square} from "tamagui";
 import {ChevronDown, PenSquare, RefreshCw, UserPen} from "@tamagui/lucide-icons";
+import {VerticalContainer, HorizontalContainer, SmallButton, BigButton} from "../../tamagui.config.ts";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -70,59 +71,27 @@ const Profile = () => {
     }, []);
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <VerticalContainer>
             {user ? <>
-                    <XStack
-                        flex={1}
-                        borderWidth={2}
-                        borderColor="$color"
-                        borderRadius="$4"
-                        gap="$2"
-                        padding="$2"
-                        justifyContent="space-between"
-                    >
-                        <YStack
-                            flex={1}
-                            borderWidth={2}
-                            borderColor="$color"
-                            borderRadius="$4"
-                            gap="$2"
-                            padding="$2"
-                            justifyContent="space-between"
-                        >
+                <HorizontalContainer>
+                        <VerticalContainer>
                             <H3>User info</H3>
                             <SizableText>Name: {user.name}</SizableText>
                             <SizableText>Email: {user.email}</SizableText>
-                            <Button icon={UserPen} theme="accent" size="$6" onClick={() => navigate('/edit/profile')}>Edit profile</Button>
-                        </YStack>
+                            <BigButton icon={UserPen} onClick={() => navigate('/edit/profile')}>Edit profile</BigButton>
+                        </VerticalContainer>
                         {store ?
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                            <VerticalContainer>
                                 <H3>Store info</H3>
                                 <SizableText>Store name: {store.name}</SizableText>
-                                <XStack>
+                                <HorizontalContainer>
                                     <SizableText>{profitError ? profitError : "Today's profit: " + profit}</SizableText>
-                                    <Button iconAfter={
+                                    <SmallButton iconAfter={
                                         <Square animation='slow' rotate={isProfitLoading ? '360deg' : '0deg'}>
                                             <RefreshCw size="$1" />
                                         </Square>
-                                    } size="$3" onClick={() => {getTodayProfit()}} >Refresh</Button>
-                                </XStack>
+                                    } onClick={() => {getTodayProfit()}} >Refresh</SmallButton>
+                                </HorizontalContainer>
                                 <Accordion overflow="hidden" type="single" collapsible>
                                     <Accordion.Item value="store">
                                         <Accordion.Header>
@@ -131,7 +100,7 @@ const Profile = () => {
                                                     <>
                                                         <Paragraph>{open ? 'Hide' : 'Show'} Store ID</Paragraph>
                                                         <Square animation="quick" rotate={open ? '180deg' : '0deg'}>
-                                                            <ChevronDown size="$1" />
+                                                            <ChevronDown /*size="$1"*/ />
                                                         </Square>
                                                     </>
                                                 )}
@@ -139,36 +108,28 @@ const Profile = () => {
                                         </Accordion.Header>
                                         <Accordion.HeightAnimator animation="medium">
                                             <Accordion.Content animation="medium" exitStyle={{ opacity: 0 }}>
-                                                <Paragraph>{isStoreIdLoading ? <Spinner size="$1" /> : storeId}</Paragraph>
+                                                <Paragraph>{isStoreIdLoading ? <Spinner /*size="$1"*/ /> : storeId}</Paragraph>
                                             </Accordion.Content>
                                         </Accordion.HeightAnimator>
                                         <Accordion.Content />
                                     </Accordion.Item>
                                 </Accordion>
-                                {user.is_admin && <Button icon={PenSquare} theme="accent" size="$6" onClick={() => navigate('/edit/store')}>Edit store</Button>}
-                        </YStack> : <>
-                            <Button onClick={() => navigate('/new/store', {replace: true})}>Join or Create a Store</Button>
+                                {user.is_admin && <BigButton icon={PenSquare} onClick={() => navigate('/edit/store')}>Edit store</BigButton>}
+                            </VerticalContainer> : <>
+                            <SmallButton onClick={() => navigate('/new/store', {replace: true})}>Join or Create a Store</SmallButton>
                         </>}
-                    </XStack>
-                    <XStack
-                        flex={1}
-                        borderWidth={2}
-                        borderColor="$color"
-                        borderRadius="$4"
-                        gap="$2"
-                        padding="$2"
-                        justifyContent="space-between"
-                    >
-                        {store && user.is_admin ? <>
-                            <StoreUsers />
-                        </> : <></>}
-                    </XStack>
+                </HorizontalContainer>
+                <HorizontalContainer>
+                    {store && user.is_admin ? <>
+                        <StoreUsers />
+                    </> : <></>}
+                </HorizontalContainer>
             </> : <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </>}
-        </YStack>
+        </VerticalContainer>
     )
 }
 

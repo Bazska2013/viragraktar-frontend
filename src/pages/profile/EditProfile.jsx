@@ -4,23 +4,18 @@ import {useSelector} from "react-redux";
 import ChangeName from "../../components/profile/ChangeName.jsx";
 import ChangePassword from "../../components/profile/ChangePassword.jsx";
 import {XStack} from "tamagui";
+import {EditContainer, HorizontalContainer} from "../../tamagui.config.ts";
 
 const EditProfile = () => {
     const user = useSelector(selectCurrentUser);
 
     return (
-        <XStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <EditContainer>
+            <HorizontalContainer>
                 <ChangeName user={user}/>
                 <ChangePassword user={user}/>
-        </XStack>
+            </HorizontalContainer>
+        </EditContainer>
     )
 }
 

@@ -3,28 +3,21 @@ import JoinStore from "../../components/store/JoinStore.jsx";
 import CreateStore from "../../components/store/CreateStore.jsx";
 import {YStack, Button} from "tamagui";
 import {Edit3, PenSquare} from "@tamagui/lucide-icons";
+import {EditContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 
 const NewStore = () => {
     const [joinStore, setJoinStore] = useState(true);
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <EditContainer>
         {joinStore ? <>
             <JoinStore />
-            <Button icon={Edit3} size="$3" theme="accent" onClick={() => setJoinStore(false)}>Create Store</Button>
+            <SmallButtonWithAccent icon={Edit3} onClick={() => setJoinStore(false)}>Create Store</SmallButtonWithAccent>
         </> : <>
-            <Button icon={PenSquare} size="$3" theme="accent" onClick={() => setJoinStore(true)}>Join Store</Button>
+            <SmallButtonWithAccent icon={PenSquare} onClick={() => setJoinStore(true)}>Join Store</SmallButtonWithAccent>
             <CreateStore />
         </>}
-        </YStack>
+        </EditContainer>
     );
 }
 

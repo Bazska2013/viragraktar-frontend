@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Group, H4, Image, Input, SizableText, XStack, YStack, Button} from "tamagui";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {FileSearch, Minus, Plus, ShoppingCart, X} from "@tamagui/lucide-icons";
+import {VerticalContainer, HorizontalContainer, SmallButtonWithAccent, SmallButton} from "../../../tamagui.config.ts";
 
 const ListItem = ({ item, addToCart }) => {
     const [amount, setAmount] = useState(0);
@@ -44,23 +45,14 @@ const ListItem = ({ item, addToCart }) => {
     }
 
     return (
-        <XStack
-            flex={1}
+        <HorizontalContainer
+            borderColor="#292023"
             borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="center"
+            borderRadius="$3"
+            boxShadow="0 0 10px 0 rgba(0, 0, 0, 0.2)"
         >
-            <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="center"
+            <VerticalContainer
+                justifyContent="space-between"
                 width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
             >
                 <Image source={{
@@ -71,22 +63,15 @@ const ListItem = ({ item, addToCart }) => {
                 <H4>{item.name}</H4>
                 <SizableText>{item.price}</SizableText>
                 <SizableText>{item.stock}</SizableText>
-            </YStack>
-            <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="center"
+            </VerticalContainer>
+            <VerticalContainer
                 width={screenSize > 1280 ? "150px" : (screenSize > 768 ? "125px" : "100%")}
             >
                 <Group orientation='vertical'>
-                    <Button icon={Plus} variant="outlined" size="$3" name="plus" onClick={(e) => handleChange(e, 'plus')} />
+                    <SmallButtonWithAccent icon={Plus} name="plus" onClick={(e) => handleChange(e, 'plus')} />
                     <Input
                         flex={1}
-                        size="$3"
+                        // size="$3"
                         borderWidth={2}
                         type="number"
                         name="amount"
@@ -95,13 +80,13 @@ const ListItem = ({ item, addToCart }) => {
                         value={amount}
                         onChange={(e) => handleChange(e, '')}
                     />
-                    <Button icon={Minus} variant="outlined" size="$3" disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
+                    <SmallButtonWithAccent icon={Minus} disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
                 </Group>
-                <Button icon={FileSearch} size="$3">View details</Button>
-                <Button icon={ShoppingCart} size="$3" theme="accent" disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>Add to cart</Button>
-                <Button icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => setAmount(0)} />
-            </YStack>
-        </XStack>
+                <SmallButton icon={FileSearch}>View details</SmallButton>
+                <SmallButtonWithAccent icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>Add to cart</SmallButtonWithAccent>
+                <SmallButton icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => setAmount(0)} />
+            </VerticalContainer>
+        </HorizontalContainer>
     )
 }
 

@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {Button, Spinner, YStack, SizableText, XStack, Image, Group, Input, H3, H4} from "tamagui"
 import {Check, X, Plus, Minus} from "@tamagui/lucide-icons";
+import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../../tamagui.config.ts";
 
 const Item = ({props, refetch}) => {
 
@@ -61,65 +62,39 @@ const Item = ({props, refetch}) => {
 
     if (isLoading) {
         return (
-            <XStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="center"
-            >
+            <HorizontalContainer>
                 <Spinner>
                     <span className='sr-only'>Loading...</span>
                 </Spinner>
-            </XStack>
+            </HorizontalContainer>
         )
     }
 
     if (error) {
         return (
-            <XStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="center"
-            >
+            <HorizontalContainer>
                 <SizableText
                     flex={1}
                     borderWidth={2}
-                    borderColor="$color"
-                    borderRadius="$4"
-                    gap="$2"
-                    padding="$2"
+                    // borderColor="$color"
+                    // borderRadius="$4"
+                    // gap="$2"
+                    // padding="$2"
                     justifyContent="center"
                     width={screenSize > 1280 ? "350px" : (screenSize > 768 ? "300px" : "100%")}
                 >{error}</SizableText>
-            </XStack>
+            </HorizontalContainer>
         )
     }
 
     return (
-        <XStack
-            flex={1}
+        <HorizontalContainer
+            borderColor="#292023"
             borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="center"
+            borderRadius="$3"
+            boxShadow="0 0 10px 0 rgba(0, 0, 0, 0.2)"
         >
-            <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="center"
+            <VerticalContainer
                 width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
             >
                 <Image source={{
@@ -130,21 +105,14 @@ const Item = ({props, refetch}) => {
                 <H4>{item.name}</H4>
                 <SizableText>{item.description}</SizableText>
                 <SizableText>{item.price}</SizableText>
-            </YStack>
-            <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="center"
+            </VerticalContainer>
+            <VerticalContainer
                 width={screenSize > 1280 ? "150px" : (screenSize > 768 ? "125px" : "100%")}
             >
                 <Group orientation='vertical'>
-                    <Button icon={Plus} variant="outlined" size="$3" onClick={(e) => {handleChange(e, 'add')}} />
+                    <SmallButtonWithAccent icon={Plus} onClick={(e) => {handleChange(e, 'add')}} />
                     <Input flex={1}
-                           size="$3"
+                           // size="$3"
                            borderWidth={2}
                            type='number'
                            name='stock'
@@ -152,17 +120,17 @@ const Item = ({props, refetch}) => {
                            key={item.stock}
                            onChange={(e) => handleChange(e, 'field')}
                     />
-                    <Button icon={Minus} variant="outlined" size="$3" onClick={(e) => {handleChange(e, 'remove')}} />
+                    <SmallButtonWithAccent icon={Minus} onClick={(e) => {handleChange(e, 'remove')}} />
                 </Group>
                 <Group orientation='horizontal'>
-                    <Button size="$3" icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleCancel()} width="50%" />
-                    <Button size="$3" icon={Check} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleSubmit()} width="50%" />
+                    <SmallButton icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleCancel()} width="50%" />
+                    <SmallButton icon={Check} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleSubmit()} width="50%" />
                 </Group>
-                <Button size="$3" theme="accent" onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
+                <SmallButtonWithAccent onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
                     Edit Item
-                </Button>
-            </YStack>
-        </XStack>
+                </SmallButtonWithAccent>
+            </VerticalContainer>
+        </HorizontalContainer>
     )
 }
 

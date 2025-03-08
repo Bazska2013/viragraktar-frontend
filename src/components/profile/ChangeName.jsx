@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {H1, H2, Input, Label, SizableText, YStack, Form, Spinner, Button} from "tamagui";
 import {Save} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangeName = ({user}) => {
     const dispatch = useDispatch();
@@ -38,28 +39,12 @@ const ChangeName = ({user}) => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <EditContainer>
             {isLoading ? <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
-            </> : <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="space-between"
-            >
+            </> : <VerticalContainer>
                 <H2>Change Name</H2>
                     <Formik
                         validationSchema={schema}
@@ -71,19 +56,11 @@ const ChangeName = ({user}) => {
                     >
                         {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                             <Form noValidate onSubmit={formikSubmit}>
-                                <YStack
-                                    flex={1}
-                                    borderWidth={2}
-                                    borderColor="$color"
-                                    borderRadius="$4"
-                                    gap="$2"
-                                    padding="$2"
-                                    justifyContent="space-between"
-                                >
+                                <VerticalContainer>
                                     <Label htmlFor='name'>Name</Label>
                                     <Input
                                         flex={1}
-                                        size="$3"
+                                        // size="$3"
                                         borderWidth={2}
                                         type="text"
                                         name="name"
@@ -94,36 +71,28 @@ const ChangeName = ({user}) => {
                                     <SizableText size='small' color='red'>
                                         {errors.name}
                                     </SizableText>
-                                </YStack>
-                                <YStack
-                                    flex={1}
-                                    borderWidth={2}
-                                    borderColor="$color"
-                                    borderRadius="$4"
-                                    gap="$2"
-                                    padding="$2"
-                                    justifyContent="space-between"
-                                >
+                                </VerticalContainer>
+                                <VerticalContainer>
                                     <Label htmlFor='email'>Email</Label>
                                     <Input
                                         flex={1}
-                                        size="$3"
+                                        // size="$3"
                                         borderWidth={2}
                                         type="email"
                                         name="email"
                                         value={values.email}
                                         disabled
                                     />
-                                </YStack>
+                                </VerticalContainer>
                                 <Form.Trigger asChild>
-                                    <Button icon={Save} theme="accent" size="$6" type='submit'>Change name</Button>
+                                    <BigButton icon={Save} type='submit'>Change name</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color="red">{error}</SizableText>}
                             </Form>
                         )}
                     </Formik>
-            </YStack>}
-        </YStack>
+            </VerticalContainer>}
+        </EditContainer>
     );
 }
 

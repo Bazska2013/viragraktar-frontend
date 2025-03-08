@@ -7,6 +7,7 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {Input, Label, SizableText, YStack, Form, Button, Spinner} from "tamagui";
 import {FileSignature, LogIn} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, VerticalContainer} from "../tamagui.config.ts";
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -50,15 +51,7 @@ const Register = () => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <EditContainer>
             <Formik
                 validationSchema={schema}
                 initialValues={{
@@ -71,28 +64,12 @@ const Register = () => {
             >
                 {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                     <Form noValidate onSubmit={formikSubmit}>
-                        <YStack
-                            flex={1}
-                            borderWidth={2}
-                            borderColor="$color"
-                            borderRadius="$4"
-                            gap="$2"
-                            padding="$2"
-                            justifyContent="space-between"
-                        >
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                        <VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="email">Email</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="email"
                                     placeholder="abc@xyz.com"
@@ -105,20 +82,12 @@ const Register = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.email}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor='name'>Name</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="text"
                                     placeholder="John Dover"
@@ -131,20 +100,12 @@ const Register = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.name}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor='password1'>Password</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="password1"
@@ -154,23 +115,15 @@ const Register = () => {
                                     onChange={handleChange}
                                     isInvalid={!!errors.password1}
                                 />
-                            </YStack>
+                            </VerticalContainer>
                             <SizableText size='small' color='red'>
                                 {errors.password1}
                             </SizableText>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                            <VerticalContainer>
                                 <Label htmlFor="password2">Password again</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="password2"
@@ -183,16 +136,16 @@ const Register = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.password2}
                                 </SizableText>
-                            </YStack>
+                            </VerticalContainer>
                             <Form.Trigger asChild>
-                                <Button icon={FileSignature} theme="accent" size="$6" type="submit">Register</Button>
+                                <BigButton icon={FileSignature} type="submit">Register</BigButton>
                             </Form.Trigger>
                             {serverError && <SizableText color='red' >{serverError}</SizableText>}
-                        </YStack>
+                        </VerticalContainer>
                     </Form>
                 )}
             </Formik>
-        </YStack>
+        </EditContainer>
     )
 }
 

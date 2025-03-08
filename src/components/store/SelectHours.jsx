@@ -1,18 +1,11 @@
 import { Col, Container, Row, Form } from "react-bootstrap";
 import {Checkbox, Group, H4, Label, YStack} from "tamagui";
 import {Check} from "@tamagui/lucide-icons";
+import {VerticalContainer} from "../../tamagui.config.ts";
 
 const SelectHours = (props) => {
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <VerticalContainer>
             <H4>
                 {props.day}
             </H4>
@@ -71,12 +64,12 @@ const SelectHours = (props) => {
                     </Form.Select>
             </Group>
             <Label htmlFor="closed">Closed</Label>
-            <Checkbox id="closed" name="closed" size="$3" checked={!!props.closed} onCheckedChange={props.onClick}>
+            <Checkbox id="closed" name="closed" /*size="$3"*/ checked={!!props.closed} onCheckedChange={props.onClick}>
                 <Checkbox.Indicator>
                     <Check />
                 </Checkbox.Indicator>
             </Checkbox>
-        </YStack>
+        </VerticalContainer>
     );
 }
 

@@ -5,6 +5,7 @@ import {Formik} from "formik";
 import * as yup from "yup";
 import {SizableText, Button, Form, Spinner, Label, Input, TextArea, XStack, Image, YStack} from "tamagui";
 import {Save, Upload} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 
 const EditItem = () => {
     const [item, setItem] = useState({});
@@ -87,14 +88,7 @@ const EditItem = () => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-        >
+        <EditContainer>
             <Formik
                 enableReinitialize
                 validationSchema={schema}
@@ -109,28 +103,14 @@ const EditItem = () => {
             >
                 {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                     <Form noValidate onSubmit={formikSubmit}>
-                        <YStack
-                            flex={1}
-                            borderWidth={2}
-                            borderColor="$color"
-                            borderRadius="$4"
-                            gap="$2"
-                            padding="$2"
-                        >
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                        <VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="name">
                                     Name of the item
                                 </Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="text"
                                     id="name"
@@ -141,21 +121,14 @@ const EditItem = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.name}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="description">
                                     Description of the item
                                 </Label>
                                 <TextArea
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     rows={3}
                                     id="description"
@@ -166,21 +139,14 @@ const EditItem = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.description}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="price">
                                     Price of the item
                                 </Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="number"
                                     id="price"
@@ -192,21 +158,14 @@ const EditItem = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.price}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="stock">
                                     Stock of the item
                                 </Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="number"
                                     id="stock"
@@ -218,24 +177,17 @@ const EditItem = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.stock}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 {item.image &&
-                                    <XStack>
+                                    <HorizontalContainer>
                                         <SizableText>Current image:</SizableText>
                                         <Image source={{
                                             uri: "http://localhost:8000/images/" + item.image,
                                             width: 100,
                                             height: 100,
                                         }} />
-                                    </XStack>
+                                    </HorizontalContainer>
                                 }
                                 <Label htmlFor='image'>
                                     {item.image? "Change image of the item" : "Image of the item"}
@@ -249,20 +201,20 @@ const EditItem = () => {
                                         setImage(event.currentTarget.files[0]);
                                     }}
                                 />
-                                <Button icon={Upload} size="$3" onClick={() => document.getElementById('image').click()}>Choose File</Button>
+                                <SmallButton icon={Upload} onClick={() => document.getElementById('image').click()}>Choose File</SmallButton>
                                 {image &&
                                     <SizableText>Selected file: {image.name}</SizableText>
                                 }
-                            </YStack>
+                            </VerticalContainer>
                             <Form.Trigger asChild>
-                                <Button icon={Save} theme="accent" size="$6" type='submit'>Confirm changes</Button>
+                                <BigButton icon={Save} type='submit'>Confirm changes</BigButton>
                             </Form.Trigger>
                             {serverError && <SizableText color="red">{serverError}</SizableText>}
-                        </YStack>
+                        </VerticalContainer>
                     </Form>
                 )}
             </Formik>
-        </YStack>
+        </EditContainer>
     )
 }
 

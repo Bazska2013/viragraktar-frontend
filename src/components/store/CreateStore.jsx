@@ -5,6 +5,7 @@ import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import {useState} from "react";
 import {Checkbox, Input, Label, SizableText, YStack, Button, Form, Spinner} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const CreateStore = () => {
     const navigate = useNavigate();
@@ -33,23 +34,14 @@ const CreateStore = () => {
 
     if (isLoading) {
         return (
-            <Row>
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </Row>
+            <Spinner>
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
         )
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-        >
+        <EditContainer>
             <Formik
                 initialValues={{
                     name: '',
@@ -62,28 +54,14 @@ const CreateStore = () => {
             >
                 {({ handleSubmit: formikSubmit, handleChange, values, errors, setFieldValue }) => (
                     <Form noValidate onSubmit={formikSubmit}>
-                        <YStack
-                            flex={1}
-                            borderWidth={2}
-                            borderColor="$color"
-                            borderRadius="$4"
-                            gap="$2"
-                            padding="$2"
-                        >
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                        <VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="name">
                                     Name of your store
                                 </Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="text"
                                     name="name"
@@ -95,32 +73,25 @@ const CreateStore = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.name}
                                 </SizableText>
-                            </YStack>
+                            </VerticalContainer>
                             <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} />
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            <VerticalContainer>
                                 <Label htmlFor="calculation_enabled">Enable price calculation</Label>
-                                <Checkbox id="calculation_enabled" name="calculation_enabled" size="$3" checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
+                                <Checkbox id="calculation_enabled" name="calculation_enabled" /*size="$3"*/ checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
                                     <Checkbox.Indicator>
                                         <Check />
                                     </Checkbox.Indicator>
                                 </Checkbox>
-                            </YStack>
+                            </VerticalContainer>
                             <Form.Trigger asChild>
-                                <Button icon={Save} theme="accent" size="$6" type="submit">Create store</Button>
+                                <BigButton icon={Save} type="submit">Create store</BigButton>
                             </Form.Trigger>
                             {error && <SizableText color='red' >{error}</SizableText>}
-                        </YStack>
+                        </VerticalContainer>
                     </Form>
                 )}
             </Formik>
-        </YStack>
+        </EditContainer>
     )
 }
 

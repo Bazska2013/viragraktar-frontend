@@ -3,6 +3,7 @@ import axios from '../../axiosConfig.js';
 import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
 import {SizableText, XStack, YStack, Spinner} from "tamagui";
+import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const Sell = () => {
     const [items, setItems] = useState([]);
@@ -51,14 +52,7 @@ const Sell = () => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$5"
-            padding="$5"
-        >
+        <VerticalContainer>
             {(cart.length > 0) &&
                 <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} />
             }
@@ -69,11 +63,7 @@ const Sell = () => {
                     <SizableText color="red">
                         {error}
                     </SizableText> :
-                    <XStack
-                        flex={1}
-                        flexWrap="wrap"
-                        gap="$5"
-                    >
+                    <HorizontalContainer flexWrap="wrap">
                         {items.map((item) => {
                             if (!isItemInCart(item)) {
                                 return (
@@ -81,9 +71,9 @@ const Sell = () => {
                                 )
                             }
                         })}
-                    </XStack>
+                    </HorizontalContainer>
             }
-        </YStack>
+        </VerticalContainer>
     )
 }
 

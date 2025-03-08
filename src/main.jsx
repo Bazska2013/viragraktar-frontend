@@ -10,7 +10,7 @@ import {config} from "./tamagui.config.ts";
 createRoot(document.getElementById('root')).render(
   <StrictMode>
       <Provider store={store}>
-          <TamaguiProvider config={config}>
+          <TamaguiProvider config={config} defaultTheme="light">
               <App/>
           </TamaguiProvider>
       </Provider>

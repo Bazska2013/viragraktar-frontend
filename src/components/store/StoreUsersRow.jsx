@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
 import {Checkbox, Group, H4, H5, SizableText, XStack, Button, Spinner} from "tamagui";
 import {Check, Save, Trash} from "@tamagui/lucide-icons";
+import {HorizontalContainer, SmallButton, SmallButtonWithAccent} from "../../tamagui.config.ts";
 
 const StoreUsersRow = ({ user, refetchUsers }) => {
     const [isSeller, setIsSeller] = useState(!!user.is_seller);
@@ -104,15 +105,7 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
     }
 
     return (
-        <XStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <HorizontalContainer>
             {screenSize > 768 ? <>
                 <H5>{user.name}</H5>
                 <H5>{user.email}</H5>
@@ -120,26 +113,26 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
                 <SizableText>{user.name}</SizableText>
                 <SizableText>{user.email}</SizableText>
             </>}
-            <Checkbox id={user.id} size="$3" checked={isSeller} onCheckedChange={(checked) => handleChange(checked, 'seller')}>
+            <Checkbox id={user.id} /*size="$3"*/ checked={isSeller} onCheckedChange={(checked) => handleChange(checked, 'seller')}>
                 <Checkbox.Indicator>
                     <Check />
                 </Checkbox.Indicator>
             </Checkbox>
-            <Checkbox id={user.id} size="$3" checked={isBuyer} onCheckedChange={(checked) => handleChange(checked, 'buyer')}>
+            <Checkbox id={user.id} /*size="$3"*/ checked={isBuyer} onCheckedChange={(checked) => handleChange(checked, 'buyer')}>
                 <Checkbox.Indicator>
                     <Check />
                 </Checkbox.Indicator>
             </Checkbox>
-            <Checkbox id={user.id} size="$3" checked={isAdmin} disabled={currentUser.id === user.id} onCheckedChange={(checked) => handleChange(checked, 'admin')}>
+            <Checkbox id={user.id} /*size="$3"*/ checked={isAdmin} disabled={currentUser.id === user.id} onCheckedChange={(checked) => handleChange(checked, 'admin')}>
                 <Checkbox.Indicator>
                     <Check />
                 </Checkbox.Indicator>
             </Checkbox>
             <Group orientation="horizontal">
-                <Button icon={Save} theme="accent" disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleSave()}>{screenSize > 768 ? 'Save cahnges' : ''}</Button>
-                <Button icon={Trash} disabled={currentUser.id === user.id} opacity={currentUser.id !== user.id ? "1" : "0.5"} onClick={() => handleDelete()}>{screenSize > 768 ? 'Delete user' : ''}</Button>
+                <SmallButtonWithAccent icon={Save}  disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleSave()}>{screenSize > 768 ? 'Save cahnges' : ''}</SmallButtonWithAccent>
+                <SmallButton icon={Trash} disabled={currentUser.id === user.id} opacity={currentUser.id !== user.id ? "1" : "0.5"} onClick={() => handleDelete()}>{screenSize > 768 ? 'Delete user' : ''}</SmallButton>
             </Group>
-        </XStack>
+        </HorizontalContainer>
     )
 }
 

@@ -9,6 +9,7 @@ import {deleteStore} from "../../features/store/storeSlice.js";
 import {useState} from "react";
 import {H2, Input, Label, SizableText, YStack, Form, Button, Spinner} from "tamagui";
 import {Save} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangePassword = () => {
     const navigate = useNavigate();
@@ -59,28 +60,12 @@ const ChangePassword = () => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <EditContainer>
             {isLoading ? <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
-            </> : <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="space-between"
-            >
+            </> : <VerticalContainer>
                 <H2>Change Password</H2>
                 <Formik
                     validationSchema={schema}
@@ -93,19 +78,11 @@ const ChangePassword = () => {
                 >
                     {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                         <Form noValidate onSubmit={formikSubmit}>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                            <VerticalContainer>
                                 <Label htmlFor="old_password">Old password</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="old_password"
@@ -116,20 +93,12 @@ const ChangePassword = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.old_password}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="password1">New password</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="password1"
@@ -140,20 +109,12 @@ const ChangePassword = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.password1}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="password2">New password again</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="password2"
@@ -164,17 +125,17 @@ const ChangePassword = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.password2}
                                 </SizableText>
-                            </YStack>
+                            </VerticalContainer>
                             <Form.Trigger asChild>
-                                <Button icon={Save} theme="accent" size="$6" type='submit'>Change password</Button>
+                                <BigButton icon={Save} type='submit'>Change password</BigButton>
                             </Form.Trigger>
                             {error && <SizableText color="red">{error}</SizableText>}
                             <SizableText>Disclaimer: You have to log in again after changing your password.</SizableText>
                         </Form>
                     )}
                 </Formik>
-            </YStack>}
-        </YStack>
+            </VerticalContainer>}
+        </EditContainer>
     );
 }
 

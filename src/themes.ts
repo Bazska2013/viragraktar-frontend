@@ -1,4 +1,4 @@
-import { createThemes, defaultComponentThemes } from '@tamagui/theme-builder'
+import { createThemes } from '@tamagui/theme-builder'
 import * as Colors from '@tamagui/colors'
 
 const darkPalette = ['hsla(0, 15%, 1%, 1)','hsla(0, 15%, 6%, 1)','hsla(0, 15%, 12%, 1)','hsla(0, 15%, 17%, 1)','hsla(0, 15%, 23%, 1)','hsla(0, 15%, 28%, 1)','hsla(0, 15%, 34%, 1)','hsla(0, 15%, 39%, 1)','hsla(0, 15%, 45%, 1)','hsla(0, 15%, 50%, 1)','hsla(0, 15%, 93%, 1)','hsla(0, 15%, 99%, 1)']
@@ -25,8 +25,6 @@ const darkShadows = {
 // we're adding some example sub-themes for you to show how they are done, "success" "warning", "error":
 
 const builtThemes = createThemes({
-  componentThemes: defaultComponentThemes,
-
   base: {
     palette: {
       dark: darkPalette,
@@ -110,7 +108,7 @@ export type Themes = typeof builtThemes
 // long as you are using the Vite, Next, Webpack plugins this should just work,
 // but if not you can just export builtThemes directly as themes:
 export const themes: Themes =
-  process.env.TAMAGUI_ENVIRONMENT === 'client' &&
-  process.env.NODE_ENV === 'production'
-    ? ({} as any)
-    : (builtThemes as any)
+    process.env.TAMAGUI_ENVIRONMENT === 'client' &&
+    process.env.NODE_ENV === 'production'
+        ? ({} as any)
+        : (builtThemes as any)

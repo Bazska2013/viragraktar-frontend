@@ -1,9 +1,11 @@
-import {Button, SizableText, Spinner, XStack, YStack} from "tamagui";
+import {Button, SizableText, Spinner, Theme, XStack, YStack} from "tamagui";
 import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {useEffect, useState} from "react";
 import Item from "../../components/item/buy/Item.jsx";
 import {ShoppingBasket} from "@tamagui/lucide-icons";
+import {useTheme} from "@tamagui/core";
+import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const Buy = () => {
     const navigate = useNavigate();
@@ -32,15 +34,8 @@ const Buy = () => {
     }, []);
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$5"
-            padding="$5"
-        >
-            <Button alignSelf="center" icon={ShoppingBasket} size="$6" theme="accent" onClick={() => {navigate('/new/item', {replace: true})}}>New Item</Button>
+        <VerticalContainer>
+            <BigButton alignSelf="center" icon={ShoppingBasket} onClick={() => {navigate('/new/item', {replace: true})}}>New Item</BigButton>
             {isLoading ?
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
@@ -48,17 +43,13 @@ const Buy = () => {
                     <SizableText color="red">
                         {error}
                     </SizableText> :
-                    <XStack
-                        flex={1}
-                        flexWrap="wrap"
-                        gap="$5"
-                    >
+                    <HorizontalContainer flexWrap="wrap">
                         {items.map((item) => (
                             <Item key={item.id} props={item} refetch={fetchItems} />
                         ))}
-                    </XStack>
+                    </HorizontalContainer>
             }
-        </YStack>
+        </VerticalContainer>
     )
 }
 

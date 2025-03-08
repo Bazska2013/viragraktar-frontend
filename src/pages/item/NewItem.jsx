@@ -5,6 +5,7 @@ import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {Save, Upload} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 
 const NewItem = () => {
     const navigate = useNavigate();
@@ -56,14 +57,7 @@ const NewItem = () => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-        >
+        <EditContainer>
             <Formik
                 validationSchema={schema}
                 initialValues={{
@@ -76,22 +70,8 @@ const NewItem = () => {
             >
                 {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                     <Form noValidate onSubmit={formikSubmit}>
-                        <YStack
-                            flex={1}
-                            borderWidth={2}
-                            borderColor="$color"
-                            borderRadius="$4"
-                            gap="$2"
-                            padding="$2"
-                        >
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                        <VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="name">
                                     Name of the item
                                 </Label>
@@ -105,15 +85,8 @@ const NewItem = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.name}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="description">
                                     Description of the item
                                 </Label>
@@ -127,15 +100,8 @@ const NewItem = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.description}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="price">
                                     Price of the item
                                 </Label>
@@ -150,15 +116,8 @@ const NewItem = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.price}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="stock">
                                     Stock of the item
                                 </Label>
@@ -173,15 +132,8 @@ const NewItem = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.stock}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor='image'>
                                     Image of the item
                                 </Label>
@@ -194,18 +146,18 @@ const NewItem = () => {
                                         setImage(event.currentTarget.files[0]);
                                     }}
                                 />
-                                <Button icon={Upload} size="$3" onClick={() => document.getElementById('image').click()}>Choose File</Button>
+                                <SmallButton icon={Upload} onClick={() => document.getElementById('image').click()}>Choose File</SmallButton>
                                 {image && <SizableText>Selected file: {image.name}</SizableText>}
-                            </YStack>
+                            </VerticalContainer>
                             <Form.Trigger asChild>
-                                <Button icon={Save} theme="accent" size="$6" type="submit">Add new Item</Button>
+                                <BigButton icon={Save} type="submit">Add new Item</BigButton>
                             </Form.Trigger>
                             {serverError && <SizableText color='red' >{serverError}</SizableText>}
-                        </YStack>
+                        </VerticalContainer>
                     </Form>
                 )}
             </Formik>
-        </YStack>
+        </EditContainer>
     )
 }
 

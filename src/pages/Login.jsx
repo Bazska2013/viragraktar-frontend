@@ -7,6 +7,7 @@ import {login} from "../features/auth/authSlice.js";
 import {useDispatch} from "react-redux";
 import {Input, Label, SizableText, YStack, Button, Form, Spinner} from "tamagui";
 import {LogIn, Save} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, SmallButton, VerticalContainer} from "../tamagui.config.ts";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -63,15 +64,7 @@ const Login = () => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
+        <EditContainer>
             <Formik
                 validationSchema={schema}
                 initialValues={{
@@ -82,28 +75,12 @@ const Login = () => {
             >
                 {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                     <Form noValidate onSubmit={formikSubmit}>
-                        <YStack
-                            flex={1}
-                            borderWidth={2}
-                            borderColor="$color"
-                            borderRadius="$4"
-                            gap="$2"
-                            padding="$2"
-                            justifyContent="space-between"
-                        >
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                        <VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="email">Email</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="email"
                                     name="email"
@@ -116,20 +93,12 @@ const Login = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.email}
                                 </SizableText>
-                            </YStack>
-                            <YStack
-                                flex={1}
-                                borderWidth={2}
-                                borderColor="$color"
-                                borderRadius="$4"
-                                gap="$2"
-                                padding="$2"
-                                justifyContent="space-between"
-                            >
+                            </VerticalContainer>
+                            <VerticalContainer>
                                 <Label htmlFor="password">Password</Label>
                                 <Input
                                     flex={1}
-                                    size="$3"
+                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="password"
@@ -142,17 +111,17 @@ const Login = () => {
                                 <SizableText size='small' color='red'>
                                     {errors.password}
                                 </SizableText>
-                            </YStack>
+                            </VerticalContainer>
                             <Form.Trigger asChild>
-                                <Button icon={LogIn} theme="accent" size="$6" type="submit">Log in</Button>
+                                <BigButton icon={LogIn} type="submit">Log in</BigButton>
                             </Form.Trigger>
                             {serverError && <SizableText color='red' >{serverError}</SizableText>}
-                            <Button size="$3" onClick={() => handleAdminLogin()}>Log in as Admin (Dev)</Button>
-                        </YStack>
+                            <SmallButton onClick={() => handleAdminLogin()}>Log in as Admin (Dev)</SmallButton>
+                        </VerticalContainer>
                     </Form>
                 )}
             </Formik>
-        </YStack>
+        </EditContainer>
     )
 }
 

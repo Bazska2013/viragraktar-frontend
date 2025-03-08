@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 import StoreUsersRow from "./StoreUsersRow.jsx";
 import {H4, H6, XStack, YStack} from "tamagui";
+import {VerticalContainer, HorizontalContainer} from "../../tamagui.config.ts";
 
 const StoreUsers = () => {
     const [users, setUsers] = useState([]);
@@ -49,24 +50,8 @@ const StoreUsers = () => {
     }
 
     return (
-        <YStack
-            flex={1}
-            borderWidth={2}
-            borderColor="$color"
-            borderRadius="$4"
-            gap="$2"
-            padding="$2"
-            justifyContent="space-between"
-        >
-            <XStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="space-between"
-            >
+        <VerticalContainer>
+            <HorizontalContainer>
                 {screenSize > 768 ? <>
                     <H4>Name</H4>
                     <H4>Email</H4>
@@ -81,21 +66,13 @@ const StoreUsers = () => {
                     <H6>Buyer</H6>
                     <H6>Admin</H6>
                     <H6>Action</H6></>}
-            </XStack>
-            <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="space-between"
-            >
+            </HorizontalContainer>
+            <VerticalContainer>
             {users.map((user) => (
                 <StoreUsersRow key={user.id} user={user} refetchUsers={fetchUsers} />
             ))}
-            </YStack>
-        </YStack>
+            </VerticalContainer>
+        </VerticalContainer>
     )
 }
 

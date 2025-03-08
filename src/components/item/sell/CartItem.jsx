@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {YStack, Button, XStack, Image, H4, SizableText, Group, Input} from "tamagui";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {Minus, Plus, Trash} from "@tamagui/lucide-icons";
+import {VerticalContainer, HorizontalContainer, SmallButtonWithAccent} from "../../../tamagui.config.ts";
 
 const CartItem = ({item, removeFromCart, editCart}) => {
     const [amount, setAmount] = useState(item.amount);
@@ -39,15 +40,7 @@ const CartItem = ({item, removeFromCart, editCart}) => {
 
     return (
         <>
-            {screenSize > 768 ? <XStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="space-between"
-            >
+            {screenSize > 768 ? <HorizontalContainer>
                 <Image source={{
                     uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
                     width: 50,
@@ -58,10 +51,10 @@ const CartItem = ({item, removeFromCart, editCart}) => {
                 <SizableText>{item.stock}</SizableText>
                 <SizableText>Total: {item.price * item.amount}</SizableText>
                 <Group orientation='horizontal'>
-                    <Button icon={Minus} variant="outlined" size="$3" name="minus" onClick={(e) => handleChange(e)} />
+                    <SmallButtonWithAccent icon={Minus}  name="minus" onClick={(e) => handleChange(e)} />
                     <Input
                         flex={1}
-                        size="$3"
+                        // size="$3"
                         borderWidth={2}
                         type="number"
                         name="amount"
@@ -70,27 +63,11 @@ const CartItem = ({item, removeFromCart, editCart}) => {
                         value={amount}
                         onChange={(e) => handleChange(e)}
                     />
-                    <Button icon={Plus} variant="outlined" size="$3" name="plus" onClick={(e) => handleChange(e)} />
+                    <SmallButtonWithAccent icon={Plus} name="plus" onClick={(e) => handleChange(e)} />
                 </Group>
-                <Button icon={Trash} size="$3" theme="accent" onClick={() => removeFromCart(item)}>Remove</Button>
-            </XStack> : <YStack
-                flex={1}
-                borderWidth={2}
-                borderColor="$color"
-                borderRadius="$4"
-                gap="$2"
-                padding="$2"
-                justifyContent="space-between"
-            >
-                <XStack
-                    flex={1}
-                    borderWidth={2}
-                    borderColor="$color"
-                    borderRadius="$4"
-                    gap="$2"
-                    padding="$2"
-                    justifyContent="space-between"
-                >
+                <SmallButtonWithAccent icon={Trash} onClick={() => removeFromCart(item)}>Remove</SmallButtonWithAccent>
+            </HorizontalContainer> : <VerticalContainer>
+                <HorizontalContainer>
                     <Image source={{
                         uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
                         width: 50,
@@ -100,21 +77,13 @@ const CartItem = ({item, removeFromCart, editCart}) => {
                     <SizableText>{item.price}</SizableText>
                     <SizableText>{item.stock}</SizableText>
                     <SizableText>Total: {item.price * item.amount}</SizableText>
-                </XStack>
-                <XStack
-                    flex={1}
-                    borderWidth={2}
-                    borderColor="$color"
-                    borderRadius="$4"
-                    gap="$2"
-                    padding="$2"
-                    justifyContent="space-between"
-                >
+                </HorizontalContainer>
+                <HorizontalContainer>
                     <Group orientation='horizontal'>
-                        <Button icon={Minus} variant="outlined" size="$3" name="minus" onClick={(e) => handleChange(e)} />
+                        <SmallButtonWithAccent icon={Minus} name="minus" onClick={(e) => handleChange(e)} />
                         <Input
                             flex={1}
-                            size="$3"
+                            /*size="$3"*/
                             borderWidth={2}
                             type="number"
                             name="amount"
@@ -123,11 +92,11 @@ const CartItem = ({item, removeFromCart, editCart}) => {
                             value={amount}
                             onChange={(e) => handleChange(e)}
                         />
-                        <Button icon={Plus} variant="outlined" size="$3" name="plus" onClick={(e) => handleChange(e)} />
+                        <SmallButtonWithAccent icon={Plus} name="plus" onClick={(e) => handleChange(e)} />
                     </Group>
-                    <Button icon={Trash} size="$3" theme="accent" onClick={() => removeFromCart(item)}>Remove</Button>
-                </XStack>
-            </YStack>}
+                    <SmallButtonWithAccent icon={Trash} onClick={() => removeFromCart(item)}>Remove</SmallButtonWithAccent>
+                </HorizontalContainer>
+            </VerticalContainer>}
         </>
     )
 }

@@ -7,8 +7,7 @@ export default defineConfig({
   plugins: [react(),
       tamaguiPlugin({
           config: 'src/tamagui.config.ts',
-          components: ['tamagui'],
-          outputCSS: 'src/tamagui.css',
+          components: ['tamagui', '@tamagui/core'],
           optimize: true
       })
   ].filter(Boolean),
