@@ -1,16 +1,24 @@
 import {Card, Col, Fade, Row} from "react-bootstrap";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {selectCurrentUser} from "../../features/auth/userSlice.js";
+import {useDispatch, useSelector} from "react-redux";
+import {removeUser, selectCurrentUser} from "../../features/auth/userSlice.js";
 import {useEffect, useState} from "react";
-import {selectStore} from "../../features/store/storeSlice.js";
+import {deleteStore, selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
 import {YStack, Button, Spinner, XStack, H3, SizableText, Accordion, Paragraph, Square} from "tamagui";
-import {ChevronDown, PenSquare, RefreshCw, UserPen} from "@tamagui/lucide-icons";
-import {VerticalContainer, HorizontalContainer, SmallButton, BigButton} from "../../tamagui.config.ts";
+import {ChevronDown, LogOut, PenSquare, RefreshCw, UserPen} from "@tamagui/lucide-icons";
+import {
+    VerticalContainer,
+    HorizontalContainer,
+    SmallButton,
+    BigButton,
+    SmallButtonWithAccent
+} from "../../tamagui.config.ts";
+import {logout} from "../../features/auth/authSlice.js";
 
 const Profile = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector(selectCurrentUser);
     const store = useSelector(selectStore);
@@ -21,6 +29,23 @@ const Profile = () => {
     const [profitError, setProfitError] = useState(null);
     const [isStoreIdLoading, setIsStoreIdLoading] = useState(false);
     const [storeIdError, setStoreIdError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleLogout = async () => {
+        try {
+            await axios.post('/api/logout').then(() => {
+                setIsLoading(true);
+            })
+        } catch (error) {
+            console.log(error);
+        } finally {
+            dispatch(logout());
+            dispatch(removeUser());
+            dispatch(deleteStore());
+            setIsLoading(false);
+            navigate('/login', {replace: true});
+        }
+    }
 
     const getTodayProfit = async () => {
         let response;
@@ -72,13 +97,14 @@ const Profile = () => {
 
     return (
         <VerticalContainer>
-            {user ? <>
+            {!isLoading ? <>
                 <HorizontalContainer>
                         <VerticalContainer>
                             <H3>User info</H3>
                             <SizableText>Name: {user.name}</SizableText>
                             <SizableText>Email: {user.email}</SizableText>
                             <BigButton icon={UserPen} onClick={() => navigate('/edit/profile')}>Edit profile</BigButton>
+                            <SmallButtonWithAccent icon={LogOut} onClick={() => handleLogout()}>Logout</SmallButtonWithAccent>
                         </VerticalContainer>
                         {store ?
                             <VerticalContainer>

@@ -65,19 +65,19 @@ export const SmallButton = styled(Button, {
 export const VerticalContainer = styled(YStack, {
     flex: 1,
     gap: "$5",
-    padding: "$5",
+    padding: "$1",
 });
 
 export const HorizontalContainer = styled(XStack, {
     flex: 1,
     gap: "$5",
-    padding: "$5",
+    padding: "$1",
 });
 
 export const EditContainer = styled(YStack, {
     flex: 1,
     gap: "$5",
-    padding: "$5",
+    padding: "$1",
     width: screenSize > 1280 ? '50%' : screenSize > 768 ? '75%' : '100%',
     borderColor: "#292023",
     borderWidth: 2,

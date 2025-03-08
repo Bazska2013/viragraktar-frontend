@@ -1,82 +1,134 @@
-import {Container, Nav, Navbar, Spinner} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {removeUser, selectCurrentUser} from "../features/auth/userSlice.js";
-import axios from "../axiosConfig.js";
-import {logout} from "../features/auth/authSlice.js";
-import {deleteStore, selectStore} from "../features/store/storeSlice.js";
-import {useState} from "react";
-import {Tabs} from "tamagui";
-import {SmallButtonWithAccent} from "../tamagui.config.ts";
-import {ShoppingBasket, Store, User} from "@tamagui/lucide-icons";
+import {selectCurrentUser} from "../features/auth/userSlice.js";
+import {selectStore} from "../features/store/storeSlice.js";
+import {useEffect, useState} from "react";
+import {SizableText, Tabs, XStack} from "tamagui";
+import {ShoppingCart, Store, User} from "@tamagui/lucide-icons";
 
 const NavBar = () => {
-    const [isLoading, setIsLoading] = useState(false);
+    const currentPage = window.location.pathname;
+    const [currentTab, setCurrentTab] = useState(currentPage === '/sell' ? 'sell' : currentPage === '/buy' ? 'buy' : 'profile');
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
     const store = useSelector(selectStore);
+    const windowWidth = window.innerWidth;
+    const [scrollY, setScrollY] = useState(0);
 
-    const handleLogout = async () => {
-        try {
-            await axios.post('/api/logout').then(() => {
-                setIsLoading(true);
-            })
-        } catch (error) {
-            console.log(error);
-        } finally {
-            dispatch(logout());
-            dispatch(removeUser());
-            dispatch(deleteStore());
-            setIsLoading(false);
-            navigate('/login', {replace: true});
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    useEffect(() => {
+        setCurrentTab(currentPage === '/sell' ? 'sell' : currentPage === '/buy' ? 'buy' : currentPage === '/profile' ? 'profile' : '');
+    }, [currentPage]);
+
+    const handleNavigation = (value) => {
+        setCurrentTab(value);
+        switch (value) {
+            case 'sell':
+                navigate('/sell', {replace: true});
+                break;
+            case 'buy':
+                navigate('/buy', {replace: true});
+                break;
+            case 'profile':
+                navigate('/profile', {replace: true});
+                break;
+            default:
+                break;
         }
     }
 
+
+
     return (
-        <>
-            {/*<Tabs>*/}
-            {/*    <Tabs.List>*/}
-            {/*        <Tabs.Tab value="sell">*/}
-            {/*            <SmallButtonWithAccent icon={Store}>Sell</SmallButtonWithAccent>*/}
-            {/*        </Tabs.Tab>*/}
-            {/*        <Tabs.Tab value="buy">*/}
-            {/*            <SmallButtonWithAccent icon={ShoppingBasket}>Buy</SmallButtonWithAccent>*/}
-            {/*        </Tabs.Tab>*/}
-            {/*        <Tabs.Tab value="profile">*/}
-            {/*            <SmallButtonWithAccent icon={User}>Profile</SmallButtonWithAccent>*/}
-            {/*        </Tabs.Tab>*/}
-            {/*    </Tabs.List>*/}
-            {/*</Tabs>*/}
-            <Navbar expand="lg">
-                <Container>
-                    <Navbar.Brand onClick={() => navigate('/', {replace: true})}>Home</Navbar.Brand>
-                    <Nav>
-                        {user ? <>
-                            {store ? <>
-                                {(user.is_seller && user.is_buyer) ? <>
-                                    <Nav.Link onClick={() => navigate('/sell')} >Sell</Nav.Link>
-                                    <Nav.Link onClick={() => navigate('/buy')} >Buy</Nav.Link>
-                                </> : user.is_seller ? <>
-                                    <Nav.Link onClick={() => navigate('/sell')} >Sell</Nav.Link>
-                                </> : user.is_buyer ? <>
-                                    <Nav.Link onClick={() => navigate('/buy')} >Buy</Nav.Link>
-                                </> : <></>}
-                            </> : <></>}
-                            <Nav.Link onClick={() => navigate('/profile')} >Profile</Nav.Link>
-                            {isLoading ? <>
-                                <Spinner animation="border" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </Spinner>
-                            </> : <Nav.Link onClick={handleLogout}>Log out</Nav.Link>}
-                        </> : <>
-                            <Nav.Link onClick={() => navigate('/login')} >Log in</Nav.Link>
-                            <Nav.Link onClick={() => navigate('/register')} >Register</Nav.Link>
-                        </>}
-                    </Nav>
-                </Container>
-            </Navbar>
-        </>
+        <XStack
+            flex={1}
+            alignItems="center"
+            justifyContent="center"
+        >
+            {(user && store) &&
+                <Tabs value={currentTab} onValueChange={(value) => handleNavigation(value)}
+                      top={scrollY > 0 ? '1rem' : '0'}
+                      position="fixed"
+                      zIndex={1000}
+                      animation="bouncy"
+                >
+                    <Tabs.List
+                        width="100%"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        {user.is_seller &&
+                            <Tabs.Tab
+                                backgroundColor='rgba(246, 245, 244, 0.95)'
+                                hoverStyle={{
+                                    backgroundColor: 'rgba(246, 245, 244, 0.95)',
+                                    cursor: 'pointer',
+                                    borderColor: '#8E8B7C',
+                                    borderWidth: '1px',
+                                }}
+                                focusStyle={{
+                                    backgroundColor: 'rgba(237, 235, 233, 0.97)',
+                                    cursor: 'pointer',
+                                }}
+                                value="sell" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                                gap="$5"
+                            >
+                                <Store />
+                                <SizableText>Sell</SizableText>
+                            </Tabs.Tab>
+                        }
+                        {user.is_buyer &&
+                            <Tabs.Tab
+                                backgroundColor='rgba(246, 245, 244, 0.95)'
+                                hoverStyle={{
+                                    backgroundColor: 'rgba(246, 245, 244, 0.95)',
+                                    cursor: 'pointer',
+                                    borderColor: '#8E8B7C',
+                                    borderWidth: '1px',
+                                }}
+                                focusStyle={{
+                                    backgroundColor: 'rgba(237, 235, 233, 0.97)',
+                                    cursor: 'pointer',
+                                }}
+                                value="buy" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                                gap="$5"
+                            >
+                                <ShoppingCart />
+                                <SizableText>Buy</SizableText>
+                            </Tabs.Tab>
+                        }
+                        <Tabs.Tab
+                            backgroundColor='rgba(246, 245, 244, 0.95)'
+                            hoverStyle={{
+                                backgroundColor: 'rgba(246, 245, 244, 0.95)',
+                                cursor: 'pointer',
+                                borderColor: '#8E8B7C',
+                                borderWidth: '1px',
+                            }}
+                            focusStyle={{
+                                backgroundColor: 'rgba(237, 235, 233, 0.97)',
+                                cursor: 'pointer',
+                            }}
+                            value="profile" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                            gap="$5"
+                        >
+                            <User />
+                            <SizableText>Profile</SizableText>
+                        </Tabs.Tab>
+                    </Tabs.List>
+                </Tabs>
+            }
+        </XStack>
     )
 }
 

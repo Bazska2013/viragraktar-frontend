@@ -9,9 +9,10 @@ export const Layout = () => {
         <YStack
             justifyContent="space-between"
         >
-            <NavBar/>
+            <NavBar justifyContent="center" />
             <VerticalContainer
                 justifyContent="space-between"
+                marginTop={"5rem"}
             >
                 <Outlet/>
             </VerticalContainer>

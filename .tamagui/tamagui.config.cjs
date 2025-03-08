@@ -47615,17 +47615,17 @@ var SmallButton = (0, import_core56.styled)(Button2, {
 var VerticalContainer = (0, import_core56.styled)(YStack, {
   flex: 1,
   gap: "$5",
-  padding: "$5"
+  padding: "$1"
 });
 var HorizontalContainer = (0, import_core56.styled)(XStack, {
   flex: 1,
   gap: "$5",
-  padding: "$5"
+  padding: "$1"
 });
 var EditContainer = (0, import_core56.styled)(YStack, {
   flex: 1,
   gap: "$5",
-  padding: "$5",
+  padding: "$1",
   width: screenSize > 1280 ? "50%" : screenSize > 768 ? "75%" : "100%",
   borderColor: "#292023",
   borderWidth: 2,
