@@ -7,7 +7,7 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {Input, Label, SizableText, YStack, Form, Button, Spinner} from "tamagui";
 import {FileSignature, LogIn} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, VerticalContainer} from "../tamagui.config.ts";
+import {BigButton, EditContainer, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
 
 const Register = () => {
     const dispatch = useDispatch();
@@ -140,6 +140,8 @@ const Register = () => {
                             <Form.Trigger asChild>
                                 <BigButton icon={FileSignature} type="submit">Register</BigButton>
                             </Form.Trigger>
+                            <SizableText>Already have an account?</SizableText>
+                            <SmallButtonWithAccent onClick={() => navigate('/login')} icon={LogIn}>Sign in</SmallButtonWithAccent>
                             {serverError && <SizableText color='red' >{serverError}</SizableText>}
                         </VerticalContainer>
                     </Form>

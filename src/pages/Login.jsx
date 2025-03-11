@@ -6,8 +6,8 @@ import {useState} from "react";
 import {login} from "../features/auth/authSlice.js";
 import {useDispatch} from "react-redux";
 import {Input, Label, SizableText, YStack, Button, Form, Spinner} from "tamagui";
-import {LogIn, Save} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, SmallButton, VerticalContainer} from "../tamagui.config.ts";
+import {AtSign, LogIn, Save} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -113,10 +113,12 @@ const Login = () => {
                                 </SizableText>
                             </VerticalContainer>
                             <Form.Trigger asChild>
-                                <BigButton icon={LogIn} type="submit">Log in</BigButton>
+                                <BigButton icon={LogIn} type="submit">Sign in</BigButton>
                             </Form.Trigger>
                             {serverError && <SizableText color='red' >{serverError}</SizableText>}
                             <SmallButton onClick={() => handleAdminLogin()}>Log in as Admin (Dev)</SmallButton>
+                            <SizableText>Don't have an account yet?</SizableText>
+                            <SmallButtonWithAccent icon={AtSign} onClick={() => navigate('/register')}>Sign up</SmallButtonWithAccent>
                         </VerticalContainer>
                     </Form>
                 )}

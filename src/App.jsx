@@ -25,7 +25,11 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route element={<Layout/>}>
-                    <Route path={'/'} element={<Home/>}/>
+                    <Route path={'/'} element={
+                        <RequireAuth>
+                            <Profile/>
+                        </RequireAuth>
+                    }/>
                     <Route path={'/profile'} element={
                         <RequireAuth>
                             <Profile/>

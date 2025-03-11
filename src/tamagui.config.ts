@@ -84,7 +84,7 @@ export const EditContainer = styled(YStack, {
     borderRadius: "$3",
     boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
     alignSelf: 'center',
-})
+});
 
 export const config = createTamagui({
     themes,

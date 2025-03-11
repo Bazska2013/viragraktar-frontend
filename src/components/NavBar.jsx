@@ -53,81 +53,83 @@ const NavBar = () => {
         <XStack
             flex={1}
             alignItems="center"
+            width="100%"
             justifyContent="center"
+            top={scrollY > 0 ? '1rem' : '0'}
+            position="fixed"
+            zIndex={1000}
+            animation="bouncy"
         >
-            {(user && store) &&
-                <Tabs value={currentTab} onValueChange={(value) => handleNavigation(value)}
-                      top={scrollY > 0 ? '1rem' : '0'}
-                      position="fixed"
-                      zIndex={1000}
-                      animation="bouncy"
-                >
-                    <Tabs.List
-                        width="100%"
-                        justifyContent="center"
-                        alignItems="center"
+            <div style={{backdropFilter: 'blur(7px)', borderRadius: '10px', boxShadow: scrollY > 0 ? '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)' : 'none', border: scrollY > 0 ? 'none' : '1px solid black'}}>
+                {(user && store) &&
+                    <Tabs value={currentTab} onValueChange={(value) => handleNavigation(value)}
+                          borderRadius="10px"
                     >
-                        {user.is_seller &&
-                            <Tabs.Tab
-                                backgroundColor='rgba(246, 245, 244, 0.95)'
-                                hoverStyle={{
-                                    backgroundColor: 'rgba(246, 245, 244, 0.95)',
-                                    cursor: 'pointer',
-                                    borderColor: '#8E8B7C',
-                                    borderWidth: '1px',
-                                }}
-                                focusStyle={{
-                                    backgroundColor: 'rgba(237, 235, 233, 0.97)',
-                                    cursor: 'pointer',
-                                }}
-                                value="sell" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
-                                gap="$5"
-                            >
-                                <Store />
-                                <SizableText>Sell</SizableText>
-                            </Tabs.Tab>
-                        }
-                        {user.is_buyer &&
-                            <Tabs.Tab
-                                backgroundColor='rgba(246, 245, 244, 0.95)'
-                                hoverStyle={{
-                                    backgroundColor: 'rgba(246, 245, 244, 0.95)',
-                                    cursor: 'pointer',
-                                    borderColor: '#8E8B7C',
-                                    borderWidth: '1px',
-                                }}
-                                focusStyle={{
-                                    backgroundColor: 'rgba(237, 235, 233, 0.97)',
-                                    cursor: 'pointer',
-                                }}
-                                value="buy" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
-                                gap="$5"
-                            >
-                                <ShoppingCart />
-                                <SizableText>Buy</SizableText>
-                            </Tabs.Tab>
-                        }
-                        <Tabs.Tab
-                            backgroundColor='rgba(246, 245, 244, 0.95)'
-                            hoverStyle={{
-                                backgroundColor: 'rgba(246, 245, 244, 0.95)',
-                                cursor: 'pointer',
-                                borderColor: '#8E8B7C',
-                                borderWidth: '1px',
-                            }}
-                            focusStyle={{
-                                backgroundColor: 'rgba(237, 235, 233, 0.97)',
-                                cursor: 'pointer',
-                            }}
-                            value="profile" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
-                            gap="$5"
+                        <Tabs.List
+                            width="100%"
+                            justifyContent="center"
+                            alignItems="center"
+                            backgroundColor="transparent"
                         >
-                            <User />
-                            <SizableText>Profile</SizableText>
-                        </Tabs.Tab>
-                    </Tabs.List>
-                </Tabs>
-            }
+                            {user.is_seller &&
+                                <Tabs.Tab
+                                    backgroundColor="transparent"
+                                    hoverStyle={{
+                                        cursor: 'pointer',
+                                        backdropFilter: 'blur(5px)',
+                                    }}
+                                    focusStyle={{
+                                        cursor: 'pointer',
+                                        backdropFilter: 'blur(1px)',
+                                        backgroundColor: 'rgb(255, 255, 255)',
+                                    }}
+                                    value="sell" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                                    gap="$5"
+                                >
+                                    <Store />
+                                    <SizableText>Sell</SizableText>
+                                </Tabs.Tab>
+                            }
+                            {user.is_buyer &&
+                                <Tabs.Tab
+                                    backgroundColor="transparent"
+                                    hoverStyle={{
+                                        cursor: 'pointer',
+                                        backdropFilter: 'blur(5px)',
+                                    }}
+                                    focusStyle={{
+                                        cursor: 'pointer',
+                                        backdropFilter: 'blur(1px)',
+                                        backgroundColor: 'rgb(255, 255, 255)',
+                                    }}
+                                    value="buy" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                                    gap="$5"
+                                >
+                                    <ShoppingCart />
+                                    <SizableText>Buy</SizableText>
+                                </Tabs.Tab>
+                            }
+                            <Tabs.Tab
+                                backgroundColor="transparent"
+                                hoverStyle={{
+                                    cursor: 'pointer',
+                                    backdropFilter: 'blur(5px)',
+                                }}
+                                focusStyle={{
+                                    cursor: 'pointer',
+                                    backdropFilter: 'blur(1px)',
+                                    backgroundColor: 'rgb(255, 255, 255)',
+                                }}
+                                value="profile" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                                gap="$5"
+                            >
+                                <User />
+                                <SizableText>Profile</SizableText>
+                            </Tabs.Tab>
+                        </Tabs.List>
+                    </Tabs>
+                }
+            </div>
         </XStack>
     )
 }
