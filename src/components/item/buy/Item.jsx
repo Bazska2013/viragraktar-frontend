@@ -89,10 +89,8 @@ const Item = ({props, refetch}) => {
 
     return (
         <HorizontalContainer
-            borderColor="#292023"
-            borderWidth={2}
             borderRadius="$3"
-            boxShadow="0 0 10px 0 rgba(0, 0, 0, 0.2)"
+            boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
         >
             <VerticalContainer
                 width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}

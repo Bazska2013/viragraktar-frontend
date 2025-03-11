@@ -79,10 +79,8 @@ export const EditContainer = styled(YStack, {
     gap: "$5",
     padding: "$1",
     width: screenSize > 1280 ? '50%' : screenSize > 768 ? '75%' : '100%',
-    borderColor: "#292023",
-    borderWidth: 2,
     borderRadius: "$3",
-    boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)",
     alignSelf: 'center',
 });
 
