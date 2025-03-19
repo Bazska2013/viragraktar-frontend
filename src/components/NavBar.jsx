@@ -12,7 +12,17 @@ const NavBar = () => {
     const navigate = useNavigate();
     const user = useSelector(selectCurrentUser);
     const store = useSelector(selectStore);
-    const windowWidth = window.innerWidth;
+    const [screenSize, setScreenSize] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenSize(window.innerWidth);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, []);
     const [scrollY, setScrollY] = useState(0);
 
     useEffect(() => {
@@ -60,7 +70,7 @@ const NavBar = () => {
             zIndex={1000}
             animation="bouncy"
         >
-            <div style={{backdropFilter: 'blur(7px)', borderRadius: '10px', boxShadow: scrollY > 0 ? '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)' : 'none', border: scrollY > 0 ? 'none' : '1px solid black'}}>
+            <div style={{backdropFilter: 'blur(7px)', borderRadius: '10px', boxShadow: scrollY > 0 ? '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)' : 'none', border: 'none'}}>
                 {(user && store) &&
                     <Tabs value={currentTab} onValueChange={(value) => handleNavigation(value)}
                           borderRadius="10px"
@@ -83,7 +93,7 @@ const NavBar = () => {
                                         backdropFilter: 'blur(1px)',
                                         backgroundColor: 'rgb(255, 255, 255)',
                                     }}
-                                    value="sell" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                                    value="sell" width={screenSize > 1280 ? '200px' : screenSize > 768 ? '150px' : '120px'}
                                     gap="$5"
                                 >
                                     <Store />
@@ -102,7 +112,7 @@ const NavBar = () => {
                                         backdropFilter: 'blur(1px)',
                                         backgroundColor: 'rgb(255, 255, 255)',
                                     }}
-                                    value="buy" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                                    value="buy" width={screenSize > 1280 ? '200px' : screenSize > 768 ? '150px' : '120px'}
                                     gap="$5"
                                 >
                                     <ShoppingCart />
@@ -120,7 +130,7 @@ const NavBar = () => {
                                     backdropFilter: 'blur(1px)',
                                     backgroundColor: 'rgb(255, 255, 255)',
                                 }}
-                                value="profile" width={windowWidth > 1280 ? '200px' : windowWidth > 768 ? '150px' : '120px'}
+                                value="profile" width={screenSize > 1280 ? '200px' : screenSize > 768 ? '150px' : '120px'}
                                 gap="$5"
                             >
                                 <User />

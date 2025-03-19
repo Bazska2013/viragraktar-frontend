@@ -1,10 +1,10 @@
 import {Form} from "react-bootstrap";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {Button, Spinner, YStack, SizableText, XStack, Image, Group, Input, H3, H4} from "tamagui"
-import {Check, X, Plus, Minus} from "@tamagui/lucide-icons";
+import {Check, X, Plus, Minus, PenSquare} from "@tamagui/lucide-icons";
 import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../../tamagui.config.ts";
 
 const Item = ({props, refetch}) => {
@@ -15,7 +15,17 @@ const Item = ({props, refetch}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const screenSize = window.innerWidth;
+    const [screenSize, setScreenSize] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenSize(window.innerWidth);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, []);
 
     const handleSubmit = async () => {
         let response;
@@ -96,24 +106,25 @@ const Item = ({props, refetch}) => {
             padding="$3"
         >
             <VerticalContainer
-                flex={2}
+                flex={5}
                 alignItems="center"
                 width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
             >
                 <Image borderRadius="$5" source={{
                     uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
-                    width: 100,
-                    height: 100,
+                    width: 180,
+                    height: 180,
                 }} />
                 <H4>{item.name}</H4>
                 <SizableText>{item.description}</SizableText>
-                <SizableText>{item.price}</SizableText>
+                <SizableText>Price: HUF {item.price}</SizableText>
             </VerticalContainer>
             <VerticalContainer
                 flex={1}
-                width={screenSize > 1280 ? "150px" : (screenSize > 768 ? "125px" : "100%")}
+                width={screenSize > 1280 ? "120px" : (screenSize > 768 ? "110px" : "100px")}
+                alignItems="center"
             >
-                <Group orientation='vertical'>
+                <Group orientation='vertical' width="100%">
                     <SmallButtonWithAccent icon={Plus} onClick={(e) => {handleChange(e, 'add')}} />
                     <Input flex={1}
                            // size="$3"
@@ -126,12 +137,12 @@ const Item = ({props, refetch}) => {
                     />
                     <SmallButtonWithAccent icon={Minus} onClick={(e) => {handleChange(e, 'remove')}} />
                 </Group>
-                <Group orientation='horizontal'>
-                    <SmallButton icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleCancel()} width="50%" />
-                    <SmallButton icon={Check} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleSubmit()} width="50%" />
+                <Group orientation={screenSize > 768 ? 'horizontal' : 'vertical'} width="100%" flex={1}>
+                    <SmallButton flex={1} icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleCancel()} />
+                    <SmallButton flex={1} icon={Check} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleSubmit()} />
                 </Group>
-                <SmallButtonWithAccent onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
-                    Edit Item
+                <SmallButtonWithAccent icon={PenSquare} width="100%" onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
+                    {screenSize > 768 ? 'Edit item' : ''}
                 </SmallButtonWithAccent>
             </VerticalContainer>
         </HorizontalContainer>

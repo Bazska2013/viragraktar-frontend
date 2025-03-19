@@ -2,14 +2,16 @@ import {useEffect, useState} from "react";
 import axios from '../../axiosConfig.js';
 import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
-import {SizableText, XStack, YStack, Spinner} from "tamagui";
-import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {SizableText, XStack, YStack, Spinner, AnimatePresence, Sheet} from "tamagui";
+import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {ShoppingBasket} from "@tamagui/lucide-icons";
 
 const Sell = () => {
     const [items, setItems] = useState([]);
     const [cart, setCart] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [show, setShow] = useState(false);
 
     const fetchItems = async () => {
         let response;
@@ -41,6 +43,7 @@ const Sell = () => {
 
     const emptyCart = () => {
         setCart([]);
+        setShow(false);
     }
 
     const editCart = (item) => {
@@ -53,9 +56,36 @@ const Sell = () => {
 
     return (
         <VerticalContainer>
-            {(cart.length > 0) &&
+            <AnimatePresence>
+                {(cart.length > 0) &&
+                    <BigButton position="fixed"
+                               zIndex={1000}
+                               bottom={10}
+                               right={10}
+                               animation="quick"
+                               enterStyle={{
+                                   x: 300,
+                               }}
+                               exitStyle={{
+                                   x: 300,
+                               }}
+                               icon={ShoppingBasket} onClick={() => setShow(true)}>Checkout</BigButton>
+                    // <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} />
+                }
+            </AnimatePresence>
+            <Sheet
+                modal={true}
+                open={show}
+                onOpenChange={setShow}
+                snapPoints={[95]}
+                snapPointsMode='percent'
+                dismissOnSnapToBottom
+                position={0}
+                zIndex={100_000}
+                animation='medium'
+            >
                 <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} />
-            }
+            </Sheet>
             {isLoading ?
                 <Spinner alignSelf="center">
                     <span className="visually-hidden">Loading...</span>
@@ -65,11 +95,9 @@ const Sell = () => {
                     </SizableText> :
                     <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10}>
                         {items.map((item) => {
-                            if (!isItemInCart(item)) {
-                                return (
-                                    <ListItem key={item.id} item={item} addToCart={addToCart} />
-                                )
-                            }
+                            return (
+                                <ListItem key={item.id} item={item} addToCart={addToCart} isItemInCart={isItemInCart(item)} editCart={editCart} removeFromCart={removeFromCart} />
+                            )
                         })}
                     </HorizontalContainer>
             }
