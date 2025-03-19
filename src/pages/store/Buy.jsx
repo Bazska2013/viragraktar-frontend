@@ -1,4 +1,4 @@
-import {Button, SizableText, Spinner, Theme, XStack, YStack} from "tamagui";
+import {AnimatePresence, Button, SizableText, Spinner, Theme, XStack, YStack} from "tamagui";
 import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {useEffect, useState} from "react";
@@ -12,6 +12,29 @@ const Buy = () => {
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const [isAtBottom, setIsAtBottom] = useState(false);
+    const [isScrollable, setIsScrollable] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollable = document.body.scrollHeight > window.innerHeight;
+            setIsScrollable(scrollable);
+            if (scrollable && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                setIsAtBottom(true);
+            } else {
+                setIsAtBottom(false);
+            }
+        }
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleScroll);
+        handleScroll(); // Initial check
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleScroll);
+        };
+    }, []);
 
     const fetchItems = async () => {
         let response;
@@ -34,8 +57,21 @@ const Buy = () => {
     }, []);
 
     return (
-        <VerticalContainer>
-            <BigButton alignSelf="center" icon={ShoppingBasket} onClick={() => {navigate('/new/item', {replace: true})}}>New Item</BigButton>
+        <VerticalContainer height="100%">
+            <AnimatePresence>
+                {isScrollable && !isAtBottom &&
+                    <BigButton
+                        zIndex={1000}
+                        animation="quick"
+                        enterStyle={{x: 300}}
+                        exitStyle={{x: 300}}
+                        position="fixed"
+                        bottom={30}
+                        right={10}
+                        icon={ShoppingBasket}
+                        onClick={() => {navigate('/new/item', {replace: true})}}>New item</BigButton>
+                }
+            </AnimatePresence>
             {isLoading ?
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
@@ -43,12 +79,16 @@ const Buy = () => {
                     <SizableText color="red">
                         {error}
                     </SizableText> :
-                    <HorizontalContainer flexWrap="wrap">
+                    <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10}>
                         {items.map((item) => (
                             <Item key={item.id} props={item} refetch={fetchItems} />
                         ))}
                     </HorizontalContainer>
             }
+            <BigButton
+                alignSelf="center"
+                icon={ShoppingBasket}
+                onClick={() => {navigate('/new/item', {replace: true})}}>New item</BigButton>
         </VerticalContainer>
     )
 }

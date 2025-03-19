@@ -89,13 +89,18 @@ const Item = ({props, refetch}) => {
 
     return (
         <HorizontalContainer
-            borderRadius="$3"
+            borderRadius="$5"
             boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+            alignSelf="center"
+            flex={1}
+            padding="$3"
         >
             <VerticalContainer
+                flex={2}
+                alignItems="center"
                 width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
             >
-                <Image source={{
+                <Image borderRadius="$5" source={{
                     uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
                     width: 100,
                     height: 100,
@@ -105,6 +110,7 @@ const Item = ({props, refetch}) => {
                 <SizableText>{item.price}</SizableText>
             </VerticalContainer>
             <VerticalContainer
+                flex={1}
                 width={screenSize > 1280 ? "150px" : (screenSize > 768 ? "125px" : "100%")}
             >
                 <Group orientation='vertical'>

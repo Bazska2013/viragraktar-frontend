@@ -63,7 +63,7 @@ const Sell = () => {
                     <SizableText color="red">
                         {error}
                     </SizableText> :
-                    <HorizontalContainer flexWrap="wrap">
+                    <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10}>
                         {items.map((item) => {
                             if (!isItemInCart(item)) {
                                 return (

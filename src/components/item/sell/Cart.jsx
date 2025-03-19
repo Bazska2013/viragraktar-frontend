@@ -90,13 +90,13 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                                 ))}
                                 <HorizontalContainer>
                                     <Group orientation='horizontal'>
-                                        <SmallButton icon={Banknote} variant="primary" onClick={() => setCash(!cash)}>Cash</SmallButton>
-                                        <SmallButton icon={CreditCard} variant="secondary" onClick={() => setCash(!cash)}>Credit</SmallButton>
+                                        <SmallButton icon={Banknote} onClick={() => setCash(!cash)}>Cash</SmallButton>
+                                        <SmallButton icon={CreditCard} onClick={() => setCash(!cash)}>Credit</SmallButton>
                                     </Group>
                                     <H3>
                                         Total: {total} HUF
                                     </H3>
-                                    <BigButton icon={DollarSign} onClick={() => handleCheckout()} variant="success">Sell</BigButton>
+                                    <BigButton icon={DollarSign} onClick={() => handleCheckout()}>Sell</BigButton>
                                 </HorizontalContainer>
                                 {error && <SizableText color='red' >{error}</SizableText>}
                             </VerticalContainer>

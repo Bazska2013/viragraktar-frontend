@@ -45,46 +45,64 @@ const ListItem = ({ item, addToCart }) => {
     }
 
     return (
-        <HorizontalContainer
-            borderRadius="$3"
+        <VerticalContainer
+            borderRadius="$5"
             boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+            alignSelf="center"
+            flex={1}
+            padding="$3"
         >
-            <VerticalContainer
-                justifyContent="space-between"
-                width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
+            <Button
+                boxShadow={isChanged ? "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)" : "none"}
+                icon={X}
+                disabled={!isChanged}
+                backgroundColor={isChanged ? '#f2f6d5' : 'transparent'}
+                alignSelf="flex-end"
+                marginBottom={0}
+                size="$3"
+                onClick={() => setAmount(0)} />
+            <HorizontalContainer
+                flex={1}
             >
-                <Image source={{
-                    uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
-                    width: 100,
-                    height: 100,
-                }} />
-                <H4>{item.name}</H4>
-                <SizableText>{item.price}</SizableText>
-                <SizableText>{item.stock}</SizableText>
-            </VerticalContainer>
-            <VerticalContainer
-                width={screenSize > 1280 ? "150px" : (screenSize > 768 ? "125px" : "100%")}
-            >
-                <Group orientation='vertical'>
-                    <SmallButtonWithAccent icon={Plus} name="plus" onClick={(e) => handleChange(e, 'plus')} />
-                    <Input
-                        flex={1}
-                        // size="$3"
-                        borderWidth={2}
-                        type="number"
-                        name="amount"
-                        min={0}
-                        max={item.stock}
-                        value={amount}
-                        onChange={(e) => handleChange(e, '')}
-                    />
-                    <SmallButtonWithAccent icon={Minus} disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
-                </Group>
-                <SmallButton icon={FileSearch}>View details</SmallButton>
-                <SmallButtonWithAccent icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>Add to cart</SmallButtonWithAccent>
-                <SmallButton icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => setAmount(0)} />
-            </VerticalContainer>
-        </HorizontalContainer>
+                <VerticalContainer
+                    flex={5}
+                    alignItems="center"
+                    width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
+                >
+                    <Image borderRadius="$5" source={{
+                        uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
+                        width: 100,
+                        height: 100,
+                    }} />
+                    <H4>{item.name}</H4>
+                    <SizableText>{item.price}</SizableText>
+                    <SizableText>{item.stock}</SizableText>
+                </VerticalContainer>
+                <VerticalContainer
+                    flex={1}
+                    width={screenSize > 1280 ? "150px" : (screenSize > 768 ? "125px" : "100%")}
+                    alignItems="center"
+                >
+                    <Group orientation='vertical' width="100%">
+                        <SmallButtonWithAccent icon={Plus} name="plus" onClick={(e) => handleChange(e, 'plus')} />
+                        <Input
+                            flex={1}
+                            // size="$3"
+                            borderWidth={2}
+                            type="number"
+                            name="amount"
+                            min={0}
+                            max={item.stock}
+                            value={amount}
+                            onChange={(e) => handleChange(e, '')}
+                        />
+                        <SmallButtonWithAccent icon={Minus} disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
+                    </Group>
+                    <SmallButton icon={FileSearch}>View details</SmallButton>
+                    <SmallButtonWithAccent icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>Add to cart</SmallButtonWithAccent>
+                </VerticalContainer>
+            </HorizontalContainer>
+        </VerticalContainer>
     )
 }
 
