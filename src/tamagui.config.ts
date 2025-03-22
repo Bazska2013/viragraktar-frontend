@@ -1,7 +1,7 @@
 import { themes } from './themes'
 import { defaultConfig } from '@tamagui/config/v4'
 import {createTamagui} from "@tamagui/core";
-import {Button, styled, XStack, YStack} from "tamagui";
+import {Button, ListItem, styled, XStack, YStack} from "tamagui";
 
 const screenSize = window.innerWidth;
 
@@ -82,6 +82,12 @@ export const EditContainer = styled(YStack, {
     borderRadius: "$3",
     boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)",
     alignSelf: 'center',
+});
+
+export const StyledListItem = styled(ListItem, {
+    pressStyle: {
+        backgroundColor: '#ffffff',
+    }
 });
 
 export const config = createTamagui({

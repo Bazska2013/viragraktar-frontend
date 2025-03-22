@@ -26837,6 +26837,7 @@ __export(tamagui_config_exports, {
   HorizontalContainer: () => HorizontalContainer,
   SmallButton: () => SmallButton,
   SmallButtonWithAccent: () => SmallButtonWithAccent,
+  StyledListItem: () => StyledListItem,
   VerticalContainer: () => VerticalContainer,
   config: () => config
 });
@@ -47631,6 +47632,11 @@ var EditContainer = (0, import_core56.styled)(YStack, {
   boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)",
   alignSelf: "center"
 });
+var StyledListItem = (0, import_core56.styled)(ListItem2, {
+  pressStyle: {
+    backgroundColor: "#ffffff"
+  }
+});
 var config = (0, import_core57.createTamagui)({
   themes,
   ...defaultConfig
@@ -47642,6 +47648,7 @@ var config = (0, import_core57.createTamagui)({
   HorizontalContainer,
   SmallButton,
   SmallButtonWithAccent,
+  StyledListItem,
   VerticalContainer,
   config
 });

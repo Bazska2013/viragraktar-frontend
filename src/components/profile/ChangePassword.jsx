@@ -7,8 +7,8 @@ import {useDispatch} from "react-redux";
 import {logout} from "../../features/auth/authSlice.js";
 import {deleteStore} from "../../features/store/storeSlice.js";
 import {useState} from "react";
-import {H2, Input, Label, SizableText, YStack, Form, Button, Spinner} from "tamagui";
-import {Save} from "@tamagui/lucide-icons";
+import {H2, Input, Label, SizableText, YStack, Form, Button, Spinner, H4, Separator} from "tamagui";
+import {BookKey, Save} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangePassword = () => {
@@ -38,29 +38,13 @@ const ChangePassword = () => {
         } finally {
             setIsLoading(false);
             if (response?.status === 200) {
-                handleLogout();
+                setUser(response.data);
             }
         }
     }
 
-    const handleLogout = async () => {
-        setIsLoading(true);
-        try {
-            await axios.post('/logout');
-        } catch (error) {
-            setIsLoading(false);
-            setError(error.response.data.message);
-        } finally {
-            setIsLoading(false);
-            dispatch(logout());
-            dispatch(removeUser());
-            dispatch(deleteStore());
-            navigate('/login', {replace: true});
-        }
-    }
-
     return (
-        <EditContainer>
+        <VerticalContainer>
             {isLoading ? <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
@@ -79,7 +63,9 @@ const ChangePassword = () => {
                     {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                         <Form noValidate onSubmit={formikSubmit}>
                             <VerticalContainer>
-                                <Label htmlFor="old_password">Old password</Label>
+                                <Label htmlFor="old_password">
+                                    <H4>Old password</H4>
+                                </Label>
                                 <Input
                                     flex={1}
                                     // size="$3"
@@ -94,8 +80,11 @@ const ChangePassword = () => {
                                     {errors.old_password}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
-                                <Label htmlFor="password1">New password</Label>
+                                <Label htmlFor="password1">
+                                    <H4>New password</H4>
+                                </Label>
                                 <Input
                                     flex={1}
                                     // size="$3"
@@ -110,8 +99,11 @@ const ChangePassword = () => {
                                     {errors.password1}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
-                                <Label htmlFor="password2">New password again</Label>
+                                <Label htmlFor="password2">
+                                    <H4>New password again</H4>
+                                </Label>
                                 <Input
                                     flex={1}
                                     // size="$3"
@@ -126,16 +118,16 @@ const ChangePassword = () => {
                                     {errors.password2}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <Form.Trigger asChild>
-                                <BigButton icon={Save} type='submit'>Change password</BigButton>
+                                <BigButton icon={BookKey} type='submit'>{isLoading ? <Spinner /> : 'Change password'}</BigButton>
                             </Form.Trigger>
                             {error && <SizableText color="red">{error}</SizableText>}
-                            <SizableText>Disclaimer: You have to log in again after changing your password.</SizableText>
                         </Form>
                     )}
                 </Formik>
             </VerticalContainer>}
-        </EditContainer>
+        </VerticalContainer>
     );
 }
 

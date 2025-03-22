@@ -5,8 +5,8 @@ import {setUser} from "../../features/auth/userSlice.js";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {H1, H2, Input, Label, SizableText, YStack, Form, Spinner, Button} from "tamagui";
-import {Save} from "@tamagui/lucide-icons";
+import {H1, H2, Input, Label, SizableText, YStack, Form, Spinner, Button, H4, Separator} from "tamagui";
+import {Save, UserPen} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangeName = ({user}) => {
@@ -33,13 +33,12 @@ const ChangeName = ({user}) => {
             setIsLoading(false);
             if (response?.status === 200) {
                 dispatch(setUser(response.data));
-                navigate('/edit/profile', {replace: true});
             }
         }
     }
 
     return (
-        <EditContainer>
+        <VerticalContainer>
             {isLoading ? <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
@@ -57,7 +56,9 @@ const ChangeName = ({user}) => {
                         {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                             <Form noValidate onSubmit={formikSubmit}>
                                 <VerticalContainer>
-                                    <Label htmlFor='name'>Name</Label>
+                                    <Label htmlFor="name">
+                                        <H4>Name</H4>
+                                    </Label>
                                     <Input
                                         flex={1}
                                         // size="$3"
@@ -72,27 +73,16 @@ const ChangeName = ({user}) => {
                                         {errors.name}
                                     </SizableText>
                                 </VerticalContainer>
-                                <VerticalContainer>
-                                    <Label htmlFor='email'>Email</Label>
-                                    <Input
-                                        flex={1}
-                                        // size="$3"
-                                        borderWidth={2}
-                                        type="email"
-                                        name="email"
-                                        value={values.email}
-                                        disabled
-                                    />
-                                </VerticalContainer>
+                                <Separator />
                                 <Form.Trigger asChild>
-                                    <BigButton icon={Save} type='submit'>Change name</BigButton>
+                                    <BigButton icon={UserPen} type='submit'>{isLoading ? <Spinner /> : 'Change name'}</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color="red">{error}</SizableText>}
                             </Form>
                         )}
                     </Formik>
             </VerticalContainer>}
-        </EditContainer>
+        </VerticalContainer>
     );
 }
 
