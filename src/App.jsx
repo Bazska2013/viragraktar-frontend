@@ -8,15 +8,11 @@ import Login from "./pages/Login.jsx";
 import {RequireAuth} from "./features/auth/RequireAuth.jsx";
 import Sell from "./pages/store/Sell.jsx";
 import Buy from "./pages/store/Buy.jsx";
-import NewStore from "./pages/store/NewStore.jsx";
 import {RequireStore} from "./features/store/RequireStore.jsx";
 import {RequireSeller} from "./features/store/RequireSeller.jsx";
 import {RequireBuyer} from "./features/store/RequireBuyer.jsx";
 import NewItem from "./pages/item/NewItem.jsx";
 import EditItem from "./pages/item/EditItem.jsx";
-import UpdateStore from "./pages/store/UpdateStore.jsx";
-import {RequireAdmin} from "./features/store/RequireAdmin.jsx";
-import EditProfile from "./pages/profile/EditProfile.jsx";
 
 function App() {
 
@@ -71,25 +67,6 @@ function App() {
                             </RequireStore>
                         </RequireAuth>
                     } />
-                    <Route path={'/edit/store'} element={
-                        <RequireAuth>
-                            <RequireStore>
-                                <RequireAdmin>
-                                    <UpdateStore />
-                                </RequireAdmin>
-                            </RequireStore>
-                        </RequireAuth>
-                    } />
-                    <Route path={'/edit/profile'} element={
-                        <RequireAuth>
-                            <EditProfile />
-                        </RequireAuth>
-                    } />
-                    <Route path={'/new/store'} element={
-                        <RequireAuth>
-                            <NewStore />
-                        </RequireAuth>
-                    }/>
                     <Route path={'/login'} element={<Login/>}/>
                     <Route path={'/register'} element={<Register/>}/>
                 </Route>

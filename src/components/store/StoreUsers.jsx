@@ -2,8 +2,9 @@ import {Container, Spinner, Table} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 import StoreUsersRow from "./StoreUsersRow.jsx";
-import {H4, H6, XStack, YStack} from "tamagui";
+import {Accordion, H2, H4, H6, Square, XStack, YStack} from "tamagui";
 import {VerticalContainer, HorizontalContainer} from "../../tamagui.config.ts";
+import {ChevronDown} from "@tamagui/lucide-icons";
 
 const StoreUsers = () => {
     const [users, setUsers] = useState([]);
@@ -51,27 +52,40 @@ const StoreUsers = () => {
 
     return (
         <VerticalContainer>
-            <HorizontalContainer>
-                {screenSize > 768 ? <>
-                    <H4>Name</H4>
-                    <H4>Email</H4>
-                    <H4>Seller</H4>
-                    <H4>Buyer</H4>
-                    <H4>Admin</H4>
-                    <H4>Action</H4>
-                </> : <>
-                    <H6>Name</H6>
-                    <H6>Email</H6>
-                    <H6>Seller</H6>
-                    <H6>Buyer</H6>
-                    <H6>Admin</H6>
-                    <H6>Action</H6></>}
-            </HorizontalContainer>
-            <VerticalContainer>
-            {users.map((user) => (
-                <StoreUsersRow key={user.id} user={user} refetchUsers={fetchUsers} />
-            ))}
-            </VerticalContainer>
+            <H2>Manage users</H2>
+            <Accordion overflow="hidden" type="multiple"
+                       boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                       borderRadius="$5"
+            >
+                {Object.keys(users).map((user, index) => (
+                    <Accordion.Item value={user} key={index}>
+                        <Accordion.Trigger flexDirection="row" justifyContent="space-between">
+                            {({open}) => (
+                                <>
+                                    <H4>{users[user].name}</H4>
+                                    <Square animation="quick" rotate={open ? '180deg' : '0deg'}>
+                                        <ChevronDown size="$1" />
+                                    </Square>
+                                </>
+
+                            )}
+                        </Accordion.Trigger>
+                        <Accordion.HeightAnimator animation="medium">
+                            <Accordion.Content animation="medium" exitStyle={{ opacity: 0 }}>
+                                <StoreUsersRow
+                                    name={users[user].name}
+                                    email={users[user].email}
+                                    isSeller={users[user].is_seller}
+                                    isBuyer={users[user].is_buyer}
+                                    isAdmin={users[user].is_admin}
+                                    id={users[user].id}
+                                    refetchUsers={fetchUsers}
+                                />
+                            </Accordion.Content>
+                        </Accordion.HeightAnimator>
+                    </Accordion.Item>
+                ))}
+            </Accordion>
         </VerticalContainer>
     )
 }

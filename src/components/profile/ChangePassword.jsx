@@ -50,7 +50,7 @@ const ChangePassword = () => {
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </> : <VerticalContainer>
-                <H2>Change Password</H2>
+                <H2>Change password</H2>
                 <Formik
                     validationSchema={schema}
                     initialValues={{

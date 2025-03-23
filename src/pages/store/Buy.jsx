@@ -1,4 +1,4 @@
-import {AnimatePresence, Button, SizableText, Spinner, Theme, XStack, YStack} from "tamagui";
+import {AnimatePresence, Button, H2, SizableText, Spinner, Theme, XStack, YStack} from "tamagui";
 import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {useEffect, useState} from "react";
@@ -57,7 +57,8 @@ const Buy = () => {
     }, []);
 
     return (
-        <VerticalContainer height="100%">
+        <VerticalContainer height="100%" width="90%" alignSelf="center">
+            <H2 marginLeft={10} marginRight={10}>Buy</H2>
             <AnimatePresence>
                 {isScrollable && !isAtBottom &&
                     <BigButton

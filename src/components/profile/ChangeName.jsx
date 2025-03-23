@@ -44,7 +44,7 @@ const ChangeName = ({user}) => {
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </> : <VerticalContainer>
-                <H2>Change Name</H2>
+                <H2>Change name</H2>
                     <Formik
                         validationSchema={schema}
                         initialValues={{

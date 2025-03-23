@@ -2,14 +2,14 @@ import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
-import {Checkbox, Group, H4, H5, SizableText, XStack, Button, Spinner} from "tamagui";
+import {Checkbox, Group, H4, H5, SizableText, XStack, Button, Spinner, Separator, Label, Switch, H6} from "tamagui";
 import {Check, Save, Trash} from "@tamagui/lucide-icons";
-import {HorizontalContainer, SmallButton, SmallButtonWithAccent} from "../../tamagui.config.ts";
+import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 
-const StoreUsersRow = ({ user, refetchUsers }) => {
-    const [isSeller, setIsSeller] = useState(!!user.is_seller);
-    const [isBuyer, setIsBuyer] = useState(!!user.is_buyer);
-    const [isAdmin, setIsAdmin] = useState(!!user.is_admin);
+const StoreUsersRow = (props) => {
+    const [isSeller, setIsSeller] = useState(!!props.isSeller);
+    const [isBuyer, setIsBuyer] = useState(!!props.isBuyer);
+    const [isAdmin, setIsAdmin] = useState(!!props.isAdmin);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const currentUser = useSelector(selectCurrentUser);
@@ -29,7 +29,7 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
                 setIsBuyer(checked);
                 break;
             case 'admin':
-                if (currentUser.id === user.id) {
+                if (currentUser.id === props.user.id) {
                     return;
                 }
                 setIsAdmin(checked);
@@ -41,7 +41,7 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.post('/api/update-privileges/' + user.id, {
+            response = await axios.post('/api/update-privileges/' + props.user.id, {
                 is_seller: isSeller,
                 is_buyer: isBuyer,
                 is_admin: isAdmin
@@ -78,7 +78,7 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.post('/api/store/users/remove/' + user.id);
+            response = await axios.post('/api/store/users/remove/' + props.user.id);
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);
@@ -103,36 +103,50 @@ const StoreUsersRow = ({ user, refetchUsers }) => {
             <SizableText color="red">{error}</SizableText>
         )
     }
-
     return (
-        <HorizontalContainer>
-            {screenSize > 768 ? <>
-                <H5>{user.name}</H5>
-                <H5>{user.email}</H5>
-            </> : <>
-                <SizableText>{user.name}</SizableText>
-                <SizableText>{user.email}</SizableText>
-            </>}
-            <Checkbox id={user.id} /*size="$3"*/ checked={isSeller} onCheckedChange={(checked) => handleChange(checked, 'seller')}>
-                <Checkbox.Indicator>
-                    <Check />
-                </Checkbox.Indicator>
-            </Checkbox>
-            <Checkbox id={user.id} /*size="$3"*/ checked={isBuyer} onCheckedChange={(checked) => handleChange(checked, 'buyer')}>
-                <Checkbox.Indicator>
-                    <Check />
-                </Checkbox.Indicator>
-            </Checkbox>
-            <Checkbox id={user.id} /*size="$3"*/ checked={isAdmin} disabled={currentUser.id === user.id} onCheckedChange={(checked) => handleChange(checked, 'admin')}>
-                <Checkbox.Indicator>
-                    <Check />
-                </Checkbox.Indicator>
-            </Checkbox>
-            <Group orientation="horizontal">
-                <SmallButtonWithAccent icon={Save}  disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleSave()}>{screenSize > 768 ? 'Save cahnges' : ''}</SmallButtonWithAccent>
-                <SmallButton icon={Trash} disabled={currentUser.id === user.id} opacity={currentUser.id !== user.id ? "1" : "0.5"} onClick={() => handleDelete()}>{screenSize > 768 ? 'Delete user' : ''}</SmallButton>
+        <VerticalContainer>
+            <HorizontalContainer flex={1} alignItems="center">
+                <H6 flex={1}>Name</H6>
+                <SizableText flex={2}>{props.name}</SizableText>
+            </HorizontalContainer>
+            <Separator />
+            <HorizontalContainer flex={1} alignItems="center">
+                <H6 flex={1}>Email</H6>
+                <SizableText flex={2}>{props.email}</SizableText>
+            </HorizontalContainer>
+            <Separator />
+            <HorizontalContainer flex={1} alignItems="center" justifyContent="space-between">
+                <Label htmlFor={props.name + 'seller'}>
+                    <H6>Seller</H6>
+                </Label>
+                <Switch checked={isSeller} id={props.name + 'seller'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'seller')}>
+                    <Switch.Thumb animation="bouncy" />
+                </Switch>
+            </HorizontalContainer>
+            <Separator />
+            <HorizontalContainer flex={1} alignItems="center" justifyContent="space-between">
+                <Label htmlFor={props.name + 'buyer'}>
+                    <H6>Buyer</H6>
+                </Label>
+                <Switch checked={isBuyer} id={props.name + 'buyer'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'buyer')}>
+                    <Switch.Thumb animation="bouncy" />
+                </Switch>
+            </HorizontalContainer>
+            <Separator />
+            <HorizontalContainer flex={1} alignItems="center" justifyContent="space-between">
+                <Label htmlFor={props.name + 'admin'}>
+                    <H6>Admin</H6>
+                </Label>
+                <Switch checked={isAdmin} disabled={currentUser.id === props.id} opacity={currentUser.id !== props.id ? "1" : "0.5"} id={props.name + 'admin'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'admin')}>
+                    <Switch.Thumb animation="bouncy" />
+                </Switch>
+            </HorizontalContainer>
+            <Separator />
+            <Group orientation="horizontal" justifyContent="space-between" alignSelf="center">
+                <SmallButtonWithAccent icon={Save} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleSave()} >Save changes</SmallButtonWithAccent>
+                <SmallButtonWithAccent icon={Trash} disabled={currentUser.id === props.id} opacity={currentUser.id !== props.id ? "1" : "0.5"} onClick={() => handleDelete()} >Remove user</SmallButtonWithAccent>
             </Group>
-        </HorizontalContainer>
+        </VerticalContainer>
     )
 }
 

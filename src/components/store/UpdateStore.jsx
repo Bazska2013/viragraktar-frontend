@@ -1,11 +1,11 @@
 import {Formik} from "formik";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
-import SelectOpeningHours from "../../components/store/SelectOpeningHours.jsx";
+import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createStore, selectStore} from "../../features/store/storeSlice.js";
-import {Checkbox, Input, Label, SizableText, XStack, YStack, Button, Form, Spinner, H4, Separator} from "tamagui";
+import {Checkbox, Input, Label, SizableText, XStack, YStack, Button, Form, Spinner, H4, Separator, H2} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
@@ -47,6 +47,7 @@ const UpdateStore = () => {
 
     return (
         <VerticalContainer>
+            <H2>Update store details</H2>
             <Formik
                 initialValues={{
                     name: store ? store.name : '',

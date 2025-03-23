@@ -42,7 +42,7 @@ import ChangeName from "../../components/profile/ChangeName.jsx";
 import ChangePassword from "../../components/profile/ChangePassword.jsx";
 import StoreDetails from "../../components/store/StoreDetails.jsx";
 import JoinStore from "../../components/store/JoinStore.jsx";
-import UpdateStore from "../store/UpdateStore.jsx";
+import UpdateStore from "../../components/store/UpdateStore.jsx";
 import CreateStore from "../../components/store/CreateStore.jsx";
 
 const Profile = () => {
@@ -122,8 +122,8 @@ const Profile = () => {
     return (
         <VerticalContainer>
             {!isLoading ? <>
-                <HorizontalContainer width="90%" alignSelf="center">
-                    <VerticalContainer width={screenSize > 1280 ? "30%" : (screenSize > 768 ? "40%" : "100%")}>
+                <HorizontalContainer width="95%" alignSelf="center">
+                    <VerticalContainer height={screenSize > 768 ? '750px' : '100%'} width={screenSize > 1280 ? "30%" : (screenSize > 768 ? "40%" : "100%")}>
                         <H2 width="100%" alignSelf="center">Profile</H2>
                         <VerticalContainer
                             borderRadius="$5"
@@ -152,7 +152,7 @@ const Profile = () => {
                             </Group.Item>
                             <Group.Item>
                                 <StyledListItem
-                                    title="Change profile name"
+                                    title="Change name"
                                     icon={UserPen}
                                     iconAfter={ChevronRight}
                                     onClick={() => {setCurrentPage('changeName')}}

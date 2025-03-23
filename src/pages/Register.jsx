@@ -3,16 +3,34 @@ import * as yup from 'yup';
 import axios from "../axiosConfig.js";
 import {login} from "../features/auth/authSlice.js";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import {Input, Label, SizableText, YStack, Form, Button, Spinner} from "tamagui";
+import {Input, Label, SizableText, YStack, Form, Button, Spinner, H2, H4, Separator, H1} from "tamagui";
 import {FileSignature, LogIn} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
+import {
+    BigButton,
+    EditContainer,
+    HorizontalContainer,
+    SmallButtonWithAccent,
+    VerticalContainer
+} from "../tamagui.config.ts";
 
 const Register = () => {
     const dispatch = useDispatch();
     const [serverError, setServerError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [screenSize, setScreenSize] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenSize(window.innerWidth);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, []);
 
     const navigate = useNavigate();
 
@@ -51,103 +69,130 @@ const Register = () => {
     }
 
     return (
-        <EditContainer>
-            <Formik
-                validationSchema={schema}
-                initialValues={{
-                    email: '',
-                    name: '',
-                    password1: '',
-                    password2: ''
-                }}
-                onSubmit={(values) => {handleSubmit(values)}}
+        <HorizontalContainer width="95%" alignSelf="center">
+            <VerticalContainer
+                borderRadius="$5"
+                alignSelf="center"
+                boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                padding="$3"
+                width={screenSize > 1280 ? '30%' : screenSize > 768 ? '50%' : '100%'}
             >
-                {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
-                    <Form noValidate onSubmit={formikSubmit}>
-                        <VerticalContainer>
+                <H2>Register</H2>
+                <Formik
+                    validationSchema={schema}
+                    initialValues={{
+                        email: '',
+                        name: '',
+                        password1: '',
+                        password2: ''
+                    }}
+                    onSubmit={(values) => {handleSubmit(values)}}
+                >
+                    {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                        <Form noValidate onSubmit={formikSubmit}>
                             <VerticalContainer>
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    flex={1}
-                                    // size="$3"
-                                    borderWidth={2}
-                                    type="email"
-                                    placeholder="abc@xyz.com"
-                                    name="email"
-                                    id="email"
-                                    value={values.email}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.email}
-                                />
-                                <SizableText size='small' color='red'>
-                                    {errors.email}
-                                </SizableText>
+                                <VerticalContainer>
+                                    <Label htmlFor="email">
+                                        <H4>Email</H4>
+                                    </Label>
+                                    <Input
+                                        flex={1}
+                                        // size="$3"
+                                        borderWidth={2}
+                                        type="email"
+                                        placeholder="abc@xyz.com"
+                                        name="email"
+                                        id="email"
+                                        value={values.email}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.email}
+                                    />
+                                    <SizableText size='small' color='red'>
+                                        {errors.email}
+                                    </SizableText>
+                                </VerticalContainer>
+                                <Separator />
+                                <VerticalContainer>
+                                    <Label htmlFor='name'>
+                                        <H4>Name</H4>
+                                    </Label>
+                                    <Input
+                                        flex={1}
+                                        // size="$3"
+                                        borderWidth={2}
+                                        type="text"
+                                        placeholder="John Dover"
+                                        name="name"
+                                        id="name"
+                                        value={values.name}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.name}
+                                    />
+                                    <SizableText size='small' color='red'>
+                                        {errors.name}
+                                    </SizableText>
+                                </VerticalContainer>
+                                <Separator />
+                                <VerticalContainer>
+                                    <Label htmlFor='password1'>
+                                        <H4>Password</H4>
+                                    </Label>
+                                    <Input
+                                        flex={1}
+                                        // size="$3"
+                                        borderWidth={2}
+                                        type="password"
+                                        name="password1"
+                                        id="password1"
+                                        secureTextEntry
+                                        value={values.password1}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.password1}
+                                    />
+                                    <SizableText size='small' color='red'>
+                                        {errors.password1}
+                                    </SizableText>
+                                </VerticalContainer>
+                                <Separator />
+                                <VerticalContainer>
+                                    <Label htmlFor="password2">
+                                        <H4>Password again</H4>
+                                    </Label>
+                                    <Input
+                                        flex={1}
+                                        // size="$3"
+                                        borderWidth={2}
+                                        type="password"
+                                        name="password2"
+                                        id="password2"
+                                        secureTextEntry
+                                        value={values.password2}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.password2}
+                                    />
+                                    <SizableText size='small' color='red'>
+                                        {errors.password2}
+                                    </SizableText>
+                                </VerticalContainer>
+                                <Separator />
+                                <Form.Trigger asChild>
+                                    <BigButton icon={FileSignature} type="submit">Register</BigButton>
+                                </Form.Trigger>
+                                <Separator />
+                                <SizableText>Already have an account?</SizableText>
+                                <SmallButtonWithAccent onClick={() => navigate('/login')} icon={LogIn}>Sign in</SmallButtonWithAccent>
+                                {serverError && <SizableText color='red' >{serverError}</SizableText>}
                             </VerticalContainer>
-                            <VerticalContainer>
-                                <Label htmlFor='name'>Name</Label>
-                                <Input
-                                    flex={1}
-                                    // size="$3"
-                                    borderWidth={2}
-                                    type="text"
-                                    placeholder="John Dover"
-                                    name="name"
-                                    id="name"
-                                    value={values.name}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.name}
-                                />
-                                <SizableText size='small' color='red'>
-                                    {errors.name}
-                                </SizableText>
-                            </VerticalContainer>
-                            <VerticalContainer>
-                                <Label htmlFor='password1'>Password</Label>
-                                <Input
-                                    flex={1}
-                                    // size="$3"
-                                    borderWidth={2}
-                                    type="password"
-                                    name="password1"
-                                    id="password1"
-                                    secureTextEntry
-                                    value={values.password1}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.password1}
-                                />
-                            </VerticalContainer>
-                            <SizableText size='small' color='red'>
-                                {errors.password1}
-                            </SizableText>
-                            <VerticalContainer>
-                                <Label htmlFor="password2">Password again</Label>
-                                <Input
-                                    flex={1}
-                                    // size="$3"
-                                    borderWidth={2}
-                                    type="password"
-                                    name="password2"
-                                    id="password2"
-                                    secureTextEntry
-                                    value={values.password2}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.password2}
-                                />
-                                <SizableText size='small' color='red'>
-                                    {errors.password2}
-                                </SizableText>
-                            </VerticalContainer>
-                            <Form.Trigger asChild>
-                                <BigButton icon={FileSignature} type="submit">Register</BigButton>
-                            </Form.Trigger>
-                            <SizableText>Already have an account?</SizableText>
-                            <SmallButtonWithAccent onClick={() => navigate('/login')} icon={LogIn}>Sign in</SmallButtonWithAccent>
-                            {serverError && <SizableText color='red' >{serverError}</SizableText>}
-                        </VerticalContainer>
-                    </Form>
-                )}
-            </Formik>
-        </EditContainer>
+                        </Form>
+                    )}
+                </Formik>
+            </VerticalContainer>
+            {screenSize > 768 &&
+                <VerticalContainer height='100%' width={screenSize > 1280 ? '70%' : screenSize > 768 ? '50%' : '100%'} alignItems="center">
+                    <H1>Welcome!</H1>
+                </VerticalContainer>
+            }
+        </HorizontalContainer>
     )
 }
 
