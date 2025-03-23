@@ -3,7 +3,7 @@ import axios from '../../axiosConfig.js';
 import {Formik} from "formik";
 import * as yup from "yup";
 import {useState} from "react";
-import {Input, Label, SizableText, YStack, Button, Form, Spinner} from "tamagui";
+import {Input, Label, SizableText, YStack, Button, Form, Spinner, H4} from "tamagui";
 import {LogIn, PenSquare} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
@@ -35,7 +35,7 @@ const JoinStore = () => {
     }
 
     return (
-        <EditContainer>
+        <VerticalContainer>
             {isLoading ? <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
@@ -53,7 +53,7 @@ const JoinStore = () => {
                             <VerticalContainer>
                                 <VerticalContainer>
                                     <Label htmlFor="code">
-                                        Enter the unique ID of the Store you want to join
+                                        <H4>Enter the unique ID of the Store you want to join</H4>
                                     </Label>
                                     <Input
                                         flex={1}
@@ -71,7 +71,7 @@ const JoinStore = () => {
                                     </SizableText>
                                 </VerticalContainer>
                                 <Form.Trigger asChild>
-                                    <BigButton icon={PenSquare} type="submit">Join store</BigButton>
+                                    <BigButton icon={PenSquare} type="submit">{isLoading ? <Spinner /> : "Join store"}</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color='red' >{error}</SizableText>}
                             </VerticalContainer>
@@ -80,7 +80,7 @@ const JoinStore = () => {
                     }
                 </Formik>
             </VerticalContainer>}
-        </EditContainer>
+        </VerticalContainer>
     )
 }
 

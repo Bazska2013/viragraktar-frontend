@@ -3,7 +3,7 @@ import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import {useState} from "react";
-import {Checkbox, Input, Label, SizableText, YStack, Button, Form, Spinner} from "tamagui";
+import {Checkbox, Input, Label, SizableText, YStack, Button, Form, Spinner, H4, Separator} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
@@ -41,7 +41,7 @@ const CreateStore = () => {
     }
 
     return (
-        <EditContainer>
+        <VerticalContainer>
             <Formik
                 initialValues={{
                     name: '',
@@ -57,7 +57,7 @@ const CreateStore = () => {
                         <VerticalContainer>
                             <VerticalContainer>
                                 <Label htmlFor="name">
-                                    Name of your store
+                                    <H4>Name of your store</H4>
                                 </Label>
                                 <Input
                                     flex={1}
@@ -74,15 +74,20 @@ const CreateStore = () => {
                                     {errors.name}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} />
+                            <Separator />
                             <VerticalContainer>
-                                <Label htmlFor="calculation_enabled">Enable price calculation</Label>
+                                <Label htmlFor="calculation_enabled">
+                                    <H4>Enable price calculation</H4>
+                                </Label>
                                 <Checkbox id="calculation_enabled" name="calculation_enabled" /*size="$3"*/ checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
                                     <Checkbox.Indicator>
                                         <Check />
                                     </Checkbox.Indicator>
                                 </Checkbox>
                             </VerticalContainer>
+                            <Separator />
                             <Form.Trigger asChild>
                                 <BigButton icon={Save} type="submit">Create store</BigButton>
                             </Form.Trigger>
@@ -91,7 +96,7 @@ const CreateStore = () => {
                     </Form>
                 )}
             </Formik>
-        </EditContainer>
+        </VerticalContainer>
     )
 }
 

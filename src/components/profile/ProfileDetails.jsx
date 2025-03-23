@@ -24,9 +24,10 @@ const ProfileDetails = (props) => {
                     <Separator />
                     <VerticalContainer>
                         <H4>Privileges</H4>
-                        <SizableText>{props.user.is_admin && 'Admin'}</SizableText>
-                        <SizableText>{props.user.is_buyer && 'Buyer'}</SizableText>
-                        <SizableText>{props.user.is_seller && 'Seller'}</SizableText>
+                        {!props.user.is_admin && !props.user.is_buyer && !props.user.is_seller && <SizableText>None</SizableText>}
+                        <SizableText>{props.user.is_admin ? 'Admin' : ''}</SizableText>
+                        <SizableText>{props.user.is_buyer ? 'Buyer' : ''}</SizableText>
+                        <SizableText>{props.user.is_seller ? 'Seller' : ''}</SizableText>
                     </VerticalContainer>
                 </>
                 }

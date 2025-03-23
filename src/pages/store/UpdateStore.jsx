@@ -5,7 +5,7 @@ import SelectOpeningHours from "../../components/store/SelectOpeningHours.jsx";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createStore, selectStore} from "../../features/store/storeSlice.js";
-import {Checkbox, Input, Label, SizableText, XStack, YStack, Button, Form, Spinner} from "tamagui";
+import {Checkbox, Input, Label, SizableText, XStack, YStack, Button, Form, Spinner, H4, Separator} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
 
@@ -33,7 +33,6 @@ const UpdateStore = () => {
             setIsLoading(false);
             if (response?.status === 200) {
                 dispatch(createStore(response.data));
-                navigate('/profile', {replace: true});
             }
         }
     }
@@ -47,7 +46,7 @@ const UpdateStore = () => {
     }
 
     return (
-        <EditContainer>
+        <VerticalContainer>
             <Formik
                 initialValues={{
                     name: store ? store.name : '',
@@ -63,7 +62,7 @@ const UpdateStore = () => {
                         <VerticalContainer>
                             <VerticalContainer>
                                 <Label htmlFor="name">
-                                    Name of your store
+                                    <H4>Name of your store</H4>
                                 </Label>
                                 <Input
                                     flex={1}
@@ -80,15 +79,20 @@ const UpdateStore = () => {
                                     {errors.name}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} defaultValue={store.opening_hours} />
+                            <Separator />
                             <VerticalContainer>
-                                <Label htmlFor="calculation_enabled">Enable price calculation</Label>
+                                <Label htmlFor="calculation_enabled">
+                                    <H4>Enable price calculation</H4>
+                                </Label>
                                 <Checkbox id="calculation_enabled" name="calculation_enabled" /*size="$3"*/ checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
                                     <Checkbox.Indicator>
                                         <Check />
                                     </Checkbox.Indicator>
                                 </Checkbox>
                             </VerticalContainer>
+                            <Separator />
                             <Form.Trigger asChild>
                                 <BigButton icon={Save} type="submit">Update store</BigButton>
                             </Form.Trigger>
@@ -98,7 +102,7 @@ const UpdateStore = () => {
                 )}
 
             </Formik>
-        </EditContainer>
+        </VerticalContainer>
     )
 }
 

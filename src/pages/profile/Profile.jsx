@@ -17,7 +17,7 @@ import {
     Paragraph,
     Square,
     Separator,
-    Group
+    Group, H6, H4, H2
 } from "tamagui";
 import {
     BookKey, BookUser, Calendar,
@@ -40,7 +40,10 @@ import {logout} from "../../features/auth/authSlice.js";
 import ProfileDetails from "../../components/profile/ProfileDetails.jsx";
 import ChangeName from "../../components/profile/ChangeName.jsx";
 import ChangePassword from "../../components/profile/ChangePassword.jsx";
-import StoreDetails from "../../components/profile/StoreDetails.jsx";
+import StoreDetails from "../../components/store/StoreDetails.jsx";
+import JoinStore from "../../components/store/JoinStore.jsx";
+import UpdateStore from "../store/UpdateStore.jsx";
+import CreateStore from "../../components/store/CreateStore.jsx";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -56,6 +59,18 @@ const Profile = () => {
     const [storeIdError, setStoreIdError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState('profileDetails');
+
+    const [screenSize, setScreenSize] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenSize(window.innerWidth);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, []);
 
     const handleLogout = async () => {
         try {
@@ -89,32 +104,15 @@ const Profile = () => {
         }
     }
 
-    const handleShowStoreId = async () => {
-        let response;
-        setIsStoreIdLoading(true);
-        try {
-            response = await axios.get('/api/store/id');
-        } catch (error) {
-            setIsStoreIdLoading(false);
-            setStoreIdError(error.response.data.message);
-        } finally {
-            setIsStoreIdLoading(false);
-            if (response?.status === 200) {
-                setStoreId(response.data);
-            }
-        }
-    }
-
     useEffect(() => {
         if (store) {
             getTodayProfit();
-            handleShowStoreId();
         }
     }, []);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            handleShowStoreId();
+            getTodayProfit();
         }, 30000); // 30000 milliseconds = 30 seconds
 
         // Cleanup interval on component unmount
@@ -124,8 +122,21 @@ const Profile = () => {
     return (
         <VerticalContainer>
             {!isLoading ? <>
-                <HorizontalContainer flex={1}>
-                    <VerticalContainer flex={2}>
+                <HorizontalContainer width="90%" alignSelf="center">
+                    <VerticalContainer width={screenSize > 1280 ? "30%" : (screenSize > 768 ? "40%" : "100%")}>
+                        <H2 width="100%" alignSelf="center">Profile</H2>
+                        <VerticalContainer
+                            borderRadius="$5"
+                            width="100%"
+                            alignSelf="center"
+                            boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                            padding="$3"
+                        >
+                            <H4>Hello {user?.name}!</H4>
+                            {store &&
+                                <H6>Today's profit of {store?.name} is HUF {profit}</H6>
+                            }
+                        </VerticalContainer>
                         <SizableText>User settings</SizableText>
                         <Group orientation="vertical"
                                boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
@@ -156,7 +167,7 @@ const Profile = () => {
                                 />
                             </Group.Item>
                         </Group>
-                        {store ? <>
+                        {store && user.is_admin ? <>
                             <SizableText>Store settings</SizableText>
                             <Group orientation="vertical"
                                    boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
@@ -170,46 +181,44 @@ const Profile = () => {
                                         onClick={() => {setCurrentPage('storeDetails')}}
                                     />
                                 </Group.Item>
-                                {user.is_admin && <>
-                                    <Group.Item>
-                                        <StyledListItem
-                                            title="Change store name"
-                                            icon={FilePen}
-                                            iconAfter={ChevronRight}
-                                        />
-                                    </Group.Item>
-                                    <Group.Item>
-                                        <StyledListItem
-                                            title="Change opening hours"
-                                            icon={Calendar}
-                                            iconAfter={ChevronRight}
-                                        />
-                                    </Group.Item>
-                                    <Group.Item>
-                                        <StyledListItem
-                                            title="Enable/Disable price calculation"
-                                            icon={DollarSign}
-                                            iconAfter={ChevronRight}
-                                        />
-                                    </Group.Item>
-                                    <Group.Item>
-                                        <StyledListItem
-                                            title="Manage users"
-                                            icon={BookUser}
-                                            iconAfter={ChevronRight}
-                                        />
-                                    </Group.Item>
-                                </>
-                                }
-                                {!user.is_admin &&
-                                    <Group.Item>
-                                        <StyledListItem
-                                            title="Leave store"
-                                            icon={LogOut}
-                                            iconAfter={ChevronRight}
-                                        />
-                                    </Group.Item>
-                                }
+                                <Group.Item>
+                                    <StyledListItem
+                                        title="Update store details"
+                                        icon={FilePen}
+                                        iconAfter={ChevronRight}
+                                        onClick={() => {setCurrentPage('updateStore')}}
+                                    />
+                                </Group.Item>
+                                <Group.Item>
+                                    <StyledListItem
+                                        title="Manage users"
+                                        icon={BookUser}
+                                        iconAfter={ChevronRight}
+                                        onClick={() => {setCurrentPage('manageUsers')}}
+                                    />
+                                </Group.Item>
+                            </Group>
+                        </> : store ? <>
+                            <SizableText>Store settings</SizableText>
+                            <Group orientation="vertical"
+                                   boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                                   separator={<Separator />}
+                            >
+                                <Group.Item>
+                                    <StyledListItem
+                                        title="Store details"
+                                        icon={TextSearch}
+                                        iconAfter={ChevronRight}
+                                        onClick={() => {setCurrentPage('storeDetails')}}
+                                    />
+                                </Group.Item>
+                                <Group.Item>
+                                    <StyledListItem
+                                        title="Leave store"
+                                        icon={LogOut}
+                                        iconAfter={ChevronRight}
+                                    />
+                                </Group.Item>
                             </Group>
                         </> : <>
                             <SizableText>Join or create Store</SizableText>
@@ -222,6 +231,7 @@ const Profile = () => {
                                         title="Join store"
                                         icon={TextSearch}
                                         iconAfter={ChevronRight}
+                                        onClick={() => {setCurrentPage('joinStore')}}
                                     />
                                 </Group.Item>
                                 <Group.Item>
@@ -229,18 +239,38 @@ const Profile = () => {
                                         title="Create store"
                                         icon={TextSearch}
                                         iconAfter={ChevronRight}
+                                        onClick={() => {setCurrentPage('createStore')}}
                                     />
                                 </Group.Item>
                             </Group>
                         </>}
                         <BigButton alignSelf="center" onClick={() => handleLogout()}>Log out</BigButton>
+                        {screenSize < 768 && <>
+                            <Separator />
+                            <VerticalContainer width="100%">
+                                {currentPage === 'profileDetails' ? <ProfileDetails user={user} store={store} /> :
+                                    currentPage === 'changeName' ? <ChangeName user={user} /> :
+                                        currentPage === 'changePassword' ? <ChangePassword user={user} /> :
+                                            currentPage === 'storeDetails' ? <StoreDetails store={store} /> :
+                                                currentPage === 'joinStore' ? <JoinStore /> :
+                                                    currentPage === 'updateStore' ? <UpdateStore /> :
+                                                        currentPage === 'manageUsers' ? <StoreUsers /> :
+                                                            currentPage === 'createStore' ? <CreateStore /> : <></>}
+                            </VerticalContainer>
+                        </>}
                     </VerticalContainer>
-                    <VerticalContainer flex={6}>
-                        {currentPage === 'profileDetails' ? <ProfileDetails user={user} store={store} /> :
-                        currentPage === 'changeName' ? <ChangeName user={user} /> :
-                        currentPage === 'changePassword' ? <ChangePassword user={user} /> :
-                            currentPage === 'storeDetails' ? <StoreDetails store={store} /> : <></>}
-                    </VerticalContainer>
+                    {screenSize > 768 && <>
+                        <VerticalContainer width={screenSize > 1280 ? "70%" : '60%'}>
+                            {currentPage === 'profileDetails' ? <ProfileDetails user={user} store={store} /> :
+                                currentPage === 'changeName' ? <ChangeName user={user} /> :
+                                    currentPage === 'changePassword' ? <ChangePassword user={user} /> :
+                                        currentPage === 'storeDetails' ? <StoreDetails store={store} /> :
+                                            currentPage === 'joinStore' ? <JoinStore /> :
+                                                currentPage === 'updateStore' ? <UpdateStore /> :
+                                                    currentPage === 'manageUsers' ? <StoreUsers /> :
+                                                        currentPage === 'createStore' ? <CreateStore /> : <></>}
+                        </VerticalContainer>
+                    </>}
                 </HorizontalContainer>
                         {/*<VerticalContainer>*/}
                         {/*    <H3>User info</H3>*/}
