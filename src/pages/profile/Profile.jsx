@@ -22,7 +22,7 @@ import {
 import {
     BookKey, BookUser, Calendar,
     ChevronDown,
-    ChevronRight, DollarSign, FilePen,
+    ChevronRight, DollarSign, FilePen, LineChart,
     LogOut,
     PenSquare,
     RefreshCw, TextSearch,
@@ -44,6 +44,7 @@ import StoreDetails from "../../components/store/StoreDetails.jsx";
 import JoinStore from "../../components/store/JoinStore.jsx";
 import UpdateStore from "../../components/store/UpdateStore.jsx";
 import CreateStore from "../../components/store/CreateStore.jsx";
+import ViewReport from "../../components/store/ViewReport.jsx";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -183,6 +184,14 @@ const Profile = () => {
                                 </Group.Item>
                                 <Group.Item>
                                     <StyledListItem
+                                        title="View report"
+                                        icon={LineChart}
+                                        iconAfter={ChevronRight}
+                                        onClick={() => {setCurrentPage('viewReport')}}
+                                    />
+                                </Group.Item>
+                                <Group.Item>
+                                    <StyledListItem
                                         title="Update store details"
                                         icon={FilePen}
                                         iconAfter={ChevronRight}
@@ -255,7 +264,8 @@ const Profile = () => {
                                                 currentPage === 'joinStore' ? <JoinStore /> :
                                                     currentPage === 'updateStore' ? <UpdateStore /> :
                                                         currentPage === 'manageUsers' ? <StoreUsers /> :
-                                                            currentPage === 'createStore' ? <CreateStore /> : <></>}
+                                                            currentPage === 'createStore' ? <CreateStore /> :
+                                                                currentPage === 'viewReport' ? <ViewReport /> : <></>}
                             </VerticalContainer>
                         </>}
                     </VerticalContainer>
@@ -268,7 +278,8 @@ const Profile = () => {
                                             currentPage === 'joinStore' ? <JoinStore /> :
                                                 currentPage === 'updateStore' ? <UpdateStore /> :
                                                     currentPage === 'manageUsers' ? <StoreUsers /> :
-                                                        currentPage === 'createStore' ? <CreateStore /> : <></>}
+                                                        currentPage === 'createStore' ? <CreateStore /> :
+                                                            currentPage === 'viewReport' ? <ViewReport /> : <></>}
                         </VerticalContainer>
                     </>}
                 </HorizontalContainer>

@@ -149,7 +149,7 @@ const Login = () => {
                                     <BigButton icon={LogIn} type="submit">Sign in</BigButton>
                                 </Form.Trigger>
                                 {serverError && <SizableText color='red' >{serverError}</SizableText>}
-                                {/*<SmallButton onClick={() => handleAdminLogin()}>Log in as Admin (Dev)</SmallButton>*/}
+                                <SmallButton onClick={() => handleAdminLogin()}>Log in as Admin (Dev)</SmallButton>
                                 <Separator />
                                 <SizableText>Don't have an account yet?</SizableText>
                                 <SmallButtonWithAccent icon={AtSign} onClick={() => navigate('/register')}>Sign up</SmallButtonWithAccent>
