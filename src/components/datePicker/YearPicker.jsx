@@ -32,14 +32,14 @@ const YearPicker = (props) => {
     }
 
     return (
-        <VerticalContainer>
-            <HorizontalContainer alignItems="center">
-                <Button icon={ChevronLeft} onClick={() => handleYearsShift("down")} />
+        <VerticalContainer animation='quickest' exitStyle={{opacity: 0}} enterStyle={{opacity: 1}}>
+            <HorizontalContainer alignItems="center" justifyContent="space-between">
+                <Button borderRadius="$10" size="$2" icon={ChevronLeft} onClick={() => handleYearsShift("down")} />
                 <SizableText>{years.at(0) + " - " + years.at(11)}</SizableText>
-                <Button icon={ChevronRight} onClick={() => handleYearsShift("up")} />
+                <Button borderRadius="$10" size="$2" icon={ChevronRight} onClick={() => handleYearsShift("up")} />
             </HorizontalContainer>
-            <HorizontalContainer alignItems="center">
-                <DateTable elements={years} selected={props.currentYear} setValue={props.setYear} />
+            <HorizontalContainer alignItems="center" justifyContent="space-between">
+                <DateTable elements={years} selected={props.currentYear.toString()} setValue={props.setYear} />
             </HorizontalContainer>
         </VerticalContainer>
     )

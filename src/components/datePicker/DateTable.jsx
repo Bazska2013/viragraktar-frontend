@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {SizableText} from "tamagui";
-import {SmallButtonWithAccent} from "../../tamagui.config.ts";
+import {DateButton, SmallButtonWithAccent} from "../../tamagui.config.ts";
 
 const DateTable = (props) => {
 
@@ -31,11 +31,11 @@ const DateTable = (props) => {
                 props.days.map((row, rowIndex) => (
                     <tr key={rowIndex}>
                         {row.map((cell, colIndex) => (
-                            <td key={colIndex}>
+                            <td key={colIndex} style={{textAlign: "center"}}>
                                 {cell ?
-                                    <SmallButtonWithAccent width='25px' padding="$3" borderRadius="$10" size="$1" onClick={() => props.setValue(cell)}>
-                                        <SizableText>{cell}</SizableText>
-                                    </SmallButtonWithAccent>
+                                    <DateButton backgroundColor={props.selected === cell ? '#E1E89B' : ''} width='25px' padding="$3" borderRadius="$10" size="$1" onClick={() => props.setValue(cell)}>
+                                        {cell}
+                                    </DateButton>
                                     : ''
                                 }
                             </td>
@@ -46,10 +46,10 @@ const DateTable = (props) => {
                 rows.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                             {row.map((cell, colIndex) => (
-                                <td key={colIndex}>
-                                    <SmallButtonWithAccent width='100%' size="$2" onClick={() => props.setValue(cell)}>
-                                        <SizableText>{cell}</SizableText>
-                                    </SmallButtonWithAccent>
+                                <td key={colIndex} style={{padding: '5px'}}>
+                                    <DateButton backgroundColor={props.selected === cell ? '#E1E89B' : ''} width='100%' size="$3" onClick={() => props.setValue(cell)}>
+                                        {cell}
+                                    </DateButton>
                                 </td>
                             ))}
                         </tr>

@@ -26833,6 +26833,7 @@ var require_dist = __commonJS({
 var tamagui_config_exports = {};
 __export(tamagui_config_exports, {
   BigButton: () => BigButton,
+  DateButton: () => DateButton,
   EditContainer: () => EditContainer,
   HorizontalContainer: () => HorizontalContainer,
   SmallButton: () => SmallButton,
@@ -47613,6 +47614,19 @@ var SmallButton = (0, import_core56.styled)(Button2, {
   },
   size: "$3"
 });
+var DateButton = (0, import_core56.styled)(Button2, {
+  backgroundColor: "white",
+  color: "black",
+  hoverStyle: {
+    backgroundColor: "#fafbee"
+  },
+  focusStyle: {
+    backgroundColor: "#E1E89B"
+  },
+  pressStyle: {
+    backgroundColor: "#F0F3CD"
+  }
+});
 var VerticalContainer = (0, import_core56.styled)(YStack, {
   flex: 1,
   gap: "$5",
@@ -47644,6 +47658,7 @@ var config = (0, import_core57.createTamagui)({
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   BigButton,
+  DateButton,
   EditContainer,
   HorizontalContainer,
   SmallButton,

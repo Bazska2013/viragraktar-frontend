@@ -62,6 +62,21 @@ export const SmallButton = styled(Button, {
     size: "$3",
 });
 
+export const DateButton = styled(Button, {
+    backgroundColor: 'white',
+    color: 'black',
+    hoverStyle: {
+        backgroundColor: '#fafbee',
+    },
+    focusStyle: {
+        backgroundColor: '#E1E89B',
+    },
+    pressStyle: {
+        backgroundColor: '#F0F3CD'
+    },
+
+})
+
 export const VerticalContainer = styled(YStack, {
     flex: 1,
     gap: "$5",
