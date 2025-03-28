@@ -58,90 +58,89 @@ const TransactionsTable = (props) => {
 
     return (
         <VerticalContainer width="100%" alignSelf="center" alignItems="center">
-            <HorizontalContainer width="100%">
-                <VerticalContainer
+            <VerticalContainer width="100%">
+                {props.distShown &&
+                    <VerticalContainer
+                        borderRadius="$5"
+                        width="100%"
+                        boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                        padding="$3"
+                        height="max-content"
+                    >
+                        <H4 alignSelf="center">Item distribution</H4>
+                        <table width="100%">
+                            <thead>
+                            <tr style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
+                                <th><H6>Name</H6></th>
+                                <th><H6>Price</H6></th>
+                                <th><H6>Amount</H6></th>
+                                <th><H6>Revenue</H6></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {props.items.map((item, index) => {
+                                return (
+                                    <tr key={index} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
+                                        <td><SizableText>{item.name}</SizableText></td>
+                                        <td><SizableText>{item.price}</SizableText></td>
+                                        <td><SizableText>{item.amount}</SizableText></td>
+                                        <td><SizableText>{item.amount * item.price}</SizableText></td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    </VerticalContainer>
+                }
+                {props.transShown &&
+                    <VerticalContainer
+                        borderRadius="$5"
+                        width="100%"
+                        boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                        padding="$3"
+                        alignSelf="center"
+                    >
+                        <H4 alignSelf="center">Transactions history</H4>
+                        <table width="100%">
+                            <thead>
+                            <tr style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
+                                <th><H6>Date</H6></th>
+                                <th><H6>Time</H6></th>
+                                <th><H6>User</H6></th>
+                                <th><H6>Payment method</H6></th>
+                                <th><H6>Total income</H6></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {props.transactions.map((item, index) => {
+                                return (
+                                    <tr key={index} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
+                                        <td><SizableText>{generateDate(item.created_at)}</SizableText></td>
+                                        <td><SizableText>{generateTime(item.created_at)}</SizableText></td>
+                                        <td><SizableText>{findUserName(item.user_id)}</SizableText></td>
+                                        <td><SizableText>{item.credit ? 'Credit card' : 'Cash'}</SizableText></td>
+                                        <td><SizableText>{item.total}</SizableText></td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    </VerticalContainer>
+                }
+            </VerticalContainer>
+            {props.totalShown &&
+                <HorizontalContainer
                     borderRadius="$5"
                     width="100%"
                     boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
                     padding="$3"
-                    height="max-content"
-                    top={0}
+                    alignItems="center"
+                    justifyContent="space-between"
                 >
-                    <H4 alignSelf="center">Item distribution</H4>
-                    <table width="100%">
-                        <thead>
-                        <tr style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
-                            <th><H6>Name</H6></th>
-                            <th><H6>Price</H6></th>
-                            <th><H6>Amount</H6></th>
-                            <th><H6>Revenue</H6></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {props.items.map((item, index) => {
-                            return (
-                                <tr key={index} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
-                                    <td><SizableText>{item.name}</SizableText></td>
-                                    <td><SizableText>{item.price}</SizableText></td>
-                                    <td><SizableText>{item.amount}</SizableText></td>
-                                    <td><SizableText>{item.amount * item.price}</SizableText></td>
-                                </tr>
-                            )
-                        })}
-                        </tbody>
-                        <tfoot>
-                        <tr style={{textAlign: 'center'}}>
-                            <td><H6>Total</H6></td>
-                            <td></td>
-                            <td></td>
-                            <td><H6>{props.items.reduce((acc, item) => acc + item.amount * item.price, 0)}</H6></td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </VerticalContainer>
-                <VerticalContainer
-                    borderRadius="$5"
-                    width="100%"
-                    boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
-                    padding="$3"
-                    alignSelf="center"
-                >
-                    <H4 alignSelf="center">Transactions history</H4>
-                    <table width="100%">
-                        <thead>
-                        <tr style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
-                            <th><H6>Date</H6></th>
-                            <th><H6>Time</H6></th>
-                            <th><H6>User</H6></th>
-                            <th><H6>Payment method</H6></th>
-                            <th><H6>Total income</H6></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {props.transactions.map((item, index) => {
-                            return (
-                                <tr key={index} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
-                                    <td><SizableText>{generateDate(item.created_at)}</SizableText></td>
-                                    <td><SizableText>{generateTime(item.created_at)}</SizableText></td>
-                                    <td><SizableText>{findUserName(item.user_id)}</SizableText></td>
-                                    <td><SizableText>{item.credit ? 'Credit card' : 'Cash'}</SizableText></td>
-                                    <td><SizableText>{item.total}</SizableText></td>
-                                </tr>
-                            )
-                        })}
-                        </tbody>
-                        <tfoot>
-                        <tr style={{textAlign: 'center'}}>
-                            <td><H6>Total</H6></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><H6>{props.items.reduce((acc, item) => acc + item.amount * item.price, 0)}</H6></td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </VerticalContainer>
-            </HorizontalContainer>
+                    <H6>Total</H6>
+                    <H6>HUF {props.items.reduce((acc, item) => acc + item.amount * item.price, 0)}</H6>
+                </HorizontalContainer>
+            }
         </VerticalContainer>
     )
 }
