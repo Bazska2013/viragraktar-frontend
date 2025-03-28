@@ -65,8 +65,12 @@ const DatePicker = (props) => {
         if (newMonth < 10) {
             newMonth = '0' + newMonth;
         }
-        props.setValue(year + '-' + newMonth + '-' + day);
-        setDate(year + '. ' + newMonth + '. ' + day + '.');
+        let newDay = day;
+        if (newDay < 10) {
+            newDay = '0' + newDay;
+        }
+        props.setValue(year + '-' + newMonth + '-' + newDay);
+        setDate(year + '. ' + newMonth + '. ' + newDay + '.');
     }, [year, month, day]);
 
     return (
