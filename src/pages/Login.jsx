@@ -5,16 +5,9 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {login} from "../features/auth/authSlice.js";
 import {useDispatch} from "react-redux";
-import {Input, Label, SizableText, YStack, Button, Form, Spinner, H1, H2, H4, Separator} from "tamagui";
-import {AtSign, LogIn, Save} from "@tamagui/lucide-icons";
-import {
-    BigButton,
-    EditContainer,
-    HorizontalContainer,
-    SmallButton,
-    SmallButtonWithAccent,
-    VerticalContainer
-} from "../tamagui.config.ts";
+import {Input, Label, SizableText, Form, Spinner, H1, H2, H4, Separator} from "tamagui";
+import {AtSign, LogIn} from "@tamagui/lucide-icons";
+import {BigButton, HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -109,7 +102,6 @@ const Login = () => {
                                     </Label>
                                     <Input
                                         flex={1}
-                                        // size="$3"
                                         borderWidth={2}
                                         type="email"
                                         name="email"
@@ -130,7 +122,6 @@ const Login = () => {
                                     </Label>
                                     <Input
                                         flex={1}
-                                        // size="$3"
                                         borderWidth={2}
                                         type="password"
                                         name="password"

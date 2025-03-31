@@ -1,7 +1,6 @@
 import {ClipboardCopy} from "@tamagui/lucide-icons";
-import {EditContainer, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
+import {HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import {H2, H4, Separator, SizableText} from "tamagui";
-import store from "../../store.js";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 
@@ -26,9 +25,8 @@ const StoreDetails = (props) => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             getStoreId();
-        }, 30000); // 30000 milliseconds = 30 seconds
+        }, 30000);
 
-        // Cleanup interval on component unmount
         return () => clearInterval(intervalId);
     }, []);
 
@@ -43,7 +41,6 @@ const StoreDetails = (props) => {
             setCopied(false);
         }, 2000);
 
-        // Cleanup interval on component unmount
         return () => clearInterval(intervalId);
     };
 
@@ -55,7 +52,7 @@ const StoreDetails = (props) => {
             <Separator />
             <H4>Opening hours</H4>
             <HorizontalContainer flexWrap="wrap">
-                {Object.keys(openingHours).map((day, index) => (
+                {Object.keys(openingHours).map((day) => (
                     <VerticalContainer key={day}>
                         <H4>{day}</H4>
                         <SizableText>{openingHours[day].closed ? 'Closed' : 'From ' + openingHours[day].from + ' - To ' + openingHours[day].to}</SizableText>

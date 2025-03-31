@@ -3,15 +3,13 @@ import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {setUser} from "../../features/auth/userSlice.js";
 import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {H1, H2, Input, Label, SizableText, YStack, Form, Spinner, Button, H4, Separator} from "tamagui";
-import {Save, UserPen} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {H2, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
+import {UserPen} from "@tamagui/lucide-icons";
+import {BigButton, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangeName = ({user}) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -61,7 +59,6 @@ const ChangeName = ({user}) => {
                                     </Label>
                                     <Input
                                         flex={1}
-                                        // size="$3"
                                         borderWidth={2}
                                         type="text"
                                         name="name"

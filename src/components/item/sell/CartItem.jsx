@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {YStack, Button, XStack, Image, H4, SizableText, Group, Input} from "tamagui";
+import {Image, H4, SizableText, Group, Input} from "tamagui";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {Minus, Plus, Trash} from "@tamagui/lucide-icons";
 import {VerticalContainer, HorizontalContainer, SmallButtonWithAccent} from "../../../tamagui.config.ts";
@@ -54,7 +54,6 @@ const CartItem = ({item, removeFromCart, editCart}) => {
                     <SmallButtonWithAccent icon={Minus}  name="minus" onClick={(e) => handleChange(e)} />
                     <Input
                         flex={1}
-                        // size="$3"
                         borderWidth={2}
                         type="number"
                         name="amount"
@@ -83,7 +82,6 @@ const CartItem = ({item, removeFromCart, editCart}) => {
                         <SmallButtonWithAccent icon={Minus} name="minus" onClick={(e) => handleChange(e)} />
                         <Input
                             flex={1}
-                            /*size="$3"*/
                             borderWidth={2}
                             type="number"
                             name="amount"

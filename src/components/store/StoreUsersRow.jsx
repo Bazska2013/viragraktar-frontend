@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "../../axiosConfig.js";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
-import {Checkbox, Group, H4, H5, SizableText, XStack, Button, Spinner, Separator, Label, Switch, H6} from "tamagui";
-import {Check, Save, Trash} from "@tamagui/lucide-icons";
-import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
+import {Group, SizableText, Spinner, Separator, Label, Switch, H6} from "tamagui";
+import {Save, Trash} from "@tamagui/lucide-icons";
+import {HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 
 const StoreUsersRow = (props) => {
     const [isSeller, setIsSeller] = useState(!!props.isSeller);
@@ -16,8 +16,6 @@ const StoreUsersRow = (props) => {
     const dispatch = useDispatch();
 
     const [isChanged, setIsChanged] = useState(false);
-
-    const screenSize = window.innerWidth;
 
     const handleChange = (checked, type) => {
         setIsChanged(true);
@@ -85,7 +83,7 @@ const StoreUsersRow = (props) => {
         } finally {
             setIsLoading(false);
             if (response?.status === 204) {
-                refetchUsers();
+                props.refetchUsers();
             }
         }
     }

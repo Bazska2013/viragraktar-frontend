@@ -1,22 +1,13 @@
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import axios from "../axiosConfig.js";
-import {login} from "../features/auth/authSlice.js";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
-import {Input, Label, SizableText, YStack, Form, Button, Spinner, H2, H4, Separator, H1} from "tamagui";
+import {Input, Label, SizableText, Form, Spinner, H2, H4, Separator, H1} from "tamagui";
 import {FileSignature, LogIn} from "@tamagui/lucide-icons";
-import {
-    BigButton,
-    EditContainer,
-    HorizontalContainer,
-    SmallButtonWithAccent,
-    VerticalContainer
-} from "../tamagui.config.ts";
+import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
 
 const Register = () => {
-    const dispatch = useDispatch();
     const [serverError, setServerError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -56,7 +47,9 @@ const Register = () => {
             setServerError(error.response.data.message);
         } finally {
             setIsLoading(false);
-            navigate('/login', {replace: true});
+            if (response.status === 401) {
+                navigate('/login', {replace: true});
+            }
         }
     }
 
@@ -97,7 +90,6 @@ const Register = () => {
                                     </Label>
                                     <Input
                                         flex={1}
-                                        // size="$3"
                                         borderWidth={2}
                                         type="email"
                                         placeholder="abc@xyz.com"
@@ -118,7 +110,6 @@ const Register = () => {
                                     </Label>
                                     <Input
                                         flex={1}
-                                        // size="$3"
                                         borderWidth={2}
                                         type="text"
                                         placeholder="John Dover"
@@ -139,7 +130,6 @@ const Register = () => {
                                     </Label>
                                     <Input
                                         flex={1}
-                                        // size="$3"
                                         borderWidth={2}
                                         type="password"
                                         name="password1"
@@ -160,7 +150,6 @@ const Register = () => {
                                     </Label>
                                     <Input
                                         flex={1}
-                                        // size="$3"
                                         borderWidth={2}
                                         type="password"
                                         name="password2"

@@ -1,9 +1,8 @@
-import {Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
-import {Button, Spinner, YStack, SizableText, XStack, Image, Group, Input, H3, H4} from "tamagui"
+import {Spinner, SizableText, Image, Group, Input, H4} from "tamagui"
 import {Check, X, Plus, Minus, PenSquare} from "@tamagui/lucide-icons";
 import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../../tamagui.config.ts";
 
@@ -86,10 +85,6 @@ const Item = ({props, refetch}) => {
                 <SizableText
                     flex={1}
                     borderWidth={2}
-                    // borderColor="$color"
-                    // borderRadius="$4"
-                    // gap="$2"
-                    // padding="$2"
                     justifyContent="center"
                     width={screenSize > 1280 ? "350px" : (screenSize > 768 ? "300px" : "100%")}
                 >{error}</SizableText>
@@ -126,14 +121,14 @@ const Item = ({props, refetch}) => {
             >
                 <Group orientation='vertical' width="100%">
                     <SmallButtonWithAccent icon={Plus} onClick={(e) => {handleChange(e, 'add')}} />
-                    <Input flex={1}
-                           // size="$3"
-                           borderWidth={2}
-                           type='number'
-                           name='stock'
-                           value={item.stock}
-                           key={item.stock}
-                           onChange={(e) => handleChange(e, 'field')}
+                    <Input
+                        flex={1}
+                        borderWidth={2}
+                        type='number'
+                        name='stock'
+                        value={item.stock}
+                        key={item.stock}
+                        onChange={(e) => handleChange(e, 'field')}
                     />
                     <SmallButtonWithAccent icon={Minus} onClick={(e) => {handleChange(e, 'remove')}} />
                 </Group>

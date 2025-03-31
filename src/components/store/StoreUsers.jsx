@@ -1,17 +1,15 @@
-import {Container, Spinner, Table} from "react-bootstrap";
+import {Container, Spinner} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 import StoreUsersRow from "./StoreUsersRow.jsx";
-import {Accordion, H2, H4, H6, Square, XStack, YStack} from "tamagui";
-import {VerticalContainer, HorizontalContainer} from "../../tamagui.config.ts";
+import {Accordion, H2, H4, Square} from "tamagui";
+import {VerticalContainer} from "../../tamagui.config.ts";
 import {ChevronDown} from "@tamagui/lucide-icons";
 
 const StoreUsers = () => {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-
-    const screenSize = window.innerWidth;
 
     const fetchUsers = async () => {
         let response;

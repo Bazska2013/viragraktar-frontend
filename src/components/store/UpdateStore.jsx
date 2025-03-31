@@ -1,17 +1,15 @@
 import {Formik} from "formik";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "../../axiosConfig.js";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
-import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {createStore, selectStore} from "../../features/store/storeSlice.js";
-import {Checkbox, Input, Label, SizableText, XStack, YStack, Button, Form, Spinner, H4, Separator, H2} from "tamagui";
+import {Checkbox, Input, Label, SizableText, Form, Spinner, H4, Separator, H2} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {BigButton, VerticalContainer} from "../../tamagui.config.ts";
 
 const UpdateStore = () => {
     const store = useSelector(selectStore);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +65,6 @@ const UpdateStore = () => {
                                 </Label>
                                 <Input
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     type="text"
                                     name="name"
@@ -87,7 +84,7 @@ const UpdateStore = () => {
                                 <Label htmlFor="calculation_enabled">
                                     <H4>Enable price calculation</H4>
                                 </Label>
-                                <Checkbox id="calculation_enabled" name="calculation_enabled" /*size="$3"*/ checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
+                                <Checkbox id="calculation_enabled" name="calculation_enabled" checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
                                     <Checkbox.Indicator>
                                         <Check />
                                     </Checkbox.Indicator>

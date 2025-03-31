@@ -1,7 +1,6 @@
 import SelectHours from "./SelectHours.jsx";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import {XStack} from "tamagui";
 import {HorizontalContainer} from "../../tamagui.config.ts";
 
 const SelectOpeningHours = (props) => {

@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {selectCurrentUser} from "../features/auth/userSlice.js";
 import {selectStore} from "../features/store/storeSlice.js";
 import {useEffect, useState} from "react";

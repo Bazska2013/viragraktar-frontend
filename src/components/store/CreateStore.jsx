@@ -3,9 +3,9 @@ import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import {useState} from "react";
-import {Checkbox, Input, Label, SizableText, YStack, Button, Form, Spinner, H4, Separator} from "tamagui";
+import {Checkbox, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {BigButton, VerticalContainer} from "../../tamagui.config.ts";
 
 const CreateStore = () => {
     const navigate = useNavigate();
@@ -61,7 +61,6 @@ const CreateStore = () => {
                                 </Label>
                                 <Input
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     type="text"
                                     name="name"
@@ -81,7 +80,7 @@ const CreateStore = () => {
                                 <Label htmlFor="calculation_enabled">
                                     <H4>Enable price calculation</H4>
                                 </Label>
-                                <Checkbox id="calculation_enabled" name="calculation_enabled" /*size="$3"*/ checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
+                                <Checkbox id="calculation_enabled" name="calculation_enabled" checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
                                     <Checkbox.Indicator>
                                         <Check />
                                     </Checkbox.Indicator>

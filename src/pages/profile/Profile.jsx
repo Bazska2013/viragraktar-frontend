@@ -1,4 +1,3 @@
-import {Card, Col, Fade, Row} from "react-bootstrap";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -6,36 +5,9 @@ import {removeUser, selectCurrentUser} from "../../features/auth/userSlice.js";
 import {useEffect, useState} from "react";
 import {deleteStore, selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
-import {
-    YStack,
-    Button,
-    Spinner,
-    XStack,
-    H3,
-    SizableText,
-    Accordion,
-    Paragraph,
-    Square,
-    Separator,
-    Group, H6, H4, H2
-} from "tamagui";
-import {
-    BookKey, BookUser, Calendar,
-    ChevronDown,
-    ChevronRight, DollarSign, FilePen, LineChart,
-    LogOut,
-    PenSquare,
-    RefreshCw, TextSearch,
-    UserPen,
-    UserSearch
-} from "@tamagui/lucide-icons";
-import {
-    VerticalContainer,
-    HorizontalContainer,
-    SmallButton,
-    BigButton,
-    SmallButtonWithAccent, StyledListItem
-} from "../../tamagui.config.ts";
+import {Spinner, SizableText, Separator, Group, H6, H4, H2} from "tamagui";
+import {BookKey, BookUser, ChevronRight, FilePen, LineChart, LogOut,TextSearch, UserPen, UserSearch} from "@tamagui/lucide-icons";
+import {VerticalContainer, HorizontalContainer, BigButton, StyledListItem} from "../../tamagui.config.ts";
 import {logout} from "../../features/auth/authSlice.js";
 import ProfileDetails from "../../components/profile/ProfileDetails.jsx";
 import ChangeName from "../../components/profile/ChangeName.jsx";
@@ -51,13 +23,9 @@ const Profile = () => {
     const navigate = useNavigate();
     const user = useSelector(selectCurrentUser);
     const store = useSelector(selectStore);
-    const [storeId, setStoreId] = useState(null);
-    const [storeIdVisible, setStoreIdVisible] = useState(false);
     const [profit, setProfit] = useState(0);
     const [isProfitLoading, setIsProfitLoading] = useState(false);
     const [profitError, setProfitError] = useState(null);
-    const [isStoreIdLoading, setIsStoreIdLoading] = useState(false);
-    const [storeIdError, setStoreIdError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState('profileDetails');
 
@@ -114,9 +82,8 @@ const Profile = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             getTodayProfit();
-        }, 30000); // 30000 milliseconds = 30 seconds
+        }, 30000);
 
-        // Cleanup interval on component unmount
         return () => clearInterval(intervalId);
     }, []);
 
@@ -135,7 +102,8 @@ const Profile = () => {
                         >
                             <H4>Hello {user?.name}!</H4>
                             {store &&
-                                <H6>Today's profit of {store?.name} is HUF {profit}</H6>
+                                profitError ? <H6>An error occured when trying to load today's profit: {profitError}</H6> :
+                                    <H6>Today's profit of {store?.name} is HUF {isProfitLoading ? <Spinner /> : profit}</H6>
                             }
                         </VerticalContainer>
                         <SizableText>User settings</SizableText>
@@ -283,54 +251,6 @@ const Profile = () => {
                         </VerticalContainer>
                     </>}
                 </HorizontalContainer>
-                        {/*<VerticalContainer>*/}
-                        {/*    <H3>User info</H3>*/}
-                        {/*    <SizableText>Name: {user.name}</SizableText>*/}
-                        {/*    <SizableText>Email: {user.email}</SizableText>*/}
-                        {/*    <BigButton icon={UserPen} onClick={() => navigate('/edit/profile')}>Edit profile</BigButton>*/}
-                        {/*    <SmallButtonWithAccent icon={LogOut} onClick={() => handleLogout()}>Logout</SmallButtonWithAccent>*/}
-                        {/*</VerticalContainer>*/}
-                        {/*{store ?*/}
-                        {/*    <VerticalContainer>*/}
-                        {/*        <H3>Store info</H3>*/}
-                        {/*        <SizableText>Store name: {store.name}</SizableText>*/}
-                        {/*        <HorizontalContainer>*/}
-                        {/*            <SizableText>{profitError ? profitError : "Today's profit: " + profit}</SizableText>*/}
-                        {/*            <SmallButton iconAfter={*/}
-                        {/*                <Square animation='slow' rotate={isProfitLoading ? '360deg' : '0deg'}>*/}
-                        {/*                    <RefreshCw size="$1" />*/}
-                        {/*                </Square>*/}
-                        {/*            } onClick={() => {getTodayProfit()}} >Refresh</SmallButton>*/}
-                        {/*        </HorizontalContainer>*/}
-                        {/*        <Accordion overflow="hidden" type="single" collapsible>*/}
-                        {/*            <Accordion.Item value="store">*/}
-                        {/*                <Accordion.Header>*/}
-                        {/*                    <Accordion.Trigger flexDirection="row" justifyContent="space-between">*/}
-                        {/*                        {({open}) => (*/}
-                        {/*                            <>*/}
-                        {/*                                <Paragraph>{open ? 'Hide' : 'Show'} Store ID</Paragraph>*/}
-                        {/*                                <Square animation="quick" rotate={open ? '180deg' : '0deg'}>*/}
-                        {/*                                </Square>*/}
-                        {/*                            </>*/}
-                        {/*                        )}*/}
-                        {/*                    </Accordion.Trigger>*/}
-                        {/*                </Accordion.Header>*/}
-                        {/*                <Accordion.HeightAnimator animation="medium">*/}
-                        {/*                    <Accordion.Content animation="medium" exitStyle={{ opacity: 0 }}>*/}
-                        {/*                    </Accordion.Content>*/}
-                        {/*                </Accordion.HeightAnimator>*/}
-                        {/*                <Accordion.Content />*/}
-                        {/*            </Accordion.Item>*/}
-                        {/*        </Accordion>*/}
-                        {/*        {user.is_admin && <BigButton icon={PenSquare} onClick={() => navigate('/edit/store')}>Edit store</BigButton>}*/}
-                        {/*    </VerticalContainer> : <>*/}
-                        {/*    <SmallButton onClick={() => navigate('/new/store', {replace: true})}>Join or Create a Store</SmallButton>*/}
-                        {/*</>}*/}
-                {/*<HorizontalContainer>*/}
-                {/*    {store && user.is_admin ? <>*/}
-                {/*        <StoreUsers />*/}
-                {/*    </> : <></>}*/}
-                {/*</HorizontalContainer>*/}
             </> : <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>

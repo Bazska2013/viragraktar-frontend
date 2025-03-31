@@ -1,18 +1,9 @@
-import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
-import {Checkbox, Group, H2, H4, H6, Input, Label, Select, Separator, SizableText, Switch} from "tamagui";
+import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {Checkbox, H2, H4, H6, Label, Separator, SizableText} from "tamagui";
 import {Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
-import {
-    VictoryAxis,
-    VictoryBar,
-    VictoryChart,
-    VictoryHistogram,
-    VictoryLine,
-    VictoryPie,
-    VictoryScatter,
-    VictoryTheme
-} from "victory";
+import {VictoryBar, VictoryChart, VictoryLine, VictoryPie, VictoryScatter, VictoryTheme} from "victory";
 import {Check} from "@tamagui/lucide-icons";
 import DatePicker from "../datePicker/DatePicker.jsx";
 import TransactionsTable from "./TransactionsTable.jsx";
@@ -174,15 +165,13 @@ const ViewReport = () => {
                 padding="$3"
             >
                 <HorizontalContainer alignItems="center">
-                    <HorizontalContainer alignItems="center">
-                        <Label htmlFor="day">
-                            <H6>Get data from</H6>
-                        </Label>
-                        <Form.Select defaultValue="one day" id="day" onChange={(e) => setOneDay(e.target.value === 'one day')}>
-                            <option>one day</option>
-                            <option>range</option>
-                        </Form.Select>
-                    </HorizontalContainer>
+                    <Label htmlFor="day">
+                        <H6>Get data from</H6>
+                    </Label>
+                    <Form.Select defaultValue="one day" id="day" onChange={(e) => setOneDay(e.target.value === 'one day')}>
+                        <option>one day</option>
+                        <option>range</option>
+                    </Form.Select>
                 </HorizontalContainer>
                 <Separator />
                 <HorizontalContainer alignItems="center">
@@ -316,18 +305,15 @@ const ViewReport = () => {
                                     categories={{x: items.map(item => item.name)}}
                                 />
                                     :
-                                    <VictoryChart
-                                    theme={VictoryTheme.grayscale}
-                                domainPadding={50}
-                            >
-                                <VictoryBar
-                                    x="name"
-                                    y="amount"
-                                    data={aggregateItems()}
-                                    animate={{duration: 500}}
-                                />
-                            </VictoryChart>
-                        }
+                                    <VictoryChart theme={VictoryTheme.grayscale} domainPadding={50}>
+                                        <VictoryBar
+                                            x="name"
+                                            y="amount"
+                                            data={aggregateItems()}
+                                            animate={{duration: 500}}
+                                        />
+                                    </VictoryChart>
+                                }
                             </VerticalContainer>
                         }
                         {showRevenue &&
@@ -358,9 +344,6 @@ const ViewReport = () => {
                     }
                 </VerticalContainer>
             }
-            {/*{items.map((item, index) => (*/}
-            {/*    <SizableText key={index}>{item.name}</SizableText>*/}
-            {/*))}*/}
         </VerticalContainer>
     )
 }

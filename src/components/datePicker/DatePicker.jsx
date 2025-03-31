@@ -1,11 +1,5 @@
-import {Adapt, AnimatePresence, Button, Popover, SizableText} from "tamagui";
-import {
-    BigButton,
-    DateButton,
-    HorizontalContainer,
-    SmallButtonWithAccent,
-    VerticalContainer
-} from "../../tamagui.config.ts";
+import {AnimatePresence, Button, Popover} from "tamagui";
+import {DateButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {Calendar, ChevronLeft, ChevronRight} from "@tamagui/lucide-icons";
 import {useEffect, useState} from "react";
 import YearPicker from "./YearPicker.jsx";
@@ -99,9 +93,6 @@ const DatePicker = (props) => {
                 >
                     <Popover.Arrow />
                     <Popover.Close />
-                    {/* ScrollView is optional, can just put any contents inside if not scrollable */}
-                    {/*<Popover.ScrollView>/!* ... *!/</Popover.ScrollView>*/}
-                    {/* ... */}
                     <VerticalContainer alignItems="center" width="100%">
                         <AnimatePresence>
                             {currentSelector === 'month' && (
@@ -127,19 +118,6 @@ const DatePicker = (props) => {
                         </AnimatePresence>
                     </VerticalContainer>
                 </Popover.Content>
-
-                {/* optionally change to sheet when small screen */}
-                {/* you can also use <Popover.Adapt /> */}
-                {/*<Adapt when="sm">*/}
-                {/*    <Popover.Sheet>*/}
-                {/*        <Popover.Sheet.Overlay />*/}
-                {/*        <Popover.Sheet.Frame>*/}
-                {/*            <Popover.Sheet.ScrollView>*/}
-                {/*                <Adapt.Contents />*/}
-                {/*            </Popover.Sheet.ScrollView>*/}
-                {/*        </Popover.Sheet.Frame>*/}
-                {/*    </Popover.Sheet>*/}
-                {/*</Adapt>*/}
             </Popover>
         </>
     )

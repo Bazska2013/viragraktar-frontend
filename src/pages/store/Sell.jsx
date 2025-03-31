@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from '../../axiosConfig.js';
 import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
-import {SizableText, XStack, YStack, Spinner, AnimatePresence, Sheet, H2} from "tamagui";
+import {SizableText, Spinner, AnimatePresence, Sheet, H2} from "tamagui";
 import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {ShoppingBasket} from "@tamagui/lucide-icons";
 
@@ -71,7 +71,6 @@ const Sell = () => {
                                    x: 300,
                                }}
                                icon={ShoppingBasket} onClick={() => setShow(true)}>Checkout</BigButton>
-                    // <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} />
                 }
             </AnimatePresence>
             <Sheet

@@ -3,9 +3,9 @@ import axios from '../../axiosConfig.js';
 import {Formik} from "formik";
 import * as yup from "yup";
 import {useState} from "react";
-import {Input, Label, SizableText, YStack, Button, Form, Spinner, H4} from "tamagui";
-import {LogIn, PenSquare} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {Input, Label, SizableText, Form, Spinner, H4} from "tamagui";
+import {PenSquare} from "@tamagui/lucide-icons";
+import {BigButton, VerticalContainer} from "../../tamagui.config.ts";
 
 const JoinStore = () => {
     const navigate = useNavigate();
@@ -57,7 +57,6 @@ const JoinStore = () => {
                                     </Label>
                                     <Input
                                         flex={1}
-                                        // size="$3"
                                         borderWidth={2}
                                         type='text'
                                         name='code'

@@ -1,5 +1,5 @@
 import {Formik} from "formik";
-import {SizableText, Button, Form, Spinner, Label, Input, TextArea, XStack, Image, YStack} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea} from "tamagui";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";

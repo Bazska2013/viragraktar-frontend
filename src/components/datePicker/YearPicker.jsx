@@ -1,5 +1,5 @@
 import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
-import {Button, H6, SizableText} from "tamagui";
+import {Button, SizableText} from "tamagui";
 import {ChevronLeft, ChevronRight} from "@tamagui/lucide-icons";
 import DateTable from "./DateTable.jsx";
 import {useEffect, useState} from "react";

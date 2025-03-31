@@ -1,10 +1,9 @@
-import {AnimatePresence, Button, H2, SizableText, Spinner, Theme, XStack, YStack} from "tamagui";
+import {AnimatePresence, H2, SizableText, Spinner} from "tamagui";
 import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {useEffect, useState} from "react";
 import Item from "../../components/item/buy/Item.jsx";
 import {ShoppingBasket} from "@tamagui/lucide-icons";
-import {useTheme} from "@tamagui/core";
 import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const Buy = () => {
@@ -28,7 +27,7 @@ const Buy = () => {
         }
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleScroll);
-        handleScroll(); // Initial check
+        handleScroll();
 
         return () => {
             window.removeEventListener('scroll', handleScroll);

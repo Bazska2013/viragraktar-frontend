@@ -1,6 +1,4 @@
-import {useState} from "react";
-import {SizableText} from "tamagui";
-import {DateButton, SmallButtonWithAccent} from "../../tamagui.config.ts";
+import {DateButton} from "../../tamagui.config.ts";
 
 const DateTable = (props) => {
 

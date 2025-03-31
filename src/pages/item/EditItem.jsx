@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
-import {SizableText, Button, Form, Spinner, Label, Input, TextArea, XStack, Image, YStack} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea, Image} from "tamagui";
 import {Save, Upload} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 
@@ -97,7 +97,6 @@ const EditItem = () => {
                     description: item.description || '',
                     price: item.price || 0,
                     stock: item.stock || 1,
-                    /*image: item.image || ''*/
                 }}
                 onSubmit={(values) => handleSubmit(values)}
             >
@@ -110,7 +109,6 @@ const EditItem = () => {
                                 </Label>
                                 <Input
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     type="text"
                                     id="name"
@@ -128,7 +126,6 @@ const EditItem = () => {
                                 </Label>
                                 <TextArea
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     rows={3}
                                     id="description"
@@ -146,7 +143,6 @@ const EditItem = () => {
                                 </Label>
                                 <Input
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     type="number"
                                     id="price"
@@ -165,7 +161,6 @@ const EditItem = () => {
                                 </Label>
                                 <Input
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     type="number"
                                     id="stock"

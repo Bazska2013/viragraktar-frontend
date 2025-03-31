@@ -1,19 +1,13 @@
 import {Formik} from "formik";
 import * as yup from 'yup';
 import axios from "../../axiosConfig.js";
-import {useNavigate} from "react-router-dom";
-import {removeUser, setUser} from "../../features/auth/userSlice.js";
-import {useDispatch} from "react-redux";
-import {logout} from "../../features/auth/authSlice.js";
-import {deleteStore} from "../../features/store/storeSlice.js";
+import {setUser} from "../../features/auth/userSlice.js";
 import {useState} from "react";
-import {H2, Input, Label, SizableText, YStack, Form, Button, Spinner, H4, Separator} from "tamagui";
-import {BookKey, Save} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {H2, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
+import {BookKey} from "@tamagui/lucide-icons";
+import {BigButton, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangePassword = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -68,7 +62,6 @@ const ChangePassword = () => {
                                 </Label>
                                 <Input
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="old_password"
@@ -87,7 +80,6 @@ const ChangePassword = () => {
                                 </Label>
                                 <Input
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="password1"
@@ -106,7 +98,6 @@ const ChangePassword = () => {
                                 </Label>
                                 <Input
                                     flex={1}
-                                    // size="$3"
                                     borderWidth={2}
                                     type="password"
                                     name="password2"

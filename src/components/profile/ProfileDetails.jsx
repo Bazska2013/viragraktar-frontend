@@ -1,4 +1,4 @@
-import {EditContainer, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {H2, H4, Separator, SizableText} from "tamagui";
 
 const ProfileDetails = (props) => {
