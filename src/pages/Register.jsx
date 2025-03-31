@@ -47,7 +47,7 @@ const Register = () => {
             setServerError(error.response.data.message);
         } finally {
             setIsLoading(false);
-            if (response.status === 401) {
+            if (response.status === 201) {
                 navigate('/login', {replace: true});
             }
         }

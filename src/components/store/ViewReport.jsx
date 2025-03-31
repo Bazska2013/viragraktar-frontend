@@ -4,7 +4,7 @@ import {Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 import {VictoryBar, VictoryChart, VictoryLine, VictoryPie, VictoryScatter, VictoryTheme} from "victory";
-import {Check} from "@tamagui/lucide-icons";
+import {Check, LineChart} from "@tamagui/lucide-icons";
 import DatePicker from "../datePicker/DatePicker.jsx";
 import TransactionsTable from "./TransactionsTable.jsx";
 
@@ -277,7 +277,7 @@ const ViewReport = () => {
                     </VerticalContainer>
                 </VerticalContainer>
                 <Separator />
-                <BigButton onClick={handleGenerateReport}>Generate report</BigButton>
+                <BigButton icon={LineChart} onClick={handleGenerateReport}>Generate report</BigButton>
             </VerticalContainer>
             {data.length > 0 &&
                 <VerticalContainer>
