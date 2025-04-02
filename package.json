@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.3.0",
     "@reduxjs/toolkit": "^2.3.0",
     "@tamagui/config": "^1.125.22",
     "@tamagui/core": "^1.125.22",
@@ -17,6 +18,7 @@
     "@tamagui/vite-plugin": "^1.125.22",
     "axios": "^1.7.7",
     "formik": "^2.4.6",
+    "html-to-image": "^1.11.13",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",

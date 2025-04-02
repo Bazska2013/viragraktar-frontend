@@ -68,7 +68,7 @@ const TransactionsTable = (props) => {
                         height="max-content"
                     >
                         <H4 alignSelf="center">Item distribution</H4>
-                        <table width="100%">
+                        <table width="100%" id="distTable">
                             <thead>
                             <tr style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                 <th><H6>Name</H6></th>
@@ -101,7 +101,7 @@ const TransactionsTable = (props) => {
                         alignSelf="center"
                     >
                         <H4 alignSelf="center">Transactions history</H4>
-                        <table width="100%">
+                        <table width="100%" id="transTable">
                             <thead>
                             <tr style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                 <th><H6>Date</H6></th>

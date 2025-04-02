@@ -1,12 +1,14 @@
 import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
-import {Checkbox, H2, H4, H6, Label, Separator, SizableText} from "tamagui";
+import {Checkbox, H2, H4, H6, Label, Separator, SizableText, Spinner} from "tamagui";
 import {Form} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import axios from "../../axiosConfig.js";
 import {VictoryBar, VictoryChart, VictoryLine, VictoryPie, VictoryScatter, VictoryTheme} from "victory";
-import {Check, LineChart} from "@tamagui/lucide-icons";
+import {Check, Download, LineChart} from "@tamagui/lucide-icons";
 import DatePicker from "../datePicker/DatePicker.jsx";
 import TransactionsTable from "./TransactionsTable.jsx";
+import {Document, Image, Page, PDFDownloadLink, Text, View} from '@react-pdf/renderer';
+import {toPng} from "html-to-image";
 
 const ViewReport = () => {
     const [data, setData] = useState([]);
@@ -23,6 +25,10 @@ const ViewReport = () => {
     const [showDistTable, setShowDistTable] = useState(true);
     const [showTransactionTable, setShowTransactionTable] = useState(true);
     const [showTotal, setShowTotal] = useState(true);
+    const [reportGenerated, setReportGenerated] = useState(false);
+
+    const [downloading, setDownloading] = useState(false);
+    const pdfDownloadLinkRef = useRef(null);
 
     const fetchDayData = async () => {
         if (date !== '') {
@@ -127,11 +133,15 @@ const ViewReport = () => {
     }
 
     const handleGenerateReport = () => {
+        setReportGenerated(false);
         if (oneDay) {
             fetchDayData();
         } else {
             fetchRangeData();
         }
+        setTimeout(() => {
+            setReportGenerated(true);
+        }, 500);
     }
 
     const handleTableStyle = (value) => {
@@ -152,6 +162,74 @@ const ViewReport = () => {
                 setShowTotal(true);
                 break;
         }
+    }
+
+    const captureComponentAsImage = async (type) => {
+        const element = document.getElementById(type);
+        if (!element) {
+            return;
+        }
+        try {
+            return await toPng(element);
+        } catch (error) {
+            console.error("Error capturing component:", error);
+            return null;
+        }
+    };
+
+    const MyDocument = () => {
+        const distChartImage = captureComponentAsImage('distChartContainer');
+        const transChartImage = captureComponentAsImage('transChartContainer');
+        const distTableImage = captureComponentAsImage('distTable');
+        const transTableImage = captureComponentAsImage('transTable');
+        return (
+            <Document>
+                <Page size="A4">
+                    <View style={{padding: '10px'}}>
+                        <Text style={{borderRadius: '10px', border: '1px solid lightgray', padding: '10px', margin: '10px'}}>{oneDay ? 'Report about ' + date : 'Report made from ' + start + ' to ' + end}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', padding: '10px'}}>
+                        {(showDistribution && distChartImage) &&
+                            <View style={{borderRadius: '10px', border: '1px solid lightgray', padding: '10px', margin: '10px'}}>
+                                <Text style={{alignSelf: 'center'}}>Distribution of items sold</Text>
+                                <Image src={distChartImage} />
+                            </View>
+                        }
+                        {(showRevenue && transChartImage) &&
+                            <View style={{borderRadius: '10px', border: '1px solid lightgray', padding: '10px', margin: '10px'}}>
+                                <Text style={{alignSelf: 'center'}}>Revenue from transactions</Text>
+                                <Image src={transChartImage} />
+                            </View>
+                        }
+                    </View>
+                    <View style={{padding: '10px'}}>
+                        {(showDistTable && distTableImage) &&
+                            <View style={{borderRadius: '10px', border: '1px solid lightgray', padding: '10px', margin: '10px'}}>
+                                <Text style={{alignSelf: 'center', marginBottom: '10px'}}>Item distribution</Text>
+                                <Image src={distTableImage} />
+                            </View>
+                        }
+                        {(showTransactionTable && transTableImage) &&
+                            <View style={{borderRadius: '10px', border: '1px solid lightgray', padding: '10px', margin: '10px'}}>
+                                <Text style={{alignSelf: 'center', marginBottom: '10px'}}>Transactions history</Text>
+                                <Image src={transTableImage} />
+                            </View>
+                        }
+                        {showTotal &&
+                            <View style={{borderRadius: '10px', border: '1px solid lightgray', padding: '10px', margin: '10px', flexDirection: 'row', justifyContent: 'space-between'}} break="before">
+                                <Text>Total</Text>
+                                <Text>{data.reduce((acc, transaction) => acc + transaction.total, 0)}</Text>
+                            </View>
+                        }
+                    </View>
+                </Page>
+            </Document>
+        );
+    };
+
+    const handleDownloadReport = () => {
+        setDownloading(true);
+        pdfDownloadLinkRef.current.link.click();
     }
 
     return (
@@ -277,7 +355,18 @@ const ViewReport = () => {
                     </VerticalContainer>
                 </VerticalContainer>
                 <Separator />
-                <BigButton icon={LineChart} onClick={handleGenerateReport}>Generate report</BigButton>
+                <HorizontalContainer justifyContent="space-between">
+                    <BigButton icon={LineChart} onClick={handleGenerateReport}>Generate report</BigButton>
+                    {reportGenerated &&
+                        <PDFDownloadLink document={<MyDocument />} fileName={oneDay ? date + '-report' : start + '-' + end + '-report'} ref={pdfDownloadLinkRef}>
+                            {({ url, loading }) => (
+                                <BigButton icon={Download} disabled={downloading || loading} onClick={handleDownloadReport}>
+                                    {loading ? <Spinner /> : 'Download PDF'}
+                                </BigButton>
+                            )}
+                        </PDFDownloadLink>
+                    }
+                </HorizontalContainer>
             </VerticalContainer>
             {data.length > 0 &&
                 <VerticalContainer>
@@ -290,31 +379,33 @@ const ViewReport = () => {
                     >{oneDay ? 'Report about ' + date : 'Report made from ' + start + ' to ' + end}</H4>
                     <HorizontalContainer width="100%" justifyContent="center" alignSelf="center">
                         {showDistribution &&
-                            <VerticalContainer alignItems="center" justifyContent="center"
-                                               borderRadius="$5"
-                                               boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
-                                               padding="$3"
-                            >
-                                <H4>Distribution of items sold</H4>
-                                {showPie ?
-                                    <VictoryPie
-                                        data={aggregateItems()}
-                                    x="name"
-                                    y="amount"
-                                    theme={VictoryTheme.grayscale}
-                                    categories={{x: items.map(item => item.name)}}
-                                />
-                                    :
-                                    <VictoryChart theme={VictoryTheme.grayscale} domainPadding={50}>
-                                        <VictoryBar
-                                            x="name"
-                                            y="amount"
-                                            data={aggregateItems()}
-                                            animate={{duration: 500}}
-                                        />
-                                    </VictoryChart>
-                                }
-                            </VerticalContainer>
+                                <VerticalContainer alignItems="center" justifyContent="center"
+                                                   borderRadius="$5"
+                                                   boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                                                   padding="$3"
+                                >
+                                    <H4>Distribution of items sold</H4>
+                                    <div id="distChartContainer">
+                                        {showPie ? (
+                                            <VictoryPie
+                                                data={aggregateItems()}
+                                                x="name"
+                                                y="amount"
+                                                theme={VictoryTheme.grayscale}
+                                                categories={{ x: items.map(item => item.name) }}
+                                            />
+                                        ) : (
+                                            <VictoryChart theme={VictoryTheme.grayscale} domainPadding={50}>
+                                                <VictoryBar
+                                                    x="name"
+                                                    y="amount"
+                                                    data={aggregateItems()}
+                                                    animate={{ duration: 500 }}
+                                                />
+                                            </VictoryChart>
+                                        )}
+                                    </div>
+                                </VerticalContainer>
                         }
                         {showRevenue &&
                             <VerticalContainer alignItems="center" justifyContent="center"
@@ -323,17 +414,19 @@ const ViewReport = () => {
                                                padding="$3"
                             >
                                 <H4>Revenue from transactions</H4>
-                                <VictoryChart
-                                    theme={VictoryTheme.grayscale}
-                                    domainPadding={50}
-                                    animate={{duration: 500}}
-                                >
-                                    {showLine ?
-                                        <VictoryLine data={readableData()} x='created_at' y='total' />
-                                        :
-                                        <VictoryScatter data={readableData()} x='created_at' y='total' />
-                                    }
-                                </VictoryChart>
+                                <div id="transChartContainer">
+                                    <VictoryChart
+                                        theme={VictoryTheme.grayscale}
+                                        domainPadding={50}
+                                        animate={{duration: 500}}
+                                    >
+                                        {showLine ?
+                                            <VictoryLine data={readableData()} x='created_at' y='total' />
+                                            :
+                                            <VictoryScatter data={readableData()} x='created_at' y='total' />
+                                        }
+                                    </VictoryChart>
+                                </div>
                             </VerticalContainer>
                         }
                     </HorizontalContainer>
