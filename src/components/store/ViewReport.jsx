@@ -3,7 +3,7 @@ import {Checkbox, H2, H4, H6, Label, Separator, SizableText, Spinner} from "tama
 import {Form} from "react-bootstrap";
 import React, {useEffect, useRef, useState} from "react";
 import axios from "../../axiosConfig.js";
-import {VictoryBar, VictoryChart, VictoryLine, VictoryPie, VictoryScatter, VictoryTheme} from "victory";
+import {VictoryAxis, VictoryBar, VictoryChart, VictoryLine, VictoryPie, VictoryScatter, VictoryTheme} from "victory";
 import {Check, Download, LineChart} from "@tamagui/lucide-icons";
 import DatePicker from "../datePicker/DatePicker.jsx";
 import TransactionsTable from "./TransactionsTable.jsx";
@@ -396,6 +396,26 @@ const ViewReport = () => {
                                             />
                                         ) : (
                                             <VictoryChart theme={VictoryTheme.grayscale} domainPadding={50}>
+                                                <VictoryAxis
+                                                    fixLabelOverlap
+                                                    style={{
+                                                        tickLabels: {
+                                                            angle: 0,
+                                                            fontSize: 15,
+                                                            padding: 5
+                                                        }
+                                                    }}
+                                                />
+                                                <VictoryAxis
+                                                    dependentAxis
+                                                    style={{
+                                                        tickLabels: {
+                                                            angle: 0,
+                                                            fontSize: 15,
+                                                            padding: 5
+                                                        }
+                                                    }}
+                                                />
                                                 <VictoryBar
                                                     x="name"
                                                     y="amount"
@@ -420,6 +440,26 @@ const ViewReport = () => {
                                         domainPadding={50}
                                         animate={{duration: 500}}
                                     >
+                                        <VictoryAxis
+                                            fixLabelOverlap
+                                            style={{
+                                                tickLabels: {
+                                                    angle: 0,
+                                                    fontSize: 15,
+                                                    padding: 5
+                                                }
+                                            }}
+                                        />
+                                        <VictoryAxis
+                                            dependentAxis
+                                            style={{
+                                                tickLabels: {
+                                                    angle: 0,
+                                                    fontSize: 15,
+                                                    padding: 5
+                                                }
+                                            }}
+                                        />
                                         {showLine ?
                                             <VictoryLine data={readableData()} x='created_at' y='total' />
                                             :
