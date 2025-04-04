@@ -38,7 +38,7 @@ const ViewReport = () => {
             } catch (error) {
                 console.error(error);
             } finally {
-                setData(response.data);
+                setData((response.data).sort((a, b) => (new Date(a.created_at)).getTime() - (new Date(b.created_at)).getTime()));
             }
         }
     }
@@ -51,7 +51,7 @@ const ViewReport = () => {
             } catch (error) {
                 console.error(error);
             } finally {
-                setData(response.data);
+                setData((response.data).sort((a, b) => (new Date(a.created_at)).getTime() - (new Date(b.created_at)).getTime()));
             }
         }
     }
@@ -393,6 +393,8 @@ const ViewReport = () => {
                                                 y="amount"
                                                 theme={VictoryTheme.grayscale}
                                                 categories={{ x: items.map(item => item.name) }}
+                                                width={350}
+                                                height={350}
                                             />
                                         ) : (
                                             <VictoryChart theme={VictoryTheme.grayscale} domainPadding={50}>
