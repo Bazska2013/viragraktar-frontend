@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {H2, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
 import {UserPen} from "@tamagui/lucide-icons";
-import {BigButton, VerticalContainer} from "../../tamagui.config.ts";
+import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangeName = ({user}) => {
     const dispatch = useDispatch();
@@ -43,6 +43,7 @@ const ChangeName = ({user}) => {
                 </Spinner>
             </> : <VerticalContainer>
                 <H2>Change name</H2>
+                <ProfileContainer>
                     <Formik
                         validationSchema={schema}
                         initialValues={{
@@ -58,6 +59,7 @@ const ChangeName = ({user}) => {
                                         <H4>Name</H4>
                                     </Label>
                                     <Input
+                                        backgroundColor="none"
                                         flex={1}
                                         borderWidth={2}
                                         type="text"
@@ -78,6 +80,7 @@ const ChangeName = ({user}) => {
                             </Form>
                         )}
                     </Formik>
+                </ProfileContainer>
             </VerticalContainer>}
         </VerticalContainer>
     );

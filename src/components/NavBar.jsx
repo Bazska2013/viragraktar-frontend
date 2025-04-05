@@ -70,10 +70,11 @@ const NavBar = () => {
             zIndex={1000}
             animation="bouncy"
         >
-            <div style={{backdropFilter: 'blur(7px)', borderRadius: '10px', boxShadow: scrollY > 0 ? '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)' : 'none', border: 'none'}}>
+            <div style={{backdropFilter: 'blur(7px)', borderRadius: '10px', border: 'none'}}>
                 {(user && store) &&
                     <Tabs value={currentTab} onValueChange={(value) => handleNavigation(value)}
                           borderRadius="10px"
+                          elevation={100}
                     >
                         <Tabs.List
                             width="100%"

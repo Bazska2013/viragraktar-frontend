@@ -5,7 +5,7 @@ import * as yup from "yup";
 import {useState} from "react";
 import {Input, Label, SizableText, Form, Spinner, H4} from "tamagui";
 import {PenSquare} from "@tamagui/lucide-icons";
-import {BigButton, VerticalContainer} from "../../tamagui.config.ts";
+import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const JoinStore = () => {
     const navigate = useNavigate();
@@ -36,11 +36,12 @@ const JoinStore = () => {
 
     return (
         <VerticalContainer>
+            <H4>Join a store</H4>
             {isLoading ? <>
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
-            </> : <VerticalContainer>
+            </> : <ProfileContainer>
                 <Formik
                     validationSchema={schema}
                     initialValues={{
@@ -56,6 +57,7 @@ const JoinStore = () => {
                                         <H4>Enter the unique ID of the Store you want to join</H4>
                                     </Label>
                                     <Input
+                                        backgroundColor="none"
                                         flex={1}
                                         borderWidth={2}
                                         type='text'
@@ -78,7 +80,7 @@ const JoinStore = () => {
                     )
                     }
                 </Formik>
-            </VerticalContainer>}
+        </ProfileContainer>}
         </VerticalContainer>
     )
 }

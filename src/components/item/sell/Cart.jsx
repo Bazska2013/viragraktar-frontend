@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
-import {H3, Spinner, Sheet, H2, Group, SizableText} from "tamagui";
+import {H3, Spinner, Sheet, H2, Group, SizableText, H4, Separator, H6, SheetScrollView} from "tamagui";
 import {Banknote, CreditCard, DollarSign} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, SmallButton, VerticalContainer} from "../../../tamagui.config.ts";
 
@@ -49,43 +49,56 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                 exitStyle={{opacity: 0}}
             />
             <Sheet.Handle />
-            <Sheet.Frame justifyContent="center" alignItems="center">
-                <VerticalContainer>
-                    <H2>Checkout</H2>
-                    {isLoading ?
-                        <Spinner>
-                            <span className="sr-only">Loading...</span>
-                        </Spinner> :
-                        <VerticalContainer>
-                            <HorizontalContainer>
-                                <H3>#</H3>
-                                <H3>Name</H3>
-                                <H3>Amount</H3>
-                                <H3>Price</H3>
-                                <H3>Total</H3>
-                            </HorizontalContainer>
-                            {cart.map((item, index) => (
-                                <HorizontalContainer key={index}>
-                                    <SizableText>{index + 1}</SizableText>
-                                    <SizableText>{item.name}</SizableText>
-                                    <SizableText>{item.amount}</SizableText>
-                                    <SizableText>{item.price}</SizableText>
-                                    <SizableText>{item.price * item.amount}</SizableText>
+            <Sheet.Frame alignItems="center">
+                <VerticalContainer
+                    padding="$3"
+                    width="95%"
+                >
+                    <SheetScrollView>
+                        <H2 marginTop="3rem" marginBottom="1rem">Checkout</H2>
+                        <SizableText marginBottom="1rem">Swipe down to change the selected items</SizableText>
+                        {isLoading ?
+                            <Spinner>
+                                <span className="sr-only">Loading...</span>
+                            </Spinner> :
+                            <VerticalContainer justifyContent="center">
+                                <Separator />
+                                <HorizontalContainer alignItems="center">
+                                    <H6 width="10%" textAlign="center">#</H6>
+                                    <H6 width="20%" textAlign="center">Name</H6>
+                                    <H6 width="25%" textAlign="center">Amount</H6>
+                                    <H6 width="15%" textAlign="center">Price</H6>
+                                    <H6 width="20%" textAlign="center">Total</H6>
                                 </HorizontalContainer>
-                            ))}
-                            <HorizontalContainer>
-                                <Group orientation='horizontal'>
-                                    <SmallButton icon={Banknote} onClick={() => setCash(!cash)}>Cash</SmallButton>
-                                    <SmallButton icon={CreditCard} onClick={() => setCash(!cash)}>Credit</SmallButton>
-                                </Group>
-                                <H3>
-                                    Total: {total} HUF
-                                </H3>
-                                <BigButton icon={DollarSign} onClick={() => handleCheckout()}>Sell</BigButton>
-                            </HorizontalContainer>
-                            {error && <SizableText color='red' >{error}</SizableText>}
-                        </VerticalContainer>
-                    }
+                                <Separator />
+                                {cart.map((item, index) => (
+                                    <HorizontalContainer key={index} alignItems="center">
+                                        <SizableText width="10%" textAlign="center">{index + 1}</SizableText>
+                                        <SizableText width="20%" textAlign="center">{item.name}</SizableText>
+                                        <SizableText width="25%" textAlign="center">{item.amount}</SizableText>
+                                        <SizableText width="15%" textAlign="center">{item.price}</SizableText>
+                                        <SizableText width="20%" textAlign="center">{item.price * item.amount}</SizableText>
+                                    </HorizontalContainer>
+                                ))}
+                                <Separator />
+                                <HorizontalContainer alignItems="center" justifyContent="space-between">
+                                    <SizableText>Choose payment type</SizableText>
+                                    <Group orientation='horizontal' alignItems="center" elevation={100}>
+                                        <SmallButton icon={Banknote} onClick={() => setCash(!cash)}>Cash</SmallButton>
+                                        <SmallButton icon={CreditCard} onClick={() => setCash(!cash)}>Credit</SmallButton>
+                                    </Group>
+                                </HorizontalContainer>
+                                <Separator />
+                                <HorizontalContainer alignItems="center" justifyContent="space-between" marginBottom="3rem">
+                                    <H4>
+                                        Total: {total} HUF
+                                    </H4>
+                                    <BigButton elevation={100} icon={DollarSign} onClick={() => handleCheckout()}>Sell</BigButton>
+                                </HorizontalContainer>
+                                {error && <SizableText color='red' >{error}</SizableText>}
+                            </VerticalContainer>
+                        }
+                    </SheetScrollView>
                 </VerticalContainer>
             </Sheet.Frame>
         </>

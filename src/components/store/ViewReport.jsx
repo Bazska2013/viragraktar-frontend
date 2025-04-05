@@ -1,4 +1,4 @@
-import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {Checkbox, H2, H4, H6, Label, Separator, SizableText, Spinner} from "tamagui";
 import {Form} from "react-bootstrap";
 import React, {useEffect, useRef, useState} from "react";
@@ -235,13 +235,7 @@ const ViewReport = () => {
     return (
         <VerticalContainer>
             <H2>View report</H2>
-            <VerticalContainer
-                borderRadius="$5"
-                width="100%"
-                alignSelf="center"
-                boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
-                padding="$3"
-            >
+            <ProfileContainer>
                 <HorizontalContainer alignItems="center">
                     <Label htmlFor="day">
                         <H6>Get data from</H6>
@@ -367,21 +361,21 @@ const ViewReport = () => {
                         </PDFDownloadLink>
                     }
                 </HorizontalContainer>
-            </VerticalContainer>
-            {data.length > 0 &&
+            </ProfileContainer>
+            {data.length > 0 ?
                 <VerticalContainer>
                     <H4
                         borderRadius="$5"
                         width="100%"
                         alignSelf="center"
-                        boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                        elevation={100}
                         padding="$3"
                     >{oneDay ? 'Report about ' + date : 'Report made from ' + start + ' to ' + end}</H4>
                     <HorizontalContainer width="100%" justifyContent="center" alignSelf="center">
                         {showDistribution &&
                                 <VerticalContainer alignItems="center" justifyContent="center"
                                                    borderRadius="$5"
-                                                   boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                                                   elevation={100}
                                                    padding="$3"
                                 >
                                     <H4>Distribution of items sold</H4>
@@ -432,7 +426,7 @@ const ViewReport = () => {
                         {showRevenue &&
                             <VerticalContainer alignItems="center" justifyContent="center"
                                                borderRadius="$5"
-                                               boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                                               elevation={100}
                                                padding="$3"
                             >
                                 <H4>Revenue from transactions</H4>
@@ -478,6 +472,16 @@ const ViewReport = () => {
                         </VerticalContainer>
                     }
                 </VerticalContainer>
+            :
+                <H4
+                    borderRadius="$5"
+                    width="100%"
+                    alignSelf="center"
+                    elevation={100}
+                    padding="$3"
+                >
+                    No data available for this date
+                </H4>
             }
         </VerticalContainer>
     )

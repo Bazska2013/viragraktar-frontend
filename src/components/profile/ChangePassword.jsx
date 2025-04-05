@@ -5,7 +5,7 @@ import {setUser} from "../../features/auth/userSlice.js";
 import {useState} from "react";
 import {H2, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
 import {BookKey} from "@tamagui/lucide-icons";
-import {BigButton, VerticalContainer} from "../../tamagui.config.ts";
+import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangePassword = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -45,78 +45,83 @@ const ChangePassword = () => {
                 </Spinner>
             </> : <VerticalContainer>
                 <H2>Change password</H2>
-                <Formik
-                    validationSchema={schema}
-                    initialValues={{
-                        old_password: '',
-                        password1: '',
-                        password2: ''
-                    }}
-                    onSubmit={(values) => {handleSubmit(values)}}
-                >
-                    {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
-                        <Form noValidate onSubmit={formikSubmit}>
-                            <VerticalContainer>
-                                <Label htmlFor="old_password">
-                                    <H4>Old password</H4>
-                                </Label>
-                                <Input
-                                    flex={1}
-                                    borderWidth={2}
-                                    type="password"
-                                    name="old_password"
-                                    value={values.old_password}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.old_password}
-                                />
-                                <SizableText size='small' color='red'>
-                                    {errors.old_password}
-                                </SizableText>
-                            </VerticalContainer>
-                            <Separator />
-                            <VerticalContainer>
-                                <Label htmlFor="password1">
-                                    <H4>New password</H4>
-                                </Label>
-                                <Input
-                                    flex={1}
-                                    borderWidth={2}
-                                    type="password"
-                                    name="password1"
-                                    value={values.password1}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.password1}
-                                />
-                                <SizableText size='small' color='red'>
-                                    {errors.password1}
-                                </SizableText>
-                            </VerticalContainer>
-                            <Separator />
-                            <VerticalContainer>
-                                <Label htmlFor="password2">
-                                    <H4>New password again</H4>
-                                </Label>
-                                <Input
-                                    flex={1}
-                                    borderWidth={2}
-                                    type="password"
-                                    name="password2"
-                                    value={values.password2}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.password2}
-                                />
-                                <SizableText size='small' color='red'>
-                                    {errors.password2}
-                                </SizableText>
-                            </VerticalContainer>
-                            <Separator />
-                            <Form.Trigger asChild>
-                                <BigButton icon={BookKey} type='submit'>{isLoading ? <Spinner /> : 'Change password'}</BigButton>
-                            </Form.Trigger>
-                            {error && <SizableText color="red">{error}</SizableText>}
-                        </Form>
-                    )}
-                </Formik>
+                <ProfileContainer>
+                    <Formik
+                        validationSchema={schema}
+                        initialValues={{
+                            old_password: '',
+                            password1: '',
+                            password2: ''
+                        }}
+                        onSubmit={(values) => {handleSubmit(values)}}
+                    >
+                        {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                            <Form noValidate onSubmit={formikSubmit}>
+                                <VerticalContainer>
+                                    <Label htmlFor="old_password">
+                                        <H4>Old password</H4>
+                                    </Label>
+                                    <Input
+                                        backgroundColor="none"
+                                        flex={1}
+                                        borderWidth={2}
+                                        type="password"
+                                        name="old_password"
+                                        value={values.old_password}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.old_password}
+                                    />
+                                    <SizableText size='small' color='red'>
+                                        {errors.old_password}
+                                    </SizableText>
+                                </VerticalContainer>
+                                <Separator />
+                                <VerticalContainer>
+                                    <Label htmlFor="password1">
+                                        <H4>New password</H4>
+                                    </Label>
+                                    <Input
+                                        backgroundColor="none"
+                                        flex={1}
+                                        borderWidth={2}
+                                        type="password"
+                                        name="password1"
+                                        value={values.password1}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.password1}
+                                    />
+                                    <SizableText size='small' color='red'>
+                                        {errors.password1}
+                                    </SizableText>
+                                </VerticalContainer>
+                                <Separator />
+                                <VerticalContainer>
+                                    <Label htmlFor="password2">
+                                        <H4>New password again</H4>
+                                    </Label>
+                                    <Input
+                                        backgroundColor="none"
+                                        flex={1}
+                                        borderWidth={2}
+                                        type="password"
+                                        name="password2"
+                                        value={values.password2}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.password2}
+                                    />
+                                    <SizableText size='small' color='red'>
+                                        {errors.password2}
+                                    </SizableText>
+                                </VerticalContainer>
+                                <Separator />
+                                <Form.Trigger asChild>
+                                    <BigButton icon={BookKey} type='submit'>{isLoading ? <Spinner /> : 'Change password'}</BigButton>
+                                </Form.Trigger>
+                                {error && <SizableText color="red">{error}</SizableText>}
+                            </Form>
+                        )}
+                    </Formik>
+                </ProfileContainer>
             </VerticalContainer>}
         </VerticalContainer>
     );

@@ -26836,6 +26836,7 @@ __export(tamagui_config_exports, {
   DateButton: () => DateButton,
   EditContainer: () => EditContainer,
   HorizontalContainer: () => HorizontalContainer,
+  ProfileContainer: () => ProfileContainer,
   SmallButton: () => SmallButton,
   SmallButtonWithAccent: () => SmallButtonWithAccent,
   StyledListItem: () => StyledListItem,
@@ -31217,7 +31218,7 @@ var SheetImplementationCustom = import_react21.default.forwardRef(function(props
     position,
     setPosition,
     scrollBridge,
-    screenSize: screenSize2,
+    screenSize,
     setMaxContentSize,
     maxSnapPoint
   } = providerProps, {
@@ -31236,7 +31237,7 @@ var SheetImplementationCustom = import_react21.default.forwardRef(function(props
   })(), [isShowingInnerSheet, setIsShowingInnerSheet] = import_react21.default.useState(false), shouldHideParentSheet = !isWeb && modal && isShowingInnerSheet && // if not using weird portal limitation we dont need to hide parent sheet
   USE_NATIVE_PORTAL, sheetInsideSheet = import_react21.default.useContext(SheetInsideSheetContext), onInnerSheet = import_react21.default.useCallback((hasChild) => {
     setIsShowingInnerSheet(hasChild);
-  }, []), positions = import_react21.default.useMemo(() => snapPoints.map((point) => getYPositions(snapPointsMode, point, screenSize2, frameSize)), [screenSize2, frameSize, snapPoints, snapPointsMode]), {
+  }, []), positions = import_react21.default.useMemo(() => snapPoints.map((point) => getYPositions(snapPointsMode, point, screenSize, frameSize)), [screenSize, frameSize, snapPoints, snapPointsMode]), {
     useAnimatedNumber,
     useAnimatedNumberStyle,
     useAnimatedNumberReaction
@@ -31248,7 +31249,7 @@ var SheetImplementationCustom = import_react21.default.forwardRef(function(props
   }, [sheetInsideSheet, open]);
   const nextParentContext = import_react21.default.useMemo(() => ({
     zIndex: zIndex2
-  }), [zIndex2]), startPosition = (0, import_core8.useDidFinishSSR)() && screenSize2 ? screenSize2 : hiddenSize, animatedNumber = useAnimatedNumber(startPosition), at = import_react21.default.useRef(startPosition), hasntMeasured = at.current === hiddenSize, [disableAnimation, setDisableAnimation] = (0, import_react21.useState)(hasntMeasured);
+  }), [zIndex2]), startPosition = (0, import_core8.useDidFinishSSR)() && screenSize ? screenSize : hiddenSize, animatedNumber = useAnimatedNumber(startPosition), at = import_react21.default.useRef(startPosition), hasntMeasured = at.current === hiddenSize, [disableAnimation, setDisableAnimation] = (0, import_react21.useState)(hasntMeasured);
   useAnimatedNumberReaction({
     value: animatedNumber,
     hostRef: sheetRef
@@ -31261,15 +31262,15 @@ var SheetImplementationCustom = import_react21.default.forwardRef(function(props
   __name(stopSpring, "stopSpring");
   const animateTo = (0, import_core8.useEvent)((position2) => {
     if (frameSize === 0) return;
-    let toValue = isHidden2 || position2 === -1 ? screenSize2 : positions[position2];
+    let toValue = isHidden2 || position2 === -1 ? screenSize : positions[position2];
     at.current !== toValue && (at.current = toValue, stopSpring(), animatedNumber.setValue(toValue, {
       type: "spring",
       ...animationConfig
     }));
   });
   useIsomorphicLayoutEffect(() => {
-    if (hasntMeasured && screenSize2) {
-      at.current = screenSize2, animatedNumber.setValue(screenSize2, {
+    if (hasntMeasured && screenSize) {
+      at.current = screenSize, animatedNumber.setValue(screenSize, {
         type: "timing",
         duration: 0
       }, () => {
@@ -31279,8 +31280,8 @@ var SheetImplementationCustom = import_react21.default.forwardRef(function(props
       });
       return;
     }
-    disableAnimation || !frameSize || !screenSize2 || isHidden2 || hasntMeasured && !open || animateTo(position);
-  }, [hasntMeasured, disableAnimation, isHidden2, frameSize, screenSize2, open, position]);
+    disableAnimation || !frameSize || !screenSize || isHidden2 || hasntMeasured && !open || animateTo(position);
+  }, [hasntMeasured, disableAnimation, isHidden2, frameSize, screenSize, open, position]);
   const disableDrag = props.disableDrag ?? controller?.disableDrag, themeName = (0, import_core8.useThemeName)(), [isDragging, setIsDragging] = import_react21.default.useState(false), panResponder = import_react21.default.useMemo(() => {
     if (disableDrag || !frameSize || isShowingInnerSheet) return;
     const minY = positions[0];
@@ -31357,7 +31358,7 @@ var SheetImplementationCustom = import_react21.default.forwardRef(function(props
   import_react21.default.useEffect(() => {
     if (isWeb || !moveOnKeyboardChange) return;
     const keyboardShowListener = import_react_native_web.Keyboard.addListener(currentPlatform === "ios" ? "keyboardWillShow" : "keyboardDidShow", (e) => {
-      sizeBeforeKeyboard.current === null && (sizeBeforeKeyboard.current = isHidden2 || position === -1 ? screenSize2 : positions[position], animatedNumber.setValue(Math.max(sizeBeforeKeyboard.current - e.endCoordinates.height, 0), {
+      sizeBeforeKeyboard.current === null && (sizeBeforeKeyboard.current = isHidden2 || position === -1 ? screenSize : positions[position], animatedNumber.setValue(Math.max(sizeBeforeKeyboard.current - e.endCoordinates.height, 0), {
         type: "timing",
         duration: 250
       }));
@@ -31447,21 +31448,21 @@ var SheetImplementationCustom = import_react21.default.forwardRef(function(props
   }
   return contents;
 });
-function getYPositions(mode, point, screenSize2, frameSize) {
-  if (!screenSize2 || !frameSize) return 0;
+function getYPositions(mode, point, screenSize, frameSize) {
+  if (!screenSize || !frameSize) return 0;
   if (mode === "mixed") {
-    if (typeof point == "number") return screenSize2 - Math.min(screenSize2, Math.max(0, point));
-    if (point === "fit") return screenSize2 - Math.min(screenSize2, frameSize);
+    if (typeof point == "number") return screenSize - Math.min(screenSize, Math.max(0, point));
+    if (point === "fit") return screenSize - Math.min(screenSize, frameSize);
     if (point.endsWith("%")) {
       const pct2 = Math.min(100, Math.max(0, Number(point.slice(0, -1)))) / 100;
-      return Number.isNaN(pct2) ? (console.warn("Invalid snapPoint percentage string"), 0) : Math.round(screenSize2 - pct2 * screenSize2);
+      return Number.isNaN(pct2) ? (console.warn("Invalid snapPoint percentage string"), 0) : Math.round(screenSize - pct2 * screenSize);
     }
     return console.warn("Invalid snapPoint unknown value"), 0;
   }
-  if (mode === "fit") return point === 0 ? screenSize2 : screenSize2 - Math.min(screenSize2, frameSize);
-  if (mode === "constant" && typeof point == "number") return screenSize2 - Math.min(screenSize2, Math.max(0, point));
+  if (mode === "fit") return point === 0 ? screenSize : screenSize - Math.min(screenSize, frameSize);
+  if (mode === "constant" && typeof point == "number") return screenSize - Math.min(screenSize, Math.max(0, point));
   const pct = Math.min(100, Math.max(0, Number(point))) / 100;
-  return Number.isNaN(pct) ? (console.warn("Invalid snapPoint percentage"), 0) : Math.round(screenSize2 - pct * screenSize2);
+  return Number.isNaN(pct) ? (console.warn("Invalid snapPoint percentage"), 0) : Math.round(screenSize - pct * screenSize);
 }
 __name(getYPositions, "getYPositions");
 
@@ -31539,7 +31540,7 @@ var SheetScrollView = import_react22.default.forwardRef(({
 var useSheetOffscreenSize = /* @__PURE__ */ __name(({
   snapPoints,
   position,
-  screenSize: screenSize2,
+  screenSize,
   frameSize,
   snapPointsMode
 }) => {
@@ -31550,11 +31551,11 @@ var useSheetOffscreenSize = /* @__PURE__ */ __name(({
   }
   if (snapPointsMode === "percent") {
     const maxPercentOpened = Number(snapPoints[0]) / 100, percentOpened = Number(snapPoints[position] ?? 0) / 100;
-    return (maxPercentOpened - percentOpened) * screenSize2;
+    return (maxPercentOpened - percentOpened) * screenSize;
   }
   const maxSnapPoint = snapPoints[0];
   if (maxSnapPoint === "fit") return 0;
-  const maxSize = typeof maxSnapPoint == "string" ? Number(maxSnapPoint.slice(0, -1)) / 100 * screenSize2 : maxSnapPoint, currentSnapPoint = snapPoints[position] ?? 0, currentSize = typeof currentSnapPoint == "string" ? Number(currentSnapPoint.slice(0, -1)) / 100 * screenSize2 : currentSnapPoint, offscreenSize = maxSize - currentSize;
+  const maxSize = typeof maxSnapPoint == "string" ? Number(maxSnapPoint.slice(0, -1)) / 100 * screenSize : maxSnapPoint, currentSnapPoint = snapPoints[position] ?? 0, currentSize = typeof currentSnapPoint == "string" ? Number(currentSnapPoint.slice(0, -1)) / 100 * screenSize : currentSnapPoint, offscreenSize = maxSize - currentSize;
   return Number.isNaN(offscreenSize) ? 0 : offscreenSize;
 }, "useSheetOffscreenSize");
 
@@ -47559,10 +47560,10 @@ var Text4 = (0, import_core55.styled)(import_core55.Text, {
 var import_core56 = require("@tamagui/core");
 
 // src/tamagui.config.ts
-var screenSize = window.innerWidth;
 var BigButton = (0, import_core56.styled)(Button2, {
   backgroundColor: "#292023",
   color: "white",
+  elevation: 100,
   hoverStyle: {
     backgroundColor: "#392D31"
   },
@@ -47579,43 +47580,45 @@ var BigButton = (0, import_core56.styled)(Button2, {
   size: "$6"
 });
 var SmallButtonWithAccent = (0, import_core56.styled)(Button2, {
-  backgroundColor: "#8e8b7c",
-  color: "white",
+  backgroundColor: "#FBF9EF",
+  elevation: 100,
   hoverStyle: {
-    backgroundColor: "#979487"
+    backgroundColor: "#faf0e6"
   },
   focusStyle: {
-    backgroundColor: "#979487"
+    backgroundColor: "#faf5eb"
   },
   pressStyle: {
-    backgroundColor: "#838072"
+    backgroundColor: "#f5ebe1"
   },
   disabledStyle: {
-    backgroundColor: "#A09E92",
+    backgroundColor: "#fffaf5",
     border: "none"
   },
   size: "$3"
 });
 var SmallButton = (0, import_core56.styled)(Button2, {
-  backgroundColor: "#f2f6d5",
+  backgroundColor: "#f5f5f5",
   color: "black",
+  elevation: 100,
   hoverStyle: {
-    backgroundColor: "#fafbee"
+    backgroundColor: "#f0f0f0"
   },
   focusStyle: {
-    backgroundColor: "#fafbee"
+    backgroundColor: "#f3f3f3"
   },
   pressStyle: {
-    backgroundColor: "#F0F3CD"
+    backgroundColor: "#f1f1f1"
   },
   disabledStyle: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#fafafa",
     border: "none"
   },
   size: "$3"
 });
 var DateButton = (0, import_core56.styled)(Button2, {
   backgroundColor: "white",
+  elevation: 100,
   color: "black",
   hoverStyle: {
     backgroundColor: "#fafbee"
@@ -47641,12 +47644,21 @@ var EditContainer = (0, import_core56.styled)(YStack, {
   flex: 1,
   gap: "$5",
   padding: "$1",
-  width: screenSize > 1280 ? "50%" : screenSize > 768 ? "75%" : "100%",
   borderRadius: "$3",
-  boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)",
+  elevation: 100,
   alignSelf: "center"
 });
+var ProfileContainer = (0, import_core56.styled)(YStack, {
+  borderRadius: "$5",
+  width: "100%",
+  alignSelf: "center",
+  elevation: 100,
+  padding: "$3",
+  flex: 1,
+  gap: "$5"
+});
 var StyledListItem = (0, import_core56.styled)(ListItem2, {
+  backgroundColor: "#f5f5f5",
   pressStyle: {
     backgroundColor: "#ffffff"
   }
@@ -47661,6 +47673,7 @@ var config = (0, import_core57.createTamagui)({
   DateButton,
   EditContainer,
   HorizontalContainer,
+  ProfileContainer,
   SmallButton,
   SmallButtonWithAccent,
   StyledListItem,

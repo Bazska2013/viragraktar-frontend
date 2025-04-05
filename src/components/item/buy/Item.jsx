@@ -95,17 +95,19 @@ const Item = ({props, refetch}) => {
     return (
         <HorizontalContainer
             borderRadius="$5"
-            boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+            elevation={100}
             alignSelf="center"
             flex={1}
             padding="$3"
+            height="425px"
         >
             <VerticalContainer
                 flex={5}
                 alignItems="center"
                 width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
+                justifyContent="space-between"
             >
-                <Image borderRadius="$5" source={{
+                <Image onClick={(e) => {handleChange(e, 'add')}} borderRadius="$5" elevation={100} source={{
                     uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
                     width: 180,
                     height: 180,
@@ -118,10 +120,12 @@ const Item = ({props, refetch}) => {
                 flex={1}
                 width={screenSize > 1280 ? "120px" : (screenSize > 768 ? "110px" : "100px")}
                 alignItems="center"
+                height="max-content"
             >
-                <Group orientation='vertical' width="100%">
+                <Group orientation='vertical' width="100%" elevation={100}>
                     <SmallButtonWithAccent icon={Plus} onClick={(e) => {handleChange(e, 'add')}} />
                     <Input
+                        backgroundColor="none"
                         flex={1}
                         borderWidth={2}
                         type='number'
@@ -132,11 +136,11 @@ const Item = ({props, refetch}) => {
                     />
                     <SmallButtonWithAccent icon={Minus} onClick={(e) => {handleChange(e, 'remove')}} />
                 </Group>
-                <Group orientation={screenSize > 768 ? 'horizontal' : 'vertical'} width="100%" flex={1}>
+                <Group orientation={screenSize > 768 ? 'horizontal' : 'vertical'} width="100%" flex={1} elevation={100}>
                     <SmallButton flex={1} icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleCancel()} />
                     <SmallButton flex={1} icon={Check} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleSubmit()} />
                 </Group>
-                <SmallButtonWithAccent icon={PenSquare} width="100%" onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
+                <SmallButtonWithAccent elevation={100} icon={PenSquare} width="100%" onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
                     {screenSize > 768 ? 'Edit item' : ''}
                 </SmallButtonWithAccent>
             </VerticalContainer>

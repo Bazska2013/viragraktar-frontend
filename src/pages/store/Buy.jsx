@@ -61,6 +61,7 @@ const Buy = () => {
             <AnimatePresence>
                 {isScrollable && !isAtBottom &&
                     <BigButton
+                        elevation={100}
                         zIndex={1000}
                         animation="quick"
                         enterStyle={{x: 300}}
@@ -86,7 +87,9 @@ const Buy = () => {
                     </HorizontalContainer>
             }
             <BigButton
+                elevation={100}
                 alignSelf="center"
+                marginBottom="5rem"
                 icon={ShoppingBasket}
                 onClick={() => {navigate('/new/item', {replace: true})}}>New item</BigButton>
         </VerticalContainer>

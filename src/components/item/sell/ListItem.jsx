@@ -51,6 +51,12 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
         }
     }, [amount]);
 
+    useEffect(() => {
+        if (!isItemInCart) {
+            setAmount(0);
+        }
+    }, [item, isItemInCart]);
+
     const handleAddToCart = () => {
         let newItem = {...item, amount: amount};
         addToCart(newItem);
@@ -59,14 +65,14 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
     return (
         <VerticalContainer
             borderRadius="$5"
-            boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+            elevation={100}
             backgroundColor={isItemInCart ? '#f2f6d5' : ''}
             alignSelf="center"
             flex={1}
             padding="$3"
         >
             <Button
-                boxShadow={isChanged ? "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)" : "none"}
+                elevation={isChanged ? 100 : 0}
                 icon={X}
                 disabled={!isChanged}
                 backgroundColor={isChanged ? '#f2f6d5' : 'transparent'}
@@ -82,7 +88,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                     alignItems="center"
                     width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
                 >
-                    <Image borderRadius="$5" source={{
+                    <Image onClick={(e) => handleChange(e, 'plus')} borderRadius="$5" elevation={100} source={{
                         uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
                         width: 180,
                         height: 180,
@@ -96,9 +102,10 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                     width={screenSize > 1280 ? "120px" : (screenSize > 768 ? "110px" : "100px")}
                     alignItems="center"
                 >
-                    <Group orientation='vertical' width="100%">
+                    <Group orientation='vertical' width="100%" elevation={100}>
                         <SmallButtonWithAccent icon={Plus} name="plus" onClick={(e) => handleChange(e, 'plus')} />
                         <Input
+                            backgroundColor="none"
                             flex={1}
                             borderWidth={2}
                             type="number"
@@ -110,8 +117,8 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                         />
                         <SmallButtonWithAccent icon={Minus} disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
                     </Group>
-                    <SmallButton width="100%" icon={FileSearch}>{screenSize > 768 ? 'View details' : ''}</SmallButton>
-                    <SmallButtonWithAccent width="100%" icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>{screenSize > 768 ? 'Add to cart' : ''}</SmallButtonWithAccent>
+                    <SmallButton elevation={100} width="100%" icon={FileSearch}>{screenSize > 768 ? 'View details' : ''}</SmallButton>
+                    <SmallButtonWithAccent elevation={100} width="100%" icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>{screenSize > 768 ? 'Add to cart' : ''}</SmallButtonWithAccent>
                 </VerticalContainer>
             </HorizontalContainer>
         </VerticalContainer>

@@ -11,6 +11,7 @@ import {RequireSeller} from "./features/store/RequireSeller.jsx";
 import {RequireBuyer} from "./features/store/RequireBuyer.jsx";
 import NewItem from "./pages/item/NewItem.jsx";
 import EditItem from "./pages/item/EditItem.jsx";
+import "./App.css"
 
 function App() {
 

@@ -91,14 +91,15 @@ const Profile = () => {
         <VerticalContainer>
             {!isLoading ? <>
                 <HorizontalContainer width="95%" alignSelf="center">
-                    <VerticalContainer height={screenSize > 768 ? '750px' : '100%'} width={screenSize > 1280 ? "30%" : (screenSize > 768 ? "40%" : "100%")}>
+                    <VerticalContainer height="max-content" width={screenSize > 1280 ? "30%" : (screenSize > 768 ? "40%" : "100%")}>
                         <H2 width="100%" alignSelf="center">Profile</H2>
                         <VerticalContainer
                             borderRadius="$5"
                             width="100%"
                             alignSelf="center"
-                            boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                            elevation={100}
                             padding="$3"
+                            height="max-content"
                         >
                             <H4>Hello {user?.name}!</H4>
                             {store &&
@@ -108,7 +109,7 @@ const Profile = () => {
                         </VerticalContainer>
                         <SizableText>User settings</SizableText>
                         <Group orientation="vertical"
-                               boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                               elevation={100}
                                separator={<Separator />}
                         >
                             <Group.Item>
@@ -139,7 +140,7 @@ const Profile = () => {
                         {store && user.is_admin ? <>
                             <SizableText>Store settings</SizableText>
                             <Group orientation="vertical"
-                                   boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                                   elevation={100}
                                    separator={<Separator />}
                             >
                                 <Group.Item>
@@ -178,7 +179,7 @@ const Profile = () => {
                         </> : store ? <>
                             <SizableText>Store settings</SizableText>
                             <Group orientation="vertical"
-                                   boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                                   elevation={100}
                                    separator={<Separator />}
                             >
                                 <Group.Item>
@@ -200,7 +201,7 @@ const Profile = () => {
                         </> : <>
                             <SizableText>Join or create Store</SizableText>
                             <Group orientation="vertical"
-                                   boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                                   elevation={100}
                                    separator={<Separator />}
                             >
                                 <Group.Item>
@@ -224,7 +225,10 @@ const Profile = () => {
                         <BigButton alignSelf="center" onClick={() => handleLogout()}>Log out</BigButton>
                         {screenSize < 768 && <>
                             <Separator />
-                            <VerticalContainer width="100%">
+                            <VerticalContainer width="100%"
+                                               marginBottom="5rem"
+                                               height="max-content"
+                            >
                                 {currentPage === 'profileDetails' ? <ProfileDetails user={user} store={store} /> :
                                     currentPage === 'changeName' ? <ChangeName user={user} /> :
                                         currentPage === 'changePassword' ? <ChangePassword user={user} /> :
@@ -238,7 +242,10 @@ const Profile = () => {
                         </>}
                     </VerticalContainer>
                     {screenSize > 768 && <>
-                        <VerticalContainer width={screenSize > 1280 ? "70%" : '60%'}>
+                        <VerticalContainer width={screenSize > 1280 ? "70%" : '60%'}
+                                           marginBottom="5rem"
+                                           height="max-content"
+                        >
                             {currentPage === 'profileDetails' ? <ProfileDetails user={user} store={store} /> :
                                 currentPage === 'changeName' ? <ChangeName user={user} /> :
                                     currentPage === 'changePassword' ? <ChangePassword user={user} /> :

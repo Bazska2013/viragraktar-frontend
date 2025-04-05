@@ -3,8 +3,8 @@ import axios from '../../axiosConfig.js';
 import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
 import {SizableText, Spinner, AnimatePresence, Sheet, H2} from "tamagui";
-import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
-import {ShoppingBasket} from "@tamagui/lucide-icons";
+import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
+import {Delete, ShoppingBasket} from "@tamagui/lucide-icons";
 
 const Sell = () => {
     const [items, setItems] = useState([]);
@@ -60,6 +60,7 @@ const Sell = () => {
             <AnimatePresence>
                 {(cart.length > 0) &&
                     <BigButton position="fixed"
+                               elevation={100}
                                zIndex={1000}
                                bottom={10}
                                right={10}
@@ -71,6 +72,26 @@ const Sell = () => {
                                    x: 300,
                                }}
                                icon={ShoppingBasket} onClick={() => setShow(true)}>Checkout</BigButton>
+                }
+                {(cart.length > 0) &&
+                    <SmallButtonWithAccent
+                        position="fixed"
+                        elevation={100}
+                        zIndex={1000}
+                        bottom={90}
+                        right={10}
+                        animation="slow"
+                        enterStyle={{
+                            x: 400,
+                        }}
+                        exitStyle={{
+                            x: 400,
+                        }}
+                        icon={Delete}
+                        onClick={() => emptyCart()}
+                    >
+                        Empty cart
+                    </SmallButtonWithAccent>
                 }
             </AnimatePresence>
             <Sheet
@@ -93,7 +114,7 @@ const Sell = () => {
                     <SizableText color="red">
                         {error}
                     </SizableText> :
-                    <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10}>
+                    <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} marginBottom="5rem">
                         {items.map((item) => {
                             return (
                                 <ListItem key={item.id} item={item} addToCart={addToCart} isItemInCart={isItemInCart(item)} editCart={editCart} removeFromCart={removeFromCart} />

@@ -1,9 +1,9 @@
 import {Formik} from "formik";
-import {SizableText, Form, Spinner, Label, Input, TextArea} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator} from "tamagui";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Save, Upload} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 
@@ -12,6 +12,20 @@ const NewItem = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [serverError, setServerError] = useState(null);
     const [image, setImage] = useState(null);
+
+    const [screenSize, setScreenSize] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenSize(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [])
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
@@ -57,7 +71,11 @@ const NewItem = () => {
     }
 
     return (
-        <EditContainer>
+        <EditContainer
+            padding="$3"
+            marginBottom="5rem"
+            width={screenSize > 1280 ? '50%' : screenSize > 768 ? '75%' : '100%'}
+        >
             <Formik
                 validationSchema={schema}
                 initialValues={{
@@ -73,9 +91,10 @@ const NewItem = () => {
                         <VerticalContainer>
                             <VerticalContainer>
                                 <Label htmlFor="name">
-                                    Name of the item
+                                    <H4>Name of the item</H4>
                                 </Label>
                                 <Input
+                                    backgroundColor="none"
                                     type="text"
                                     id="name"
                                     value={values.name}
@@ -86,11 +105,13 @@ const NewItem = () => {
                                     {errors.name}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
                                 <Label htmlFor="description">
-                                    Description of the item
+                                    <H4>Description of the item</H4>
                                 </Label>
                                 <TextArea
+                                    backgroundColor="none"
                                     rows={3}
                                     id="description"
                                     value={values.description}
@@ -101,11 +122,13 @@ const NewItem = () => {
                                     {errors.description}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
                                 <Label htmlFor="price">
-                                    Price of the item
+                                    <H4>Price of the item</H4>
                                 </Label>
                                 <Input
+                                    backgroundColor="none"
                                     type="number"
                                     id="price"
                                     min={0}
@@ -117,11 +140,13 @@ const NewItem = () => {
                                     {errors.price}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
                                 <Label htmlFor="stock">
-                                    Stock of the item
+                                    <H4>Stock of the item</H4>
                                 </Label>
                                 <Input
+                                    backgroundColor="none"
                                     type="number"
                                     id="stock"
                                     min={1}
@@ -133,9 +158,10 @@ const NewItem = () => {
                                     {errors.stock}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
                                 <Label htmlFor='image'>
-                                    Image of the item
+                                    <H4>Image of the item</H4>
                                 </Label>
                                 <input
                                     type="file"
@@ -149,6 +175,7 @@ const NewItem = () => {
                                 <SmallButton icon={Upload} onClick={() => document.getElementById('image').click()}>Choose File</SmallButton>
                                 {image && <SizableText>Selected file: {image.name}</SizableText>}
                             </VerticalContainer>
+                            <Separator />
                             <Form.Trigger asChild>
                                 <BigButton icon={Save} type="submit">Add new Item</BigButton>
                             </Form.Trigger>

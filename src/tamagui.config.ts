@@ -3,11 +3,10 @@ import { defaultConfig } from '@tamagui/config/v4'
 import {createTamagui} from "@tamagui/core";
 import {Button, ListItem, styled, XStack, YStack} from "tamagui";
 
-const screenSize = window.innerWidth;
-
 export const BigButton = styled(Button, {
     backgroundColor: '#292023',
     color: 'white',
+    elevation: 100,
     hoverStyle: {
         backgroundColor: '#392D31',
     },
@@ -25,38 +24,39 @@ export const BigButton = styled(Button, {
 });
 
 export const SmallButtonWithAccent = styled(Button, {
-    backgroundColor: '#8e8b7c',
-    color: 'white',
+    backgroundColor: '#FBF9EF',
+    elevation: 100,
     hoverStyle: {
-        backgroundColor: '#979487',
+        backgroundColor: '#faf0e6',
     },
     focusStyle: {
-        backgroundColor: '#979487',
+        backgroundColor: '#faf5eb',
     },
     pressStyle: {
-        backgroundColor: '#838072'
+        backgroundColor: '#f5ebe1'
     },
     disabledStyle: {
-        backgroundColor: '#A09E92',
+        backgroundColor: '#fffaf5',
         border: 'none',
     },
     size: "$3",
 });
 
 export const SmallButton = styled(Button, {
-    backgroundColor: '#f2f6d5',
+    backgroundColor: '#f5f5f5',
     color: 'black',
+    elevation: 100,
     hoverStyle: {
-        backgroundColor: '#fafbee',
+        backgroundColor: '#f0f0f0',
     },
     focusStyle: {
-        backgroundColor: '#fafbee',
+        backgroundColor: '#f3f3f3',
     },
     pressStyle: {
-        backgroundColor: '#F0F3CD'
+        backgroundColor: '#f1f1f1'
     },
     disabledStyle: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#fafafa',
         border: 'none',
     },
     size: "$3",
@@ -64,6 +64,7 @@ export const SmallButton = styled(Button, {
 
 export const DateButton = styled(Button, {
     backgroundColor: 'white',
+    elevation: 100,
     color: 'black',
     hoverStyle: {
         backgroundColor: '#fafbee',
@@ -93,13 +94,23 @@ export const EditContainer = styled(YStack, {
     flex: 1,
     gap: "$5",
     padding: "$1",
-    width: screenSize > 1280 ? '50%' : screenSize > 768 ? '75%' : '100%',
     borderRadius: "$3",
-    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)",
+    elevation: 100,
     alignSelf: 'center',
 });
 
+export const ProfileContainer = styled(YStack, {
+    borderRadius: "$5",
+    width: "100%",
+    alignSelf: "center",
+    elevation: 100,
+    padding:"$3",
+    flex: 1,
+    gap: "$5",
+})
+
 export const StyledListItem = styled(ListItem, {
+    backgroundColor: '#f5f5f5',
     pressStyle: {
         backgroundColor: '#ffffff',
     }

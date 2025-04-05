@@ -76,11 +76,11 @@ const Login = () => {
     }
 
     return (
-        <HorizontalContainer width="95%" alignSelf="center">
+        <HorizontalContainer width="95%" alignSelf="center" marginBottom="5rem">
             <VerticalContainer
                 borderRadius="$5"
                 alignSelf="center"
-                boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                elevation={100}
                 padding="$3"
                 width={screenSize > 1280 ? '30%' : screenSize > 768 ? '50%' : '100%'}
             >
@@ -101,6 +101,7 @@ const Login = () => {
                                         <H4>Email</H4>
                                     </Label>
                                     <Input
+                                        backgroundColor="none"
                                         flex={1}
                                         borderWidth={2}
                                         type="email"
@@ -121,6 +122,7 @@ const Login = () => {
                                         <H4>Password</H4>
                                     </Label>
                                     <Input
+                                        backgroundColor="none"
                                         flex={1}
                                         borderWidth={2}
                                         type="password"

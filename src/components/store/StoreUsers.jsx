@@ -52,7 +52,7 @@ const StoreUsers = () => {
         <VerticalContainer>
             <H2>Manage users</H2>
             <Accordion overflow="hidden" type="multiple"
-                       boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(0, 0, 0, 0.2)"
+                       elevation={100}
                        borderRadius="$5"
             >
                 {Object.keys(users).map((user, index) => (

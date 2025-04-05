@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
-import {SizableText, Form, Spinner, Label, Input, TextArea, Image} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea, Image, H4, Separator} from "tamagui";
 import {Save, Upload} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 
@@ -14,6 +14,20 @@ const EditItem = () => {
     const [fetchError, setFetchError] = useState(null);
     const id = useParams().id;
     const [image, setImage] = useState(null);
+
+    const [screenSize, setScreenSize] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenSize(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [])
 
     const fetchItem = async () => {
         let response;
@@ -88,7 +102,11 @@ const EditItem = () => {
     }
 
     return (
-        <EditContainer>
+        <EditContainer
+            padding="$3"
+            marginBottom="5rem"
+            width={screenSize > 1280 ? '50%' : screenSize > 768 ? '75%' : '100%'}
+        >
             <Formik
                 enableReinitialize
                 validationSchema={schema}
@@ -105,9 +123,10 @@ const EditItem = () => {
                         <VerticalContainer>
                             <VerticalContainer>
                                 <Label htmlFor="name">
-                                    Name of the item
+                                    <H4>Name of the item</H4>
                                 </Label>
                                 <Input
+                                    backgroundColor="none"
                                     flex={1}
                                     borderWidth={2}
                                     type="text"
@@ -120,11 +139,13 @@ const EditItem = () => {
                                     {errors.name}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
                                 <Label htmlFor="description">
-                                    Description of the item
+                                    <H4>Description of the item</H4>
                                 </Label>
                                 <TextArea
+                                    backgroundColor="none"
                                     flex={1}
                                     borderWidth={2}
                                     rows={3}
@@ -137,11 +158,13 @@ const EditItem = () => {
                                     {errors.description}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
                                 <Label htmlFor="price">
-                                    Price of the item
+                                    <H4>Price of the item</H4>
                                 </Label>
                                 <Input
+                                    backgroundColor="none"
                                     flex={1}
                                     borderWidth={2}
                                     type="number"
@@ -155,11 +178,13 @@ const EditItem = () => {
                                     {errors.price}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
                                 <Label htmlFor="stock">
-                                    Stock of the item
+                                    <H4>Stock of the item</H4>
                                 </Label>
                                 <Input
+                                    backgroundColor="none"
                                     flex={1}
                                     borderWidth={2}
                                     type="number"
@@ -173,6 +198,7 @@ const EditItem = () => {
                                     {errors.stock}
                                 </SizableText>
                             </VerticalContainer>
+                            <Separator />
                             <VerticalContainer>
                                 {item.image &&
                                     <HorizontalContainer>
@@ -185,7 +211,7 @@ const EditItem = () => {
                                     </HorizontalContainer>
                                 }
                                 <Label htmlFor='image'>
-                                    {item.image? "Change image of the item" : "Image of the item"}
+                                    <H4>{item.image? "Change image of the item" : "Image of the item"}</H4>
                                 </Label>
                                 <input
                                     type="file"
@@ -201,6 +227,7 @@ const EditItem = () => {
                                     <SizableText>Selected file: {image.name}</SizableText>
                                 }
                             </VerticalContainer>
+                            <Separator />
                             <Form.Trigger asChild>
                                 <BigButton icon={Save} type='submit'>Confirm changes</BigButton>
                             </Form.Trigger>
