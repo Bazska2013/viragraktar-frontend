@@ -7,7 +7,7 @@ import {deleteStore, selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
 import {Spinner, SizableText, Separator, Group, H6, H4, H2} from "tamagui";
 import {BookKey, BookUser, ChevronRight, FilePen, LineChart, LogOut,TextSearch, UserPen, UserSearch} from "@tamagui/lucide-icons";
-import {VerticalContainer, HorizontalContainer, BigButton, StyledListItem} from "../../tamagui.config.ts";
+import {VerticalContainer, HorizontalContainer, BigButton, StyledListItem, StyledGroup} from "../../tamagui.config.ts";
 import {logout} from "../../features/auth/authSlice.js";
 import ProfileDetails from "../../components/profile/ProfileDetails.jsx";
 import ChangeName from "../../components/profile/ChangeName.jsx";
@@ -97,7 +97,7 @@ const Profile = () => {
                             borderRadius="$5"
                             width="100%"
                             alignSelf="center"
-                            elevation={100}
+                            boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                             padding="$3"
                             height="max-content"
                         >
@@ -108,8 +108,7 @@ const Profile = () => {
                             }
                         </VerticalContainer>
                         <SizableText>User settings</SizableText>
-                        <Group orientation="vertical"
-                               elevation={100}
+                        <StyledGroup orientation="vertical"
                                separator={<Separator />}
                         >
                             <Group.Item>
@@ -136,11 +135,10 @@ const Profile = () => {
                                     onClick={() => {setCurrentPage('changePassword')}}
                                 />
                             </Group.Item>
-                        </Group>
+                        </StyledGroup>
                         {store && user.is_admin ? <>
                             <SizableText>Store settings</SizableText>
-                            <Group orientation="vertical"
-                                   elevation={100}
+                            <StyledGroup orientation="vertical"
                                    separator={<Separator />}
                             >
                                 <Group.Item>
@@ -175,11 +173,10 @@ const Profile = () => {
                                         onClick={() => {setCurrentPage('manageUsers')}}
                                     />
                                 </Group.Item>
-                            </Group>
+                            </StyledGroup>
                         </> : store ? <>
                             <SizableText>Store settings</SizableText>
-                            <Group orientation="vertical"
-                                   elevation={100}
+                            <StyledGroup orientation="vertical"
                                    separator={<Separator />}
                             >
                                 <Group.Item>
@@ -197,11 +194,10 @@ const Profile = () => {
                                         iconAfter={ChevronRight}
                                     />
                                 </Group.Item>
-                            </Group>
+                            </StyledGroup>
                         </> : <>
                             <SizableText>Join or create Store</SizableText>
-                            <Group orientation="vertical"
-                                   elevation={100}
+                            <StyledGroup orientation="vertical"
                                    separator={<Separator />}
                             >
                                 <Group.Item>
@@ -220,7 +216,7 @@ const Profile = () => {
                                         onClick={() => {setCurrentPage('createStore')}}
                                     />
                                 </Group.Item>
-                            </Group>
+                            </StyledGroup>
                         </>}
                         <BigButton alignSelf="center" onClick={() => handleLogout()}>Log out</BigButton>
                         {screenSize < 768 && <>

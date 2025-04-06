@@ -80,7 +80,7 @@ const Login = () => {
             <VerticalContainer
                 borderRadius="$5"
                 alignSelf="center"
-                elevation={100}
+                boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                 padding="$3"
                 width={screenSize > 1280 ? '30%' : screenSize > 768 ? '50%' : '100%'}
             >

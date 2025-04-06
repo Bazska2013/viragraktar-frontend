@@ -63,7 +63,7 @@ const TransactionsTable = (props) => {
                     <VerticalContainer
                         borderRadius="$5"
                         width="100%"
-                        elevation={100}
+                        boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                         padding="$3"
                         height="max-content"
                     >
@@ -96,7 +96,7 @@ const TransactionsTable = (props) => {
                     <VerticalContainer
                         borderRadius="$5"
                         width="100%"
-                        elevation={100}
+                        boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                         padding="$3"
                         alignSelf="center"
                     >
@@ -132,7 +132,7 @@ const TransactionsTable = (props) => {
                 <HorizontalContainer
                     borderRadius="$5"
                     width="100%"
-                    elevation={100}
+                    boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                     padding="$3"
                     alignItems="center"
                     justifyContent="space-between"

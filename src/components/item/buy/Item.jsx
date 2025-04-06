@@ -4,7 +4,13 @@ import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {Spinner, SizableText, Image, Group, Input, H4} from "tamagui"
 import {Check, X, Plus, Minus, PenSquare} from "@tamagui/lucide-icons";
-import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../../tamagui.config.ts";
+import {
+    HorizontalContainer,
+    SmallButton,
+    SmallButtonWithAccent,
+    StyledGroup,
+    VerticalContainer
+} from "../../../tamagui.config.ts";
 
 const Item = ({props, refetch}) => {
 
@@ -95,7 +101,7 @@ const Item = ({props, refetch}) => {
     return (
         <HorizontalContainer
             borderRadius="$5"
-            elevation={100}
+            boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
             alignSelf="center"
             flex={1}
             padding="$3"
@@ -107,7 +113,7 @@ const Item = ({props, refetch}) => {
                 width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
                 justifyContent="space-between"
             >
-                <Image onClick={(e) => {handleChange(e, 'add')}} borderRadius="$5" elevation={100} source={{
+                <Image onClick={(e) => {handleChange(e, 'add')}} borderRadius="$5" boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)" source={{
                     uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
                     width: 180,
                     height: 180,
@@ -122,7 +128,7 @@ const Item = ({props, refetch}) => {
                 alignItems="center"
                 height="max-content"
             >
-                <Group orientation='vertical' width="100%" elevation={100}>
+                <StyledGroup orientation='vertical' width="100%">
                     <SmallButtonWithAccent icon={Plus} onClick={(e) => {handleChange(e, 'add')}} />
                     <Input
                         backgroundColor="none"
@@ -135,12 +141,12 @@ const Item = ({props, refetch}) => {
                         onChange={(e) => handleChange(e, 'field')}
                     />
                     <SmallButtonWithAccent icon={Minus} onClick={(e) => {handleChange(e, 'remove')}} />
-                </Group>
-                <Group orientation={screenSize > 768 ? 'horizontal' : 'vertical'} width="100%" flex={1} elevation={100}>
-                    <SmallButton flex={1} icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleCancel()} />
-                    <SmallButton flex={1} icon={Check} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleSubmit()} />
-                </Group>
-                <SmallButtonWithAccent elevation={100} icon={PenSquare} width="100%" onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
+                </StyledGroup>
+                <StyledGroup orientation={screenSize > 768 ? 'horizontal' : 'vertical'} width="100%" flex={1}>
+                    <SmallButton boxShadow="unset" flex={1} icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleCancel()} />
+                    <SmallButton boxShadow="unset" flex={1} icon={Check} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleSubmit()} />
+                </StyledGroup>
+                <SmallButtonWithAccent icon={PenSquare} width="100%" onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
                     {screenSize > 768 ? 'Edit item' : ''}
                 </SmallButtonWithAccent>
             </VerticalContainer>

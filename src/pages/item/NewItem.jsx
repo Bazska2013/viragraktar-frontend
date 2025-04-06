@@ -1,11 +1,11 @@
 import {Formik} from "formik";
-import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator, H2} from "tamagui";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {Save, Upload} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
+import {Save, Upload, X} from "@tamagui/lucide-icons";
+import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 
 const NewItem = () => {
     const navigate = useNavigate();
@@ -76,6 +76,10 @@ const NewItem = () => {
             marginBottom="5rem"
             width={screenSize > 1280 ? '50%' : screenSize > 768 ? '75%' : '100%'}
         >
+            <HorizontalContainer marginTop="3rem" alignItems="center" justifyContent="space-between">
+                <H2 marginBottom="1rem">New item</H2>
+                <X onClick={() => navigate('/buy', {replace: true})} size="$3" />
+            </HorizontalContainer>
             <Formik
                 validationSchema={schema}
                 initialValues={{

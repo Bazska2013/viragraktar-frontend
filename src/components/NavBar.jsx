@@ -74,7 +74,7 @@ const NavBar = () => {
                 {(user && store) &&
                     <Tabs value={currentTab} onValueChange={(value) => handleNavigation(value)}
                           borderRadius="10px"
-                          elevation={100}
+                          boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                     >
                         <Tabs.List
                             width="100%"

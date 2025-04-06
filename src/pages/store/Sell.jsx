@@ -60,7 +60,6 @@ const Sell = () => {
             <AnimatePresence>
                 {(cart.length > 0) &&
                     <BigButton position="fixed"
-                               elevation={100}
                                zIndex={1000}
                                bottom={10}
                                right={10}
@@ -76,7 +75,6 @@ const Sell = () => {
                 {(cart.length > 0) &&
                     <SmallButtonWithAccent
                         position="fixed"
-                        elevation={100}
                         zIndex={1000}
                         bottom={90}
                         right={10}
@@ -105,7 +103,7 @@ const Sell = () => {
                 zIndex={100_000}
                 animation='medium'
             >
-                <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} />
+                <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} onOpenChange={setShow} />
             </Sheet>
             {isLoading ?
                 <Spinner alignSelf="center">

@@ -2,7 +2,13 @@ import {useEffect, useState} from "react";
 import {Group, H4, Image, Input, SizableText, Button} from "tamagui";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {FileSearch, Minus, Plus, ShoppingCart, X} from "@tamagui/lucide-icons";
-import {VerticalContainer, HorizontalContainer, SmallButtonWithAccent, SmallButton} from "../../../tamagui.config.ts";
+import {
+    VerticalContainer,
+    HorizontalContainer,
+    SmallButtonWithAccent,
+    SmallButton,
+    StyledGroup
+} from "../../../tamagui.config.ts";
 
 const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) => {
     const [amount, setAmount] = useState(0);
@@ -65,21 +71,13 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
     return (
         <VerticalContainer
             borderRadius="$5"
-            elevation={100}
-            backgroundColor={isItemInCart ? '#f2f6d5' : ''}
+            boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
+            backgroundColor={isItemInCart ? 'rgba(251,249,239,0.9)' : ''}
             alignSelf="center"
             flex={1}
             padding="$3"
         >
-            <Button
-                elevation={isChanged ? 100 : 0}
-                icon={X}
-                disabled={!isChanged}
-                backgroundColor={isChanged ? '#f2f6d5' : 'transparent'}
-                alignSelf="flex-end"
-                marginBottom={0}
-                size="$3"
-                onClick={() => setAmount(0)} />
+            <X color="#292023" opacity={isChanged ? 1 : 0.5} size="$1" alignSelf="flex-end" marginBottom={0} disabled={!isChanged} onClick={() => setAmount(0)} />
             <HorizontalContainer
                 flex={1}
             >
@@ -88,7 +86,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                     alignItems="center"
                     width={screenSize > 1280 ? "200px" : (screenSize > 768 ? "175px" : "100%")}
                 >
-                    <Image onClick={(e) => handleChange(e, 'plus')} borderRadius="$5" elevation={100} source={{
+                    <Image onClick={(e) => handleChange(e, 'plus')} borderRadius="$5" boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)" source={{
                         uri: item.image ? "http://localhost:8000/images/" + item.image : flowerImage,
                         width: 180,
                         height: 180,
@@ -102,10 +100,12 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                     width={screenSize > 1280 ? "120px" : (screenSize > 768 ? "110px" : "100px")}
                     alignItems="center"
                 >
-                    <Group orientation='vertical' width="100%" elevation={100}>
+                    <StyledGroup orientation='vertical' width="100%">
                         <SmallButtonWithAccent icon={Plus} name="plus" onClick={(e) => handleChange(e, 'plus')} />
                         <Input
-                            backgroundColor="none"
+                            textAlign="center"
+                            width="100%"
+                            backgroundColor="white"
                             flex={1}
                             borderWidth={2}
                             type="number"
@@ -116,9 +116,9 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                             onChange={(e) => handleChange(e, '')}
                         />
                         <SmallButtonWithAccent icon={Minus} disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
-                    </Group>
-                    <SmallButton elevation={100} width="100%" icon={FileSearch}>{screenSize > 768 ? 'View details' : ''}</SmallButton>
-                    <SmallButtonWithAccent elevation={100} width="100%" icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>{screenSize > 768 ? 'Add to cart' : ''}</SmallButtonWithAccent>
+                    </StyledGroup>
+                    <SmallButton width="100%" icon={FileSearch}>{screenSize > 768 ? 'View details' : ''}</SmallButton>
+                    <SmallButtonWithAccent width="100%" icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>{screenSize > 768 ? 'Add to cart' : ''}</SmallButtonWithAccent>
                 </VerticalContainer>
             </HorizontalContainer>
         </VerticalContainer>

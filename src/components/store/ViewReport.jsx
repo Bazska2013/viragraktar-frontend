@@ -368,14 +368,14 @@ const ViewReport = () => {
                         borderRadius="$5"
                         width="100%"
                         alignSelf="center"
-                        elevation={100}
+                        boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                         padding="$3"
                     >{oneDay ? 'Report about ' + date : 'Report made from ' + start + ' to ' + end}</H4>
                     <HorizontalContainer width="100%" justifyContent="center" alignSelf="center">
                         {showDistribution &&
                                 <VerticalContainer alignItems="center" justifyContent="center"
                                                    borderRadius="$5"
-                                                   elevation={100}
+                                                   boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                                                    padding="$3"
                                 >
                                     <H4>Distribution of items sold</H4>
@@ -426,7 +426,7 @@ const ViewReport = () => {
                         {showRevenue &&
                             <VerticalContainer alignItems="center" justifyContent="center"
                                                borderRadius="$5"
-                                               elevation={100}
+                                               boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                                                padding="$3"
                             >
                                 <H4>Revenue from transactions</H4>
@@ -477,7 +477,7 @@ const ViewReport = () => {
                     borderRadius="$5"
                     width="100%"
                     alignSelf="center"
-                    elevation={100}
+                    boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                     padding="$3"
                 >
                     No data available for this date

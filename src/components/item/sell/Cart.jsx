@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {H3, Spinner, Sheet, H2, Group, SizableText, H4, Separator, H6, SheetScrollView} from "tamagui";
-import {Banknote, CreditCard, DollarSign} from "@tamagui/lucide-icons";
-import {BigButton, HorizontalContainer, SmallButton, VerticalContainer} from "../../../tamagui.config.ts";
+import {Banknote, CreditCard, DollarSign, X} from "@tamagui/lucide-icons";
+import {BigButton, HorizontalContainer, SmallButton, StyledGroup, VerticalContainer} from "../../../tamagui.config.ts";
 
-const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
+const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChange}) => {
     const [total, setTotal] = useState(0);
     const [cash, setCash] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +55,10 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                     width="95%"
                 >
                     <SheetScrollView>
-                        <H2 marginTop="3rem" marginBottom="1rem">Checkout</H2>
+                        <HorizontalContainer alignItems="center" justifyContent="space-between">
+                            <H2 marginTop="3rem" marginBottom="1rem">Checkout</H2>
+                            <X onClick={() => onOpenChange(false)} size="$3" />
+                        </HorizontalContainer>
                         <SizableText marginBottom="1rem">Swipe down to change the selected items</SizableText>
                         {isLoading ?
                             <Spinner>
@@ -83,17 +86,17 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart}) => {
                                 <Separator />
                                 <HorizontalContainer alignItems="center" justifyContent="space-between">
                                     <SizableText>Choose payment type</SizableText>
-                                    <Group orientation='horizontal' alignItems="center" elevation={100}>
-                                        <SmallButton icon={Banknote} onClick={() => setCash(!cash)}>Cash</SmallButton>
-                                        <SmallButton icon={CreditCard} onClick={() => setCash(!cash)}>Credit</SmallButton>
-                                    </Group>
+                                    <StyledGroup orientation='horizontal' alignItems="center">
+                                        <SmallButton boxShadow="unset" icon={Banknote} onClick={() => setCash(!cash)}>Cash</SmallButton>
+                                        <SmallButton boxShadow="unset" icon={CreditCard} onClick={() => setCash(!cash)}>Credit</SmallButton>
+                                    </StyledGroup>
                                 </HorizontalContainer>
                                 <Separator />
                                 <HorizontalContainer alignItems="center" justifyContent="space-between" marginBottom="3rem">
                                     <H4>
                                         Total: {total} HUF
                                     </H4>
-                                    <BigButton elevation={100} icon={DollarSign} onClick={() => handleCheckout()}>Sell</BigButton>
+                                    <BigButton icon={DollarSign} onClick={() => handleCheckout()}>Sell</BigButton>
                                 </HorizontalContainer>
                                 {error && <SizableText color='red' >{error}</SizableText>}
                             </VerticalContainer>

@@ -26839,6 +26839,7 @@ __export(tamagui_config_exports, {
   ProfileContainer: () => ProfileContainer,
   SmallButton: () => SmallButton,
   SmallButtonWithAccent: () => SmallButtonWithAccent,
+  StyledGroup: () => StyledGroup,
   StyledListItem: () => StyledListItem,
   VerticalContainer: () => VerticalContainer,
   config: () => config
@@ -47563,7 +47564,7 @@ var import_core56 = require("@tamagui/core");
 var BigButton = (0, import_core56.styled)(Button2, {
   backgroundColor: "#292023",
   color: "white",
-  elevation: 100,
+  boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   hoverStyle: {
     backgroundColor: "#392D31"
   },
@@ -47581,7 +47582,7 @@ var BigButton = (0, import_core56.styled)(Button2, {
 });
 var SmallButtonWithAccent = (0, import_core56.styled)(Button2, {
   backgroundColor: "#FBF9EF",
-  elevation: 100,
+  boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   hoverStyle: {
     backgroundColor: "#faf0e6"
   },
@@ -47600,7 +47601,7 @@ var SmallButtonWithAccent = (0, import_core56.styled)(Button2, {
 var SmallButton = (0, import_core56.styled)(Button2, {
   backgroundColor: "#f5f5f5",
   color: "black",
-  elevation: 100,
+  boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   hoverStyle: {
     backgroundColor: "#f0f0f0"
   },
@@ -47618,7 +47619,7 @@ var SmallButton = (0, import_core56.styled)(Button2, {
 });
 var DateButton = (0, import_core56.styled)(Button2, {
   backgroundColor: "white",
-  elevation: 100,
+  boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   color: "black",
   hoverStyle: {
     backgroundColor: "#fafbee"
@@ -47645,23 +47646,26 @@ var EditContainer = (0, import_core56.styled)(YStack, {
   gap: "$5",
   padding: "$1",
   borderRadius: "$3",
-  elevation: 100,
+  boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   alignSelf: "center"
 });
 var ProfileContainer = (0, import_core56.styled)(YStack, {
   borderRadius: "$5",
   width: "100%",
   alignSelf: "center",
-  elevation: 100,
+  boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   padding: "$3",
   flex: 1,
   gap: "$5"
 });
 var StyledListItem = (0, import_core56.styled)(ListItem2, {
-  backgroundColor: "#f5f5f5",
+  backgroundColor: "#ffffff",
   pressStyle: {
-    backgroundColor: "#ffffff"
+    backgroundColor: "#fafafa"
   }
+});
+var StyledGroup = (0, import_core56.styled)(Group, {
+  boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)"
 });
 var config = (0, import_core57.createTamagui)({
   themes,
@@ -47676,6 +47680,7 @@ var config = (0, import_core57.createTamagui)({
   ProfileContainer,
   SmallButton,
   SmallButtonWithAccent,
+  StyledGroup,
   StyledListItem,
   VerticalContainer,
   config

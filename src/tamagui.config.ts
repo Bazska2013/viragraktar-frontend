@@ -1,12 +1,12 @@
 import { themes } from './themes'
 import { defaultConfig } from '@tamagui/config/v4'
 import {createTamagui} from "@tamagui/core";
-import {Button, ListItem, styled, XStack, YStack} from "tamagui";
+import {Button, Group, ListItem, styled, XStack, YStack} from "tamagui";
 
 export const BigButton = styled(Button, {
     backgroundColor: '#292023',
     color: 'white',
-    elevation: 100,
+    boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     hoverStyle: {
         backgroundColor: '#392D31',
     },
@@ -25,7 +25,7 @@ export const BigButton = styled(Button, {
 
 export const SmallButtonWithAccent = styled(Button, {
     backgroundColor: '#FBF9EF',
-    elevation: 100,
+    boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     hoverStyle: {
         backgroundColor: '#faf0e6',
     },
@@ -45,7 +45,7 @@ export const SmallButtonWithAccent = styled(Button, {
 export const SmallButton = styled(Button, {
     backgroundColor: '#f5f5f5',
     color: 'black',
-    elevation: 100,
+    boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     hoverStyle: {
         backgroundColor: '#f0f0f0',
     },
@@ -64,7 +64,7 @@ export const SmallButton = styled(Button, {
 
 export const DateButton = styled(Button, {
     backgroundColor: 'white',
-    elevation: 100,
+    boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     color: 'black',
     hoverStyle: {
         backgroundColor: '#fafbee',
@@ -95,7 +95,7 @@ export const EditContainer = styled(YStack, {
     gap: "$5",
     padding: "$1",
     borderRadius: "$3",
-    elevation: 100,
+    boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     alignSelf: 'center',
 });
 
@@ -103,18 +103,22 @@ export const ProfileContainer = styled(YStack, {
     borderRadius: "$5",
     width: "100%",
     alignSelf: "center",
-    elevation: 100,
+    boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     padding:"$3",
     flex: 1,
     gap: "$5",
 })
 
 export const StyledListItem = styled(ListItem, {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#ffffff',
     pressStyle: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#fafafa',
     }
 });
+
+export const StyledGroup = styled(Group, {
+    boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
+})
 
 export const config = createTamagui({
     themes,
