@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
-import {SizableText, Form, Spinner, Label, Input, TextArea, Image, H4, Separator, H2} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea, Image, H4, Separator, H2, Square} from "tamagui";
 import {ChevronLeft, Save, Upload, X} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 
@@ -109,7 +109,9 @@ const EditItem = () => {
         >
             <HorizontalContainer marginTop="3rem" alignItems="center" justifyContent="space-between">
                 <H2 marginBottom="1rem">Edit item</H2>
-                <X onClick={() => navigate('/buy', {replace: true})} size="$3" />
+                <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}} onClick={() => navigate('/buy', {replace: true})}>
+                    <X color="#292023" size="$3" />
+                </Square>
             </HorizontalContainer>
             <Formik
                 enableReinitialize

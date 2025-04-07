@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Group, H4, Image, Input, SizableText, Button} from "tamagui";
+import {Group, H4, Image, Input, SizableText, Button, Square} from "tamagui";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {FileSearch, Minus, Plus, ShoppingCart, X} from "@tamagui/lucide-icons";
 import {
@@ -77,7 +77,9 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
             flex={1}
             padding="$3"
         >
-            <X color="#292023" opacity={isChanged ? 1 : 0.5} size="$1" alignSelf="flex-end" marginBottom={0} disabled={!isChanged} onClick={() => setAmount(0)} />
+            <Square animation="quick" hoverStyle={{scale: 1.1}} pressStyle={{scale: 0.9}} scale={isChanged ? 1 : 0} opacity={isChanged ? 1 : 0} alignSelf="flex-end" marginBottom={0} onClick={() => setAmount(0)}>
+                <X color="#292023" size="$1" />
+            </Square>
             <HorizontalContainer
                 flex={1}
             >

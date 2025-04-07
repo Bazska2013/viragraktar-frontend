@@ -4,13 +4,21 @@ import axios from "../../axiosConfig.js";
 import {useEffect, useState} from "react";
 import Item from "../../components/item/buy/Item.jsx";
 import {ShoppingBasket} from "@tamagui/lucide-icons";
-import {BigButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {
+    BigButton,
+    HorizontalContainer,
+    SmallButton,
+    SmallButtonWithAccent,
+    VerticalContainer
+} from "../../tamagui.config.ts";
 
 const Buy = () => {
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [thereIsSelected, setThereIsSelected] = useState(false);
 
     const [isAtBottom, setIsAtBottom] = useState(false);
     const [isScrollable, setIsScrollable] = useState(false);
@@ -55,6 +63,26 @@ const Buy = () => {
         fetchItems();
     }, []);
 
+    useEffect(() => {
+        if (selectedItems.length > 0) {
+            setThereIsSelected(true);
+        } else {
+            setThereIsSelected(false);
+        }
+    }, [selectedItems]);
+
+    const handleAddToSelection = (item) => {
+        if (!selectedItems.includes(item)) {
+            setSelectedItems([...selectedItems, item]);
+        }
+    }
+
+    const handleRemoveFromSelection = (item) => {
+        if (selectedItems.includes(item)) {
+            setSelectedItems(selectedItems.filter(i => i !== item));
+        }
+    }
+
     return (
         <VerticalContainer height="100%" width="90%" alignSelf="center">
             <H2 marginLeft={10} marginRight={10}>Buy</H2>
@@ -66,10 +94,30 @@ const Buy = () => {
                         enterStyle={{x: 300}}
                         exitStyle={{x: 300}}
                         position="fixed"
-                        bottom={30}
+                        bottom={10}
                         right={10}
                         icon={ShoppingBasket}
                         onClick={() => {navigate('/new/item', {replace: true})}}>New item</BigButton>
+                }
+            </AnimatePresence>
+            <AnimatePresence>
+                {thereIsSelected &&
+                    <SmallButton
+                        zIndex={1000}
+                        bottom={90}
+                        right={10}
+                        animation="quick"
+                        enterStyle={{
+                            x: 400,
+                        }}
+                        exitStyle={{
+                            x: 400,
+                        }}
+                        position="fixed"
+                        icon={ShoppingBasket}
+                    >
+                        Combine items
+                    </SmallButton>
                 }
             </AnimatePresence>
             {isLoading ?
@@ -81,7 +129,7 @@ const Buy = () => {
                     </SizableText> :
                     <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10}>
                         {items.map((item) => (
-                            <Item key={item.id} props={item} refetch={fetchItems} />
+                            <Item key={item.id} props={item} refetch={fetchItems} addToSelection={handleAddToSelection} removeFromSelection={handleRemoveFromSelection} />
                         ))}
                     </HorizontalContainer>
             }

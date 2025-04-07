@@ -6,6 +6,7 @@ import {Button, Group, ListItem, styled, XStack, YStack} from "tamagui";
 export const BigButton = styled(Button, {
     backgroundColor: '#292023',
     color: 'white',
+    animation: 'quick',
     boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     hoverStyle: {
         backgroundColor: '#392D31',
@@ -14,7 +15,8 @@ export const BigButton = styled(Button, {
         backgroundColor: '#392D31',
     },
     pressStyle: {
-        backgroundColor: '#838072'
+        backgroundColor: '#838072',
+        scale: 0.95,
     },
     disabledStyle: {
         backgroundColor: '#44363A',
@@ -26,6 +28,7 @@ export const BigButton = styled(Button, {
 export const SmallButtonWithAccent = styled(Button, {
     backgroundColor: '#FBF9EF',
     boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
+    animation: 'quick',
     hoverStyle: {
         backgroundColor: '#faf0e6',
     },
@@ -33,7 +36,8 @@ export const SmallButtonWithAccent = styled(Button, {
         backgroundColor: '#faf5eb',
     },
     pressStyle: {
-        backgroundColor: '#f5ebe1'
+        backgroundColor: '#f5ebe1',
+        scale: 0.95,
     },
     disabledStyle: {
         backgroundColor: '#fffaf5',
@@ -45,6 +49,7 @@ export const SmallButtonWithAccent = styled(Button, {
 export const SmallButton = styled(Button, {
     backgroundColor: '#f5f5f5',
     color: 'black',
+    animation: 'quick',
     boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     hoverStyle: {
         backgroundColor: '#f0f0f0',
@@ -53,7 +58,8 @@ export const SmallButton = styled(Button, {
         backgroundColor: '#f3f3f3',
     },
     pressStyle: {
-        backgroundColor: '#f1f1f1'
+        backgroundColor: '#f1f1f1',
+        scale: 0.95,
     },
     disabledStyle: {
         backgroundColor: '#fafafa',
@@ -66,6 +72,7 @@ export const DateButton = styled(Button, {
     backgroundColor: 'white',
     boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     color: 'black',
+    animation: 'quick',
     hoverStyle: {
         backgroundColor: '#fafbee',
     },

@@ -1,5 +1,5 @@
 import {Formik} from "formik";
-import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator, H2} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator, H2, Square} from "tamagui";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
@@ -78,7 +78,9 @@ const NewItem = () => {
         >
             <HorizontalContainer marginTop="3rem" alignItems="center" justifyContent="space-between">
                 <H2 marginBottom="1rem">New item</H2>
-                <X onClick={() => navigate('/buy', {replace: true})} size="$3" />
+                <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}} onClick={() => navigate('/buy', {replace: true})}>
+                    <X color="#292023" size="$3" />
+                </Square>
             </HorizontalContainer>
             <Formik
                 validationSchema={schema}

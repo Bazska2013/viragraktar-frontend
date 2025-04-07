@@ -3,7 +3,7 @@ import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {Spinner, SizableText, Image, Group, Input, H4} from "tamagui"
-import {Check, X, Plus, Minus, PenSquare} from "@tamagui/lucide-icons";
+import {Check, X, Plus, Minus, PenSquare, CheckSquare, Square} from "@tamagui/lucide-icons";
 import {
     HorizontalContainer,
     SmallButton,
@@ -12,13 +12,14 @@ import {
     VerticalContainer
 } from "../../../tamagui.config.ts";
 
-const Item = ({props, refetch}) => {
+const Item = ({props, refetch, addToSelection, removeFromSelection}) => {
 
     const [item, setItem] = useState(props);
     const navigate = useNavigate();
     const [isChanged, setIsChanged] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [selected, setSelected] = useState(false);
 
     const [screenSize, setScreenSize] = useState(window.innerWidth);
 
@@ -75,6 +76,14 @@ const Item = ({props, refetch}) => {
         setIsChanged(false);
     }
 
+    useEffect(() => {
+        if (selected) {
+            addToSelection(item);
+        } else {
+            removeFromSelection(item);
+        }
+    }, [selected]);
+
     if (isLoading) {
         return (
             <HorizontalContainer>
@@ -103,6 +112,7 @@ const Item = ({props, refetch}) => {
             borderRadius="$5"
             boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
             alignSelf="center"
+            backgroundColor={selected ? 'rgba(251,249,239,0.9)' : ''}
             flex={1}
             padding="$3"
             height="425px"
@@ -131,7 +141,9 @@ const Item = ({props, refetch}) => {
                 <StyledGroup orientation='vertical' width="100%">
                     <SmallButtonWithAccent icon={Plus} onClick={(e) => {handleChange(e, 'add')}} />
                     <Input
-                        backgroundColor="none"
+                        textAlign="center"
+                        width="100%"
+                        backgroundColor="white"
                         flex={1}
                         borderWidth={2}
                         type='number'
@@ -149,6 +161,7 @@ const Item = ({props, refetch}) => {
                 <SmallButtonWithAccent icon={PenSquare} width="100%" onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
                     {screenSize > 768 ? 'Edit item' : ''}
                 </SmallButtonWithAccent>
+                <SmallButton width="100%" icon={selected ? CheckSquare : Square} onPress={() => setSelected(!selected)}>Select</SmallButton>
             </VerticalContainer>
         </HorizontalContainer>
     )

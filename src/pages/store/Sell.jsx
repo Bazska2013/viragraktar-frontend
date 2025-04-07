@@ -12,6 +12,7 @@ const Sell = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
+    const [isCartEmpty, setIsCartEmpty] = useState(true);
 
     const fetchItems = async () => {
         let response;
@@ -32,6 +33,14 @@ const Sell = () => {
     useEffect(() => {
         fetchItems();
     }, []);
+
+    useEffect(() => {
+        if (cart.length > 0) {
+            setIsCartEmpty(false);
+        } else {
+            setIsCartEmpty(true);
+        }
+    }, [cart]);
 
     const addToCart = (item) => {
         setCart([...cart, item]);
@@ -57,8 +66,8 @@ const Sell = () => {
     return (
         <VerticalContainer width="95%" alignSelf="center">
             <H2 marginLeft={10} marginRight={10}>Sell</H2>
-            <AnimatePresence>
-                {(cart.length > 0) &&
+            <AnimatePresence initial={false}>
+                {!isCartEmpty &&
                     <BigButton position="fixed"
                                zIndex={1000}
                                bottom={10}
@@ -72,13 +81,15 @@ const Sell = () => {
                                }}
                                icon={ShoppingBasket} onClick={() => setShow(true)}>Checkout</BigButton>
                 }
-                {(cart.length > 0) &&
+            </AnimatePresence>
+            <AnimatePresence>
+                {!isCartEmpty &&
                     <SmallButtonWithAccent
                         position="fixed"
                         zIndex={1000}
                         bottom={90}
                         right={10}
-                        animation="slow"
+                        animation="quick"
                         enterStyle={{
                             x: 400,
                         }}

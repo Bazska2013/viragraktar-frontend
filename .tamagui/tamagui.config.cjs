@@ -47564,6 +47564,7 @@ var import_core56 = require("@tamagui/core");
 var BigButton = (0, import_core56.styled)(Button2, {
   backgroundColor: "#292023",
   color: "white",
+  animation: "quick",
   boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   hoverStyle: {
     backgroundColor: "#392D31"
@@ -47572,7 +47573,8 @@ var BigButton = (0, import_core56.styled)(Button2, {
     backgroundColor: "#392D31"
   },
   pressStyle: {
-    backgroundColor: "#838072"
+    backgroundColor: "#838072",
+    scale: 0.95
   },
   disabledStyle: {
     backgroundColor: "#44363A",
@@ -47583,6 +47585,7 @@ var BigButton = (0, import_core56.styled)(Button2, {
 var SmallButtonWithAccent = (0, import_core56.styled)(Button2, {
   backgroundColor: "#FBF9EF",
   boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
+  animation: "quick",
   hoverStyle: {
     backgroundColor: "#faf0e6"
   },
@@ -47590,7 +47593,8 @@ var SmallButtonWithAccent = (0, import_core56.styled)(Button2, {
     backgroundColor: "#faf5eb"
   },
   pressStyle: {
-    backgroundColor: "#f5ebe1"
+    backgroundColor: "#f5ebe1",
+    scale: 0.95
   },
   disabledStyle: {
     backgroundColor: "#fffaf5",
@@ -47601,6 +47605,7 @@ var SmallButtonWithAccent = (0, import_core56.styled)(Button2, {
 var SmallButton = (0, import_core56.styled)(Button2, {
   backgroundColor: "#f5f5f5",
   color: "black",
+  animation: "quick",
   boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   hoverStyle: {
     backgroundColor: "#f0f0f0"
@@ -47609,7 +47614,8 @@ var SmallButton = (0, import_core56.styled)(Button2, {
     backgroundColor: "#f3f3f3"
   },
   pressStyle: {
-    backgroundColor: "#f1f1f1"
+    backgroundColor: "#f1f1f1",
+    scale: 0.95
   },
   disabledStyle: {
     backgroundColor: "#fafafa",
@@ -47621,6 +47627,7 @@ var DateButton = (0, import_core56.styled)(Button2, {
   backgroundColor: "white",
   boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   color: "black",
+  animation: "quick",
   hoverStyle: {
     backgroundColor: "#fafbee"
   },

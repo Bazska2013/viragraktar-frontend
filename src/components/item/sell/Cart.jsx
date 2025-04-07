@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
-import {H3, Spinner, Sheet, H2, Group, SizableText, H4, Separator, H6, SheetScrollView} from "tamagui";
+import {H3, Spinner, Sheet, H2, Group, SizableText, H4, Separator, H6, SheetScrollView, Square} from "tamagui";
 import {Banknote, CreditCard, DollarSign, X} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, SmallButton, StyledGroup, VerticalContainer} from "../../../tamagui.config.ts";
 
@@ -57,7 +57,9 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChan
                     <SheetScrollView>
                         <HorizontalContainer alignItems="center" justifyContent="space-between">
                             <H2 marginTop="3rem" marginBottom="1rem">Checkout</H2>
-                            <X onClick={() => onOpenChange(false)} size="$3" />
+                            <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}} alignSelf="flex-end" marginBottom={0} onClick={() => onOpenChange(false)}>
+                                <X color="#292023" size="$3" />
+                            </Square>
                         </HorizontalContainer>
                         <SizableText marginBottom="1rem">Swipe down to change the selected items</SizableText>
                         {isLoading ?
