@@ -1,4 +1,4 @@
-import {AnimatePresence, H2, SizableText, Spinner} from "tamagui";
+import {AnimatePresence, H2, Sheet, SizableText, Spinner} from "tamagui";
 import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {useEffect, useState} from "react";
@@ -11,6 +11,7 @@ import {
     SmallButtonWithAccent,
     VerticalContainer
 } from "../../tamagui.config.ts";
+import CombineItems from "../../components/item/buy/CombineItems.jsx";
 
 const Buy = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Buy = () => {
     const [error, setError] = useState(null);
     const [selectedItems, setSelectedItems] = useState([]);
     const [thereIsSelected, setThereIsSelected] = useState(false);
+    const [show, setShow] = useState(false);
 
     const [isAtBottom, setIsAtBottom] = useState(false);
     const [isScrollable, setIsScrollable] = useState(false);
@@ -64,7 +66,7 @@ const Buy = () => {
     }, []);
 
     useEffect(() => {
-        if (selectedItems.length > 0) {
+        if (selectedItems.length > 1) {
             setThereIsSelected(true);
         } else {
             setThereIsSelected(false);
@@ -115,11 +117,25 @@ const Buy = () => {
                         }}
                         position="fixed"
                         icon={ShoppingBasket}
+                        onClick={() => setShow(true)}
                     >
                         Combine items
                     </SmallButton>
                 }
             </AnimatePresence>
+            <Sheet
+                modal={true}
+                open={show}
+                onOpenChange={setShow}
+                snapPoints={[95]}
+                snapPointsMode="percent"
+                dismissOnSnapToBottom
+                positio={0}
+                zIndex={100_000}
+                animation="medium"
+            >
+                <CombineItems items={selectedItems} closeModal={setShow} refetchItems={fetchItems} emptySelection={setSelectedItems} />
+            </Sheet>
             {isLoading ?
                 <Spinner>
                     <span className="visually-hidden">Loading...</span>

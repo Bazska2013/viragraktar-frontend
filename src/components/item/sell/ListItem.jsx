@@ -68,6 +68,12 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
         addToCart(newItem);
     }
 
+    if (item.stock === 0) {
+        return (
+            <></>
+        )
+    }
+
     return (
         <VerticalContainer
             borderRadius="$5"
