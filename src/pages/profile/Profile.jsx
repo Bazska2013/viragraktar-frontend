@@ -6,7 +6,18 @@ import {useEffect, useState} from "react";
 import {deleteStore, selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
 import {Spinner, SizableText, Separator, Group, H6, H4, H2} from "tamagui";
-import {BookKey, BookUser, ChevronRight, FilePen, LineChart, LogOut,TextSearch, UserPen, UserSearch} from "@tamagui/lucide-icons";
+import {
+    BookKey,
+    BookUser,
+    ChevronRight,
+    FilePen,
+    LineChart,
+    LogOut,
+    Tags,
+    TextSearch,
+    UserPen,
+    UserSearch
+} from "@tamagui/lucide-icons";
 import {VerticalContainer, HorizontalContainer, BigButton, StyledListItem, StyledGroup} from "../../tamagui.config.ts";
 import {logout} from "../../features/auth/authSlice.js";
 import ProfileDetails from "../../components/profile/ProfileDetails.jsx";
@@ -17,6 +28,7 @@ import JoinStore from "../../components/store/JoinStore.jsx";
 import UpdateStore from "../../components/store/UpdateStore.jsx";
 import CreateStore from "../../components/store/CreateStore.jsx";
 import ViewReport from "../../components/store/ViewReport.jsx";
+import ModifyLabels from "../../components/store/ModifyLabels.jsx";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -173,6 +185,14 @@ const Profile = () => {
                                         onClick={() => {setCurrentPage('manageUsers')}}
                                     />
                                 </Group.Item>
+                                <Group.Item>
+                                    <StyledListItem
+                                        title="Modify labels"
+                                        icon={Tags}
+                                        iconAfter={ChevronRight}
+                                        onClick={() => {setCurrentPage('modifyLabels')}}
+                                    />
+                                </Group.Item>
                             </StyledGroup>
                         </> : store ? <>
                             <SizableText>Store settings</SizableText>
@@ -233,7 +253,8 @@ const Profile = () => {
                                                     currentPage === 'updateStore' ? <UpdateStore /> :
                                                         currentPage === 'manageUsers' ? <StoreUsers /> :
                                                             currentPage === 'createStore' ? <CreateStore /> :
-                                                                currentPage === 'viewReport' ? <ViewReport /> : <></>}
+                                                                currentPage === 'viewReport' ? <ViewReport /> :
+                                                                    currentPage === 'modifyLabels' ? <ModifyLabels /> : <></>}
                             </VerticalContainer>
                         </>}
                     </VerticalContainer>
@@ -250,7 +271,8 @@ const Profile = () => {
                                                 currentPage === 'updateStore' ? <UpdateStore /> :
                                                     currentPage === 'manageUsers' ? <StoreUsers /> :
                                                         currentPage === 'createStore' ? <CreateStore /> :
-                                                            currentPage === 'viewReport' ? <ViewReport /> : <></>}
+                                                            currentPage === 'viewReport' ? <ViewReport /> :
+                                                                currentPage === 'modifyLabels' ? <ModifyLabels /> : <></>}
                         </VerticalContainer>
                     </>}
                 </HorizontalContainer>

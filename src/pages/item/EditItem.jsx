@@ -6,6 +6,7 @@ import * as yup from "yup";
 import {SizableText, Form, Spinner, Label, Input, TextArea, Image, H4, Separator, H2, Square} from "tamagui";
 import {ChevronLeft, Save, Upload, X} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
+import Labels from "../../components/item/buy/Labels.jsx";
 
 const EditItem = () => {
     const [item, setItem] = useState({});
@@ -14,6 +15,7 @@ const EditItem = () => {
     const [fetchError, setFetchError] = useState(null);
     const id = useParams().id;
     const [image, setImage] = useState(null);
+    const [labels, setLabels] = useState([]);
 
     const [screenSize, setScreenSize] = useState(window.innerWidth);
 
@@ -41,6 +43,7 @@ const EditItem = () => {
             setIsLoading(false);
             if (response?.status === 200) {
                 setItem(response.data);
+                setLabels(JSON.parse(response.data.description).labels);
             }
         }
     }
@@ -49,7 +52,6 @@ const EditItem = () => {
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
-        description: yup.string().required('Description is required'),
         price: yup.number().min(0, 'Price must be greater than or equal 0').required('Price is required'),
         stock: yup.number().min(0, 'Stock must be greater than or equal 0').required('Stock is required'),
     });
@@ -57,15 +59,16 @@ const EditItem = () => {
     const handleSubmit = async (values) => {
         let response;
         setIsLoading(true);
+        let description = {
+            labels: labels,
+            connections: item.description.connections || [],
+        }
         try {
             const formDataForEdit = new FormData();
             formDataForEdit.set('name', values.name);
-            formDataForEdit.set('description', values.description);
+            formDataForEdit.set('description', JSON.stringify(description));
             formDataForEdit.set('price', values.price);
             formDataForEdit.set('stock', values.stock);
-            for (let [key, value] of formDataForEdit.entries()) {
-                console.log(key, value);
-            }
             response = await axios.post('/api/item/edit/' + item.id, formDataForEdit, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -118,7 +121,6 @@ const EditItem = () => {
                 validationSchema={schema}
                 initialValues={{
                     name: item.name || '',
-                    description: item.description || '',
                     price: item.price || 0,
                     stock: item.stock || 1,
                 }}
@@ -147,22 +149,15 @@ const EditItem = () => {
                             </VerticalContainer>
                             <Separator />
                             <VerticalContainer>
-                                <Label htmlFor="description">
-                                    <H4>Description of the item</H4>
+                                <Label htmlFor="labels">
+                                    <H4>Labels of the item</H4>
                                 </Label>
-                                <TextArea
-                                    backgroundColor="none"
-                                    flex={1}
-                                    borderWidth={2}
-                                    rows={3}
-                                    id="description"
-                                    value={values.description}
-                                    onChange={handleChange}
+                                <Labels
+                                    id="labels"
+                                    value={labels}
+                                    onChange={setLabels}
                                     isInvalid={!!errors.description}
                                 />
-                                <SizableText size='small' color='red'>
-                                    {errors.description}
-                                </SizableText>
                             </VerticalContainer>
                             <Separator />
                             <VerticalContainer>

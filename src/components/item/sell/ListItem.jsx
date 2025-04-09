@@ -101,7 +101,6 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                     }} />
                     <H4>{item.name}</H4>
                     <SizableText>Price: HUF {item.price}</SizableText>
-                    <SizableText>Stock: {item.stock}</SizableText>
                 </VerticalContainer>
                 <VerticalContainer
                     flex={1}
@@ -120,7 +119,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                             name="amount"
                             min={0}
                             max={item.stock}
-                            value={amount}
+                            value={amount + '/' + item.stock}
                             onChange={(e) => handleChange(e, '')}
                         />
                         <SmallButtonWithAccent icon={Minus} disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />

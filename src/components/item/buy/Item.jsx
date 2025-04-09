@@ -115,7 +115,6 @@ const Item = ({props, refetch, addToSelection, removeFromSelection}) => {
             backgroundColor={selected ? 'rgba(251,249,239,0.9)' : ''}
             flex={1}
             padding="$3"
-            height="425px"
         >
             <VerticalContainer
                 flex={5}
@@ -129,7 +128,6 @@ const Item = ({props, refetch, addToSelection, removeFromSelection}) => {
                     height: 180,
                 }} />
                 <H4>{item.name}</H4>
-                <SizableText>{item.description}</SizableText>
                 <SizableText>Price: HUF {item.price}</SizableText>
             </VerticalContainer>
             <VerticalContainer

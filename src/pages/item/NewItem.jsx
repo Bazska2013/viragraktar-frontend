@@ -6,12 +6,16 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Save, Upload, X} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
+import {useSelector} from "react-redux";
+import {selectStore} from "../../features/store/storeSlice.js";
+import Labels from "../../components/item/buy/Labels.jsx";
 
 const NewItem = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [serverError, setServerError] = useState(null);
     const [image, setImage] = useState(null);
+    const [labels, setLabels] = useState([]);
 
     const [screenSize, setScreenSize] = useState(window.innerWidth);
 
@@ -29,7 +33,6 @@ const NewItem = () => {
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
-        description: yup.string().required('Description is required'),
         price: yup.number().min(0, 'Price must be greater than or equal 0').required('Price is required'),
         stock: yup.number().min(1, 'Stock must be greater than 0').required('Stock is required'),
     });
@@ -37,10 +40,14 @@ const NewItem = () => {
     const handleSubmit = async (values) => {
         let response;
         setIsLoading(true);
+        let description= {
+            labels: labels,
+            connections: [],
+        };
         try {
             const formDataForNew = new FormData();
             formDataForNew.set('name', values.name);
-            formDataForNew.set('description', values.description);
+            formDataForNew.set('description', JSON.stringify(description));
             formDataForNew.set('price', values.price);
             formDataForNew.set('stock', values.stock);
             if (image) {
@@ -86,7 +93,6 @@ const NewItem = () => {
                 validationSchema={schema}
                 initialValues={{
                     name: '',
-                    description: '',
                     price: 1000,
                     stock: 1,
                 }}
@@ -113,20 +119,15 @@ const NewItem = () => {
                             </VerticalContainer>
                             <Separator />
                             <VerticalContainer>
-                                <Label htmlFor="description">
-                                    <H4>Description of the item</H4>
+                                <Label htmlFor="labels">
+                                    <H4>Labels of the item</H4>
                                 </Label>
-                                <TextArea
-                                    backgroundColor="none"
-                                    rows={3}
-                                    id="description"
-                                    value={values.description}
-                                    onChange={handleChange}
+                                <Labels
+                                    id="labels"
+                                    value={labels}
+                                    onChange={setLabels}
                                     isInvalid={!!errors.description}
                                 />
-                                <SizableText size='small' color='red'>
-                                    {errors.description}
-                                </SizableText>
                             </VerticalContainer>
                             <Separator />
                             <VerticalContainer>

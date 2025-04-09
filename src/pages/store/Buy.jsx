@@ -12,6 +12,8 @@ import {
     VerticalContainer
 } from "../../tamagui.config.ts";
 import CombineItems from "../../components/item/buy/CombineItems.jsx";
+import SearchBar from "../../components/item/SearchBar.jsx";
+import FilterBar from "../../components/item/SearchBar.jsx";
 
 const Buy = () => {
     const navigate = useNavigate();
@@ -22,14 +24,16 @@ const Buy = () => {
     const [thereIsSelected, setThereIsSelected] = useState(false);
     const [show, setShow] = useState(false);
 
+    const [filteredItems, setFilteredItems] = useState([]);
+    const [filterString, setFilterString] = useState('');
+    const [filterLabels, setFilterLabels] = useState([]);
+
     const [isAtBottom, setIsAtBottom] = useState(false);
-    const [isScrollable, setIsScrollable] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
             const scrollable = document.body.scrollHeight > window.innerHeight;
-            setIsScrollable(scrollable);
-            if (scrollable && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            if (scrollable && window.innerHeight + window.scrollY + 150 >= document.body.offsetHeight) {
                 setIsAtBottom(true);
             } else {
                 setIsAtBottom(false);
@@ -62,7 +66,11 @@ const Buy = () => {
     }
 
     useEffect(() => {
-        fetchItems();
+        fetchItems().then((response) => {
+            setFilteredItems(items);
+            setFilterString('');
+            setFilterLabels([]);
+        });
     }, []);
 
     useEffect(() => {
@@ -85,44 +93,46 @@ const Buy = () => {
         }
     }
 
+    useEffect(() => {
+        if (filterString.length > 0) {
+            setFilteredItems(items.filter((item) => item.name.toLowerCase().includes(filterString.toLowerCase())));
+        } else {
+            setFilteredItems(items);
+        }
+    }, [filterString]);
+
+    useEffect(() => {
+        if (filterLabels.length > 0) {
+            setFilteredItems(items.filter((item) => JSON.parse(item.description).labels.some(label => filterLabels.includes(label))));
+        } else {
+            setFilteredItems(items);
+        }
+    }, [filterLabels]);
+
     return (
-        <VerticalContainer height="100%" width="90%" alignSelf="center">
-            <H2 marginLeft={10} marginRight={10}>Buy</H2>
-            <AnimatePresence>
-                {isScrollable && !isAtBottom &&
-                    <BigButton
-                        zIndex={1000}
-                        animation="quick"
-                        enterStyle={{x: 300}}
-                        exitStyle={{x: 300}}
-                        position="fixed"
-                        bottom={10}
-                        right={10}
-                        icon={ShoppingBasket}
-                        onClick={() => {navigate('/new/item', {replace: true})}}>New item</BigButton>
-                }
-            </AnimatePresence>
-            <AnimatePresence>
-                {thereIsSelected &&
-                    <SmallButton
-                        zIndex={1000}
-                        bottom={90}
-                        right={10}
-                        animation="quick"
-                        enterStyle={{
-                            x: 400,
-                        }}
-                        exitStyle={{
-                            x: 400,
-                        }}
-                        position="fixed"
-                        icon={ShoppingBasket}
-                        onClick={() => setShow(true)}
-                    >
-                        Combine items
-                    </SmallButton>
-                }
-            </AnimatePresence>
+        <VerticalContainer width="95%" alignSelf="center">
+            <FilterBar title="Buy" onTextChange={setFilterString} onLabelChange={setFilterLabels} />
+            <BigButton
+                zIndex={1000}
+                animation="quick"
+                x={isAtBottom ? 300 : 0}
+                position="fixed"
+                bottom={10}
+                right={10}
+                icon={ShoppingBasket}
+                onClick={() => {navigate('/new/item', {replace: true})}}>New item</BigButton>
+            <SmallButton
+                zIndex={1000}
+                bottom={90}
+                right={10}
+                animation="quick"
+                x={thereIsSelected ? 0 : 200}
+                position="fixed"
+                icon={ShoppingBasket}
+                onClick={() => setShow(true)}
+            >
+                Combine items
+            </SmallButton>
             <Sheet
                 modal={true}
                 open={show}
@@ -144,7 +154,7 @@ const Buy = () => {
                         {error}
                     </SizableText> :
                     <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10}>
-                        {items.map((item) => (
+                        {filteredItems.map((item) => (
                             <Item key={item.id} props={item} refetch={fetchItems} addToSelection={handleAddToSelection} removeFromSelection={handleRemoveFromSelection} />
                         ))}
                     </HorizontalContainer>

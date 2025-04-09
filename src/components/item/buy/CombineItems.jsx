@@ -24,6 +24,7 @@ import {useEffect, useState} from "react";
 import {Formik} from "formik";
 import * as yup from "yup";
 import axios from "../../../axiosConfig.js";
+import Labels from "./Labels.jsx";
 
 const CombineItems = ({items, closeModal, refetchItems, emptySelection}) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -31,21 +32,26 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection}) => {
     const [image, setImage] = useState(null);
 
     const [combinedName, setCombinedName] = useState('');
-    const [combinedDescription, setCombinedDescription] = useState('');
     const [combinedPrice, setCombinedPrice] = useState(0);
     const [combinedStock, setCombinedStock] = useState(1);
+    const [combinedLabels, setCombinedLabels] = useState([]);
 
     useEffect(() => {
-        if (items) {
-            setCombinedName(items.map((item) => item.name).join('-'));
-            setCombinedDescription(items.map((item) => item.description).join('-'));
-            setCombinedPrice(items.map((item) => item.price).reduce((a, b) => a + b, 0));
+        setCombinedName(items.map((item) => item.name).join('-'));
+        setCombinedPrice(items.map((item) => item.price).reduce((a, b) => a + b, 0));
+        const newLabels = [];
+        for (let item of items) {
+            for (let label of JSON.parse(item.description).labels) {
+                if (!newLabels.includes(label)) {
+                    newLabels.push(label);
+                }
+            }
         }
+        setCombinedLabels(newLabels);
     }, [items]);
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
-        description: yup.string().required('Description is required'),
         price: yup.number().min(0, 'Price must be greater than or equal 0').required('Price is required'),
         stock: yup.number().min(0, 'Stock must be greater than or equal 0').required('Stock is required'),
     });
@@ -53,10 +59,14 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection}) => {
     const handleSubmit = async (values) => {
         let response;
         setIsLoading(true);
+        let description = {
+            labels: combinedLabels,
+            connections: items,
+        }
         try {
             const formDataForNew = new FormData();
             formDataForNew.set('name', values.name);
-            formDataForNew.set('description', values.description);
+            formDataForNew.set('description', JSON.stringify(description));
             formDataForNew.set('price', values.price);
             formDataForNew.set('stock', values.stock);
             if (image) {
@@ -111,7 +121,6 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection}) => {
                                     validationSchema={schema}
                                     initialValues={{
                                         name: combinedName || '',
-                                        description: combinedDescription || '',
                                         price: combinedPrice || 0,
                                         stock: combinedStock || 1,
                                     }}
@@ -140,22 +149,16 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection}) => {
                                                 </VerticalContainer>
                                                 <Separator />
                                                 <VerticalContainer>
-                                                    <Label htmlFor="description">
-                                                        <H4>Description of the combined item</H4>
+                                                    <Label htmlFor="labels">
+                                                        <H4>Labels of the item</H4>
                                                     </Label>
-                                                    <TextArea
-                                                        backgroundColor="none"
-                                                        flex={1}
-                                                        borderWidth={2}
-                                                        rows={3}
-                                                        id="description"
-                                                        value={values.description}
-                                                        onChange={handleChange}
+                                                    <Labels
+                                                        id="labels"
+                                                        value={combinedLabels}
+                                                        onChange={setCombinedLabels}
                                                         isInvalid={!!errors.description}
+                                                        combined
                                                     />
-                                                    <SizableText size='small' color='red'>
-                                                        {errors.description}
-                                                    </SizableText>
                                                 </VerticalContainer>
                                                 <Separator />
                                                 <VerticalContainer>

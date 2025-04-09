@@ -62,7 +62,7 @@ const Login = () => {
 
     const handleAdminLogin = () => {
         handleSubmit({
-            email: 'bergnaum.patience@example.com',
+            email: 'admin@admin.com',
             password: '12345678',
         })
     }

@@ -39,7 +39,7 @@ const StoreUsersRow = (props) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.post('/api/update-privileges/' + props.user.id, {
+            response = await axios.post('/api/update-privileges/' + props.id, {
                 is_seller: isSeller,
                 is_buyer: isBuyer,
                 is_admin: isAdmin
@@ -49,7 +49,7 @@ const StoreUsersRow = (props) => {
             setError(error.response?.data?.message);
         } finally {
             setIsLoading(false);
-            if (response?.status === 204) {
+            if (response?.status === 200) {
                 setIsChanged(false);
                 await updateUser()
             }
@@ -76,7 +76,7 @@ const StoreUsersRow = (props) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.post('/api/store/users/remove/' + props.user.id);
+            response = await axios.post('/api/store/users/remove/' + props.id);
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);

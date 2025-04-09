@@ -5,6 +5,7 @@ import Cart from "../../components/item/sell/Cart.jsx";
 import {SizableText, Spinner, AnimatePresence, Sheet, H2} from "tamagui";
 import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import {Delete, ShoppingBasket} from "@tamagui/lucide-icons";
+import FilterBar from "../../components/item/SearchBar.jsx";
 
 const Sell = () => {
     const [items, setItems] = useState([]);
@@ -13,6 +14,10 @@ const Sell = () => {
     const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
     const [isCartEmpty, setIsCartEmpty] = useState(true);
+
+    const [filteredItems, setFilteredItems] = useState([]);
+    const [filterString, setFilterString] = useState('');
+    const [filterLabels, setFilterLabels] = useState([]);
 
     const fetchItems = async () => {
         let response;
@@ -31,7 +36,11 @@ const Sell = () => {
     }
 
     useEffect(() => {
-        fetchItems();
+        fetchItems().then((response) => {
+            setFilteredItems(items);
+            setFilterString('');
+            setFilterLabels([]);
+        });
     }, []);
 
     useEffect(() => {
@@ -63,46 +72,44 @@ const Sell = () => {
         return cart.some((i) => i.id === item.id);
     }
 
+    useEffect(() => {
+        if (filterString.length > 0) {
+            setFilteredItems(items.filter((item) => item.name.toLowerCase().includes(filterString.toLowerCase())));
+        } else {
+            setFilteredItems(items);
+        }
+    }, [filterString]);
+
+    useEffect(() => {
+        if (filterLabels.length > 0) {
+            setFilteredItems(items.filter((item) => JSON.parse(item.description).labels.some(label => filterLabels.includes(label))));
+        } else {
+            setFilteredItems(items);
+        }
+    }, [filterLabels]);
+
     return (
         <VerticalContainer width="95%" alignSelf="center">
-            <H2 marginLeft={10} marginRight={10}>Sell</H2>
-            <AnimatePresence initial={false}>
-                {!isCartEmpty &&
-                    <BigButton position="fixed"
-                               zIndex={1000}
-                               bottom={10}
-                               right={10}
-                               animation="quick"
-                               enterStyle={{
-                                   x: 300,
-                               }}
-                               exitStyle={{
-                                   x: 300,
-                               }}
-                               icon={ShoppingBasket} onClick={() => setShow(true)}>Checkout</BigButton>
-                }
-            </AnimatePresence>
-            <AnimatePresence>
-                {!isCartEmpty &&
-                    <SmallButtonWithAccent
-                        position="fixed"
-                        zIndex={1000}
-                        bottom={90}
-                        right={10}
-                        animation="quick"
-                        enterStyle={{
-                            x: 400,
-                        }}
-                        exitStyle={{
-                            x: 400,
-                        }}
-                        icon={Delete}
-                        onClick={() => emptyCart()}
-                    >
-                        Empty cart
-                    </SmallButtonWithAccent>
-                }
-            </AnimatePresence>
+            <FilterBar title="Sell" onTextChange={setFilterString} onLabelChange={setFilterLabels} />
+            <BigButton position="fixed"
+                       zIndex={1000}
+                       bottom={10}
+                       right={10}
+                       animation="quick"
+                       x={isCartEmpty ? 300 : 0}
+                       icon={ShoppingBasket} onClick={() => setShow(true)}>Checkout</BigButton>
+            <SmallButtonWithAccent
+                position="fixed"
+                zIndex={1000}
+                bottom={90}
+                right={10}
+                animation="medium"
+                x={isCartEmpty ? 200 : 0}
+                icon={Delete}
+                onClick={() => emptyCart()}
+            >
+                Empty cart
+            </SmallButtonWithAccent>
             <Sheet
                 modal={true}
                 open={show}
@@ -124,7 +131,7 @@ const Sell = () => {
                         {error}
                     </SizableText> :
                     <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} marginBottom="5rem">
-                        {items.map((item) => {
+                        {filteredItems.map((item) => {
                             return (
                                 <ListItem key={item.id} item={item} addToCart={addToCart} isItemInCart={isItemInCart(item)} editCart={editCart} removeFromCart={removeFromCart} />
                             )
