@@ -2,6 +2,7 @@ import {Form} from "react-bootstrap";
 import {Checkbox, Group, H4, H5, Label} from "tamagui";
 import {Check} from "@tamagui/lucide-icons";
 import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
+import React from "react";
 
 const SelectHours = (props) => {
     return (
@@ -125,4 +126,4 @@ const SelectHours = (props) => {
     );
 }
 
-export default SelectHours;
+export default React.memo(SelectHours);

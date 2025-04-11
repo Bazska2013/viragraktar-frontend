@@ -487,4 +487,4 @@ const ViewReport = () => {
     )
 }
 
-export default ViewReport
+export default React.memo(ViewReport);

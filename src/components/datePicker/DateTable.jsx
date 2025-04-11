@@ -1,4 +1,5 @@
 import {DateButton} from "../../tamagui.config.ts";
+import React from "react";
 
 const DateTable = (props) => {
 
@@ -58,4 +59,4 @@ const DateTable = (props) => {
     )
 }
 
-export default DateTable;
+export default React.memo(DateTable);

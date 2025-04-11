@@ -1,7 +1,7 @@
-import {AnimatePresence, Button, Popover} from "tamagui";
+import {AnimatePresence, Button, Popover, YStack} from "tamagui";
 import {DateButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {Calendar, ChevronLeft, ChevronRight} from "@tamagui/lucide-icons";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import YearPicker from "./YearPicker.jsx";
 import MonthPicker from "./MonthPicker.jsx";
 import DayPicker from "./DayPicker.jsx";
@@ -94,28 +94,24 @@ const DatePicker = (props) => {
                     <Popover.Arrow />
                     <Popover.Close />
                     <VerticalContainer alignItems="center" width="100%">
-                        <AnimatePresence>
-                            {currentSelector === 'month' && (
-                                <MonthPicker position="absolute" key="month" currentMonth={month} setMonth={(value) => handleDateChange(value, 'month')} />
-                            )}
-                            {currentSelector === 'year' && (
-                                <YearPicker position="absolute" key="year" currentYear={year} setYear={(value) => handleDateChange(value, 'year')} />
-                            )}
-                            {currentSelector === 'day' && (
-                                <VerticalContainer key="day" position="absolute" animation="quickest" exitStyle={{opacity: 0}} enterStyle={{opacity: 1}} alignItems="center">
-                                    <HorizontalContainer alignItems="center" justifyContent="space-between">
-                                        <DateButton onClick={() => setCurrentSelector('year')}>{year.toString()}</DateButton>
-                                        <DateButton onClick={() => setCurrentSelector('month')}>{months[month]}</DateButton>
-                                        <DateButton onClick={() => setToday()}>Today</DateButton>
-                                    </HorizontalContainer>
-                                    <HorizontalContainer alignItems="center">
-                                        <Button onClick={() => {handleMonthShift('down')}} borderRadius="$10" size="$2" icon={ChevronLeft} />
-                                        <DayPicker key="day" currentDay={day} currentMonth={month} currentYear={year} setDay={(value) => handleDateChange(value, 'day')} />
-                                        <Button onClick={() => {handleMonthShift('up')}} borderRadius="$10" size="$2" icon={ChevronRight} />
-                                    </HorizontalContainer>
-                                </VerticalContainer>
-                            )}
-                        </AnimatePresence>
+                        <YStack opacity={currentSelector === 'month' ? 1 : 0} animation="quickest" position="absolute">
+                            <MonthPicker currentMonth={month} setMonth={(value) => handleDateChange(value, 'month')} />
+                        </YStack>
+                        <YStack opacity={currentSelector === 'year' ? 1 : 0} animation="quickest" position="absolute">
+                            <YearPicker currentYear={year} setYear={(value) => handleDateChange(value, 'year')} />
+                        </YStack>
+                        <VerticalContainer opacity={currentSelector === 'day' ? 1 : 0} position="absolute" animation="quickest" exitStyle={{opacity: 0}} enterStyle={{opacity: 1}} alignItems="center">
+                            <HorizontalContainer alignItems="center" justifyContent="space-between">
+                                <DateButton onClick={() => setCurrentSelector('year')}>{year.toString()}</DateButton>
+                                <DateButton onClick={() => setCurrentSelector('month')}>{months[month]}</DateButton>
+                                <DateButton onClick={() => setToday()}>Today</DateButton>
+                            </HorizontalContainer>
+                            <HorizontalContainer alignItems="center">
+                                <Button onClick={() => {handleMonthShift('down')}} borderRadius="$10" size="$2" icon={ChevronLeft} />
+                                <DayPicker currentDay={day} currentMonth={month} currentYear={year} setDay={(value) => handleDateChange(value, 'day')} />
+                                <Button onClick={() => {handleMonthShift('up')}} borderRadius="$10" size="$2" icon={ChevronRight} />
+                            </HorizontalContainer>
+                        </VerticalContainer>
                     </VerticalContainer>
                 </Popover.Content>
             </Popover>
@@ -123,4 +119,4 @@ const DatePicker = (props) => {
     )
 }
 
-export default DatePicker;
+export default React.memo(DatePicker);

@@ -2,7 +2,7 @@ import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {removeUser, selectCurrentUser} from "../../features/auth/userSlice.js";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {deleteStore, selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
 import {Spinner, SizableText, Separator, Group, H6, H4, H2} from "tamagui";
@@ -285,4 +285,4 @@ const Profile = () => {
     )
 }
 
-export default Profile;
+export default React.memo(Profile);

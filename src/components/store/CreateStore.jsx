@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Checkbox, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
 import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
@@ -103,4 +103,4 @@ const CreateStore = () => {
     )
 }
 
-export default CreateStore;
+export default React.memo(CreateStore);

@@ -1,5 +1,5 @@
 import {Formik} from "formik";
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "../../axiosConfig.js";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import {useDispatch, useSelector} from "react-redux";
@@ -107,4 +107,4 @@ const UpdateStore = () => {
     )
 }
 
-export default UpdateStore;
+export default React.memo(UpdateStore);

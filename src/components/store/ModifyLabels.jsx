@@ -10,7 +10,7 @@ import {AnimatePresence, H2, H4, Input, Paragraph, Separator, SizableText, Spinn
 import {selectStore, createStore} from "../../features/store/storeSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import {Plus, Save, SkipBack, X} from "@tamagui/lucide-icons";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 
 const ModifyLabels = () => {
@@ -85,7 +85,7 @@ const ModifyLabels = () => {
                     <Paragraph>Click on the available labels listed below to remove them from your store. Items that already have the selected label will continue to have it. You have to manually remove them from the individual items.</Paragraph>
                     <HorizontalContainer flexWrap="wrap">
                         {labels && labels.map((label, index) => (
-                            <SmallButton iconAfter={X} borderWidth={1} padding="$2" borderRadius="$5" key={index} onClick={() => handleRemoveLabel(label)} >{label}</SmallButton>
+                            <SmallButton iconAfter={X} borderWidth={1} padding="$2" borderRadius="$5" key={label} onClick={() => handleRemoveLabel(label)} >{label}</SmallButton>
                         ))}
                     </HorizontalContainer>
                     <Separator/>
@@ -111,4 +111,4 @@ const ModifyLabels = () => {
     )
 }
 
-export default ModifyLabels;
+export default React.memo(ModifyLabels);

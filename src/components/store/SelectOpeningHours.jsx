@@ -1,5 +1,5 @@
 import SelectHours from "./SelectHours.jsx";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {HorizontalContainer} from "../../tamagui.config.ts";
 
@@ -43,7 +43,7 @@ const SelectOpeningHours = (props) => {
         <HorizontalContainer flexWrap="wrap">
             {Object.keys(openingHours).map((day, index) => (
                 <SelectHours
-                    key={index}
+                    key={day}
                     day={day}
                     from={openingHours[day].from}
                     to={openingHours[day].to}
@@ -61,4 +61,4 @@ SelectOpeningHours.propTypes = {
     setFieldValue: PropTypes.func.isRequired,
 };
 
-export default SelectOpeningHours;
+export default React.memo(SelectOpeningHours);

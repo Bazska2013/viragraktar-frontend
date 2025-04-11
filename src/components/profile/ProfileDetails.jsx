@@ -1,5 +1,6 @@
 import {HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {H2, H4, Separator, SizableText} from "tamagui";
+import React from "react";
 
 const ProfileDetails = (props) => {
     return (
@@ -38,4 +39,4 @@ const ProfileDetails = (props) => {
     )
 }
 
-export default ProfileDetails;
+export default React.memo(ProfileDetails);

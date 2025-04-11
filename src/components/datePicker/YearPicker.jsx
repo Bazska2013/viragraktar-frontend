@@ -2,7 +2,7 @@ import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {Button, SizableText} from "tamagui";
 import {ChevronLeft, ChevronRight} from "@tamagui/lucide-icons";
 import DateTable from "./DateTable.jsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 const YearPicker = (props) => {
     const [years, setYears] = useState(['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030']);
@@ -45,4 +45,4 @@ const YearPicker = (props) => {
     )
 }
 
-export default YearPicker;
+export default React.memo(YearPicker);

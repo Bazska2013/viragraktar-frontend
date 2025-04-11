@@ -20,7 +20,7 @@ import {
     VerticalContainer
 } from "../../../tamagui.config.ts";
 import {Save, Upload, X} from "@tamagui/lucide-icons";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Formik} from "formik";
 import * as yup from "yup";
 import axios from "../../../axiosConfig.js";
@@ -234,4 +234,4 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection}) => {
     )
 }
 
-export default CombineItems;
+export default React.memo(CombineItems);

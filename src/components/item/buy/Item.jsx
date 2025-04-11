@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
@@ -165,4 +165,4 @@ const Item = ({props, refetch, addToSelection, removeFromSelection}) => {
     )
 }
 
-export default Item;
+export default React.memo(Item);

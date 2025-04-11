@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../../axiosConfig.js';
 import {Formik} from "formik";
 import * as yup from "yup";
-import {useState} from "react";
+import React, {useState} from "react";
 import {Input, Label, SizableText, Form, Spinner, H4} from "tamagui";
 import {PenSquare} from "@tamagui/lucide-icons";
 import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
@@ -85,4 +85,4 @@ const JoinStore = () => {
     )
 }
 
-export default JoinStore;
+export default React.memo(JoinStore);

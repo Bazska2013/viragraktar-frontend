@@ -1,4 +1,5 @@
 import DateTable from "./DateTable.jsx";
+import React from "react";
 
 const DayPicker = (props) => {
 
@@ -21,4 +22,4 @@ const DayPicker = (props) => {
     )
 }
 
-export default DayPicker;
+export default React.memo(DayPicker);

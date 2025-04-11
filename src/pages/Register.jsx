@@ -2,7 +2,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Input, Label, SizableText, Form, Spinner, H2, H4, Separator, H1} from "tamagui";
 import {FileSignature, LogIn} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
@@ -189,4 +189,4 @@ const Register = () => {
     )
 }
 
-export default Register;
+export default React.memo(Register);

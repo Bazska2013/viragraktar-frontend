@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "../../axiosConfig.js";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
@@ -148,4 +148,4 @@ const StoreUsersRow = (props) => {
     )
 }
 
-export default StoreUsersRow;
+export default React.memo(StoreUsersRow);

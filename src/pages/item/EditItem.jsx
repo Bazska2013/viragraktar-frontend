@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
@@ -241,4 +241,4 @@ const EditItem = () => {
     )
 }
 
-export default EditItem;
+export default React.memo(EditItem);

@@ -1,7 +1,7 @@
 import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import {AnimatePresence, H2, Input, Square, YStack} from "tamagui";
 import {Filter, FilterX, Search, X} from "@tamagui/lucide-icons";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {selectStore} from "../../features/store/storeSlice.js";
 import {useSelector} from "react-redux";
 
@@ -79,11 +79,11 @@ const FilterBar = ({title, onTextChange, onLabelChange}) => {
             </HorizontalContainer>
             <HorizontalContainer animation="slow" overflow="scroll" opacity={searchOpen ? 1 : 0}>
                 {labels.map((label, index) => (
-                    <SmallButton key={index} backgroundColor={isInSelection(label) ? '#FBF9EF' : '#f5f5f5'} focusStyle={{backgroundColor: '#FBF9EF'}} onClick={() => handleChangeLabel(label)} >{label}</SmallButton>
+                    <SmallButton key={label} backgroundColor={isInSelection(label) ? '#FBF9EF' : '#f5f5f5'} focusStyle={{backgroundColor: '#FBF9EF'}} onClick={() => handleChangeLabel(label)} >{label}</SmallButton>
                 ))}
             </HorizontalContainer>
         </VerticalContainer>
     )
 }
 
-export default FilterBar;
+export default React.memo(FilterBar);

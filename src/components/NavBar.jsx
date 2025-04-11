@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectCurrentUser} from "../features/auth/userSlice.js";
 import {selectStore} from "../features/store/storeSlice.js";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SizableText, Tabs, XStack} from "tamagui";
 import {ShoppingCart, Store, User} from "@tamagui/lucide-icons";
 
@@ -145,4 +145,4 @@ const NavBar = () => {
     )
 }
 
-export default NavBar;
+export default React.memo(NavBar);

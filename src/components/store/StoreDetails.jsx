@@ -1,7 +1,7 @@
 import {ClipboardCopy} from "@tamagui/lucide-icons";
 import {HorizontalContainer, ProfileContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import {H2, H4, Separator, SizableText} from "tamagui";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 
 const StoreDetails = (props) => {
@@ -71,4 +71,4 @@ const StoreDetails = (props) => {
     )
 }
 
-export default StoreDetails;
+export default React.memo(StoreDetails);

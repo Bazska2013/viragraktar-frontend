@@ -1,7 +1,7 @@
 import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {H4, H6, SizableText} from "tamagui";
 import axios from "../../axiosConfig.js";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 const TransactionsTable = (props) => {
     const [storeUsers, setStoreUsers] = useState([]);
@@ -80,7 +80,7 @@ const TransactionsTable = (props) => {
                             <tbody>
                             {props.items.map((item, index) => {
                                 return (
-                                    <tr key={index} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
+                                    <tr key={item.id} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                         <td><SizableText>{item.name}</SizableText></td>
                                         <td><SizableText>{item.price}</SizableText></td>
                                         <td><SizableText>{item.amount}</SizableText></td>
@@ -114,7 +114,7 @@ const TransactionsTable = (props) => {
                             <tbody>
                             {props.transactions.map((item, index) => {
                                 return (
-                                    <tr key={index} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
+                                    <tr key={item.id} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                         <td><SizableText>{generateDate(item.created_at)}</SizableText></td>
                                         <td><SizableText>{generateTime(item.created_at)}</SizableText></td>
                                         <td><SizableText>{findUserName(item.user_id)}</SizableText></td>
@@ -145,4 +145,4 @@ const TransactionsTable = (props) => {
     )
 }
 
-export default TransactionsTable;
+export default React.memo(TransactionsTable);

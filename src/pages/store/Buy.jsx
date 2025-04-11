@@ -1,7 +1,7 @@
 import {AnimatePresence, H2, Sheet, SizableText, Spinner} from "tamagui";
 import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Item from "../../components/item/buy/Item.jsx";
 import {ShoppingBasket} from "@tamagui/lucide-icons";
 import {
@@ -12,8 +12,8 @@ import {
     VerticalContainer
 } from "../../tamagui.config.ts";
 import CombineItems from "../../components/item/buy/CombineItems.jsx";
-import SearchBar from "../../components/item/SearchBar.jsx";
-import FilterBar from "../../components/item/SearchBar.jsx";
+import SearchBar from "../../components/item/FilterBar.jsx";
+import FilterBar from "../../components/item/FilterBar.jsx";
 
 const Buy = () => {
     const navigate = useNavigate();
@@ -168,4 +168,4 @@ const Buy = () => {
     )
 }
 
-export default Buy;
+export default React.memo(Buy);

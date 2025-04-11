@@ -1,5 +1,5 @@
 import {Container, Spinner} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 import StoreUsersRow from "./StoreUsersRow.jsx";
 import {Accordion, H2, H4, Square} from "tamagui";
@@ -56,7 +56,7 @@ const StoreUsers = () => {
                        borderRadius="$5"
             >
                 {Object.keys(users).map((user, index) => (
-                    <Accordion.Item value={user} key={index}>
+                    <Accordion.Item value={user} key={user}>
                         <Accordion.Trigger flexDirection="row" justifyContent="space-between">
                             {({open}) => (
                                 <>
@@ -88,4 +88,4 @@ const StoreUsers = () => {
     )
 }
 
-export default StoreUsers;
+export default React.memo(StoreUsers);

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {H3, Spinner, Sheet, H2, Group, SizableText, H4, Separator, H6, SheetScrollView, Square} from "tamagui";
 import {Banknote, CreditCard, DollarSign, X} from "@tamagui/lucide-icons";
@@ -77,7 +77,7 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChan
                                 </HorizontalContainer>
                                 <Separator />
                                 {cart.map((item, index) => (
-                                    <HorizontalContainer key={index} alignItems="center">
+                                    <HorizontalContainer key={item.id} alignItems="center">
                                         <SizableText width="10%" textAlign="center">{index + 1}</SizableText>
                                         <SizableText width="20%" textAlign="center">{item.name}</SizableText>
                                         <SizableText width="25%" textAlign="center">{item.amount}</SizableText>
@@ -110,4 +110,4 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChan
     )
 }
 
-export default Cart;
+export default React.memo(Cart);

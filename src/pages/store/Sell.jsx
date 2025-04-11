@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from '../../axiosConfig.js';
 import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
 import {SizableText, Spinner, AnimatePresence, Sheet, H2} from "tamagui";
 import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import {Delete, ShoppingBasket} from "@tamagui/lucide-icons";
-import FilterBar from "../../components/item/SearchBar.jsx";
+import FilterBar from "../../components/item/FilterBar.jsx";
 
 const Sell = () => {
     const [items, setItems] = useState([]);
@@ -142,4 +142,4 @@ const Sell = () => {
     )
 }
 
-export default Sell;
+export default React.memo(Sell);

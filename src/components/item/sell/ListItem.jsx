@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Group, H4, Image, Input, SizableText, Button, Square} from "tamagui";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {FileSearch, Minus, Plus, ShoppingCart, X} from "@tamagui/lucide-icons";
@@ -132,4 +132,4 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
     )
 }
 
-export default ListItem;
+export default React.memo(ListItem);

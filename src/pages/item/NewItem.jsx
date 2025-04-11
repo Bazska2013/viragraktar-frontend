@@ -3,7 +3,7 @@ import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator, H2, S
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Save, Upload, X} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 import {useSelector} from "react-redux";
@@ -195,4 +195,4 @@ const NewItem = () => {
     )
 }
 
-export default NewItem;
+export default React.memo(NewItem);

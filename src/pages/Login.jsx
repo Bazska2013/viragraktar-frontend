@@ -2,7 +2,7 @@ import {Formik} from "formik";
 import * as yup from "yup";
 import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {login} from "../features/auth/authSlice.js";
 import {useDispatch} from "react-redux";
 import {Input, Label, SizableText, Form, Spinner, H1, H2, H4, Separator} from "tamagui";
@@ -160,4 +160,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default React.memo(Login);
