@@ -55,7 +55,13 @@ const Login = () => {
             }
             if (token) {
                 dispatch(login(token));
-                navigate('/sell', { replace: true });
+                if (document.startViewTransition) {
+                    document.startViewTransition(() => {
+                        navigate('/sell', { replace: true });
+                    });
+                } else {
+                    navigate('/sell', { replace: true });
+                }
             }
         }
     }
@@ -145,7 +151,7 @@ const Login = () => {
                                 <SmallButton onClick={() => handleAdminLogin()}>Log in as Admin (Dev)</SmallButton>
                                 <Separator />
                                 <SizableText>Don't have an account yet?</SizableText>
-                                <SmallButtonWithAccent icon={AtSign} onClick={() => navigate('/register')}>Sign up</SmallButtonWithAccent>
+                                <SmallButtonWithAccent icon={AtSign} onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/register')) : navigate('/register')}}>Sign up</SmallButtonWithAccent>
                             </VerticalContainer>
                         </Form>
                     )}

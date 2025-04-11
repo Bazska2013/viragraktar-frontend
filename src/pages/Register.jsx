@@ -173,7 +173,7 @@ const Register = () => {
                                 </Form.Trigger>
                                 <Separator />
                                 <SizableText>Already have an account?</SizableText>
-                                <SmallButtonWithAccent onClick={() => navigate('/login')} icon={LogIn}>Sign in</SmallButtonWithAccent>
+                                <SmallButtonWithAccent onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/login', {replace: true})) : navigate('/login', {replace: true})}} icon={LogIn}>Sign in</SmallButtonWithAccent>
                                 {serverError && <SizableText color='red' >{serverError}</SizableText>}
                             </VerticalContainer>
                         </Form>

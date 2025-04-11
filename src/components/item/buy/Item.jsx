@@ -156,7 +156,7 @@ const Item = ({props, refetch, addToSelection, removeFromSelection}) => {
                     <SmallButton boxShadow="unset" flex={1} icon={X} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleCancel()} />
                     <SmallButton boxShadow="unset" flex={1} icon={Check} disabled={!isChanged} chromeless={!isChanged} onClick={() => handleSubmit()} />
                 </StyledGroup>
-                <SmallButtonWithAccent icon={PenSquare} width="100%" onClick={() => navigate('/edit/item/' + item.id, {replace:true})}>
+                <SmallButtonWithAccent icon={PenSquare} width="100%" onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy/edit/' + item.id)) : navigate('/buy/edit/' + item.id)}}>
                     {screenSize > 768 ? 'Edit item' : ''}
                 </SmallButtonWithAccent>
                 <SmallButton width="100%" icon={selected ? CheckSquare : Square} onPress={() => setSelected(!selected)}>Select</SmallButton>

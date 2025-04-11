@@ -120,7 +120,7 @@ const Buy = () => {
                 bottom={10}
                 right={10}
                 icon={ShoppingBasket}
-                onClick={() => {navigate('/new/item', {replace: true})}}>New item</BigButton>
+                onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy/new/')) : navigate('/buy/new/')}}>New item</BigButton>
             <SmallButton
                 zIndex={1000}
                 bottom={90}
@@ -147,23 +147,26 @@ const Buy = () => {
                 <CombineItems items={selectedItems} closeModal={setShow} refetchItems={fetchItems} emptySelection={setSelectedItems} />
             </Sheet>
             {isLoading ?
-                <Spinner>
+                <Spinner size="large" opacity={isLoading ? 1 : 0} animation="slowest">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner> : error ?
                     <SizableText color="red">
                         {error}
                     </SizableText> :
-                    <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10}>
-                        {filteredItems.map((item) => (
-                            <Item key={item.id} props={item} refetch={fetchItems} addToSelection={handleAddToSelection} removeFromSelection={handleRemoveFromSelection} />
-                        ))}
-                    </HorizontalContainer>
+                    <>
+                        <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} opacity={isLoading ? 0 : 1} animation="slow">
+                            {filteredItems.map((item) => (
+                                <Item key={item.id} props={item} refetch={fetchItems} addToSelection={handleAddToSelection} removeFromSelection={handleRemoveFromSelection} />
+                            ))}
+                        </HorizontalContainer>
+                        <BigButton
+                            opacity={isLoading ? 0 : 1} animation="slowest"
+                            alignSelf="center"
+                            marginBottom="5rem"
+                            icon={ShoppingBasket}
+                            onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy/new/')) : navigate('/buy/new/')}}>New item</BigButton>
+                    </>
             }
-            <BigButton
-                alignSelf="center"
-                marginBottom="5rem"
-                icon={ShoppingBasket}
-                onClick={() => {navigate('/new/item', {replace: true})}}>New item</BigButton>
         </VerticalContainer>
     )
 }

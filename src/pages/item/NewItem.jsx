@@ -64,7 +64,13 @@ const NewItem = () => {
         } finally {
             setIsLoading(false);
             if (response?.status === 201) {
-                navigate('/buy', {replace: true});
+                if (document.startViewTransition) {
+                    document.startViewTransition(() => {
+                        navigate('/buy', {replace: true});
+                    });
+                } else {
+                    navigate('/buy', {replace: true});
+                }
             }
         }
     }
@@ -85,7 +91,9 @@ const NewItem = () => {
         >
             <HorizontalContainer marginTop="3rem" alignItems="center" justifyContent="space-between">
                 <H2 marginBottom="1rem">New item</H2>
-                <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}} onClick={() => navigate('/buy', {replace: true})}>
+                <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
+                        onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy', {replace: true})) : navigate('/buy', {replace: true})}}
+                >
                     <X color="#292023" size="$3" />
                 </Square>
             </HorizontalContainer>

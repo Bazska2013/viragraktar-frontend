@@ -29,7 +29,7 @@ const EditItem = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [])
+    }, []);
 
     const fetchItem = async () => {
         let response;
@@ -81,7 +81,13 @@ const EditItem = () => {
         } finally {
             setIsLoading(false);
             if (response?.status === 200) {
-                navigate('/buy', {replace: true});
+                if (document.startViewTransition) {
+                    document.startViewTransition(() => {
+                        navigate('/buy', {replace: true});
+                    });
+                } else {
+                    navigate('/buy', {replace: true});
+                }
             }
         }
     }
@@ -112,7 +118,9 @@ const EditItem = () => {
         >
             <HorizontalContainer marginTop="3rem" alignItems="center" justifyContent="space-between">
                 <H2 marginBottom="1rem">Edit item</H2>
-                <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}} onClick={() => navigate('/buy', {replace: true})}>
+                <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
+                        onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy', {replace: true})) : navigate('/buy', {replace: true})}}
+                >
                     <X color="#292023" size="$3" />
                 </Square>
             </HorizontalContainer>

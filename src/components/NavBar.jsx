@@ -42,22 +42,24 @@ const NavBar = () => {
 
     const handleNavigation = (value) => {
         setCurrentTab(value);
-        switch (value) {
-            case 'sell':
-                navigate('/sell', {replace: true});
-                break;
-            case 'buy':
-                navigate('/buy', {replace: true});
-                break;
-            case 'profile':
-                navigate('/profile', {replace: true});
-                break;
-            default:
-                break;
+        const pathMap = {
+            sell: '/sell',
+            buy: '/buy',
+            profile: '/profile'
+        };
+
+        const newPath = pathMap[value];
+        if (!newPath) return;
+
+        if (document.startViewTransition) {
+            document.startViewTransition(() => {
+                navigate(newPath, { replace: true });
+            });
+        } else {
+            // fallback for unsupported browsers
+            navigate(newPath, { replace: true });
         }
-    }
-
-
+    };
 
     return (
         <XStack

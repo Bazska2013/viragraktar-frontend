@@ -12,6 +12,7 @@ import {RequireBuyer} from "./features/store/RequireBuyer.jsx";
 import NewItem from "./pages/item/NewItem.jsx";
 import EditItem from "./pages/item/EditItem.jsx";
 import "./App.css"
+import ViewItem from "./pages/item/ViewItem.jsx";
 
 function App() {
 
@@ -39,6 +40,15 @@ function App() {
                             </RequireStore>
                         </RequireAuth>
                     }/>
+                    <Route path={'/sell/view/:id'} element={
+                        <RequireAuth>
+                            <RequireStore>
+                                <RequireSeller>
+                                    <ViewItem />
+                                </RequireSeller>
+                            </RequireStore>
+                        </RequireAuth>
+                    }/>
                     <Route path={'/buy'} element={
                         <RequireAuth>
                             <RequireStore>
@@ -48,7 +58,7 @@ function App() {
                             </RequireStore>
                         </RequireAuth>
                     }/>
-                    <Route path={'/new/item'} element={
+                    <Route path={'/buy/new'} element={
                         <RequireAuth>
                             <RequireStore>
                                 <RequireBuyer>
@@ -57,7 +67,7 @@ function App() {
                             </RequireStore>
                         </RequireAuth>
                     } />
-                    <Route path={'/edit/item/:id'} element={
+                    <Route path={'/buy/edit/:id'} element={
                         <RequireAuth>
                             <RequireStore>
                                 <RequireBuyer>

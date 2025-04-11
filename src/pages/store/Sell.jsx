@@ -124,13 +124,13 @@ const Sell = () => {
                 <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} onOpenChange={setShow} />
             </Sheet>
             {isLoading ?
-                <Spinner alignSelf="center">
+                <Spinner alignSelf="center" size="large" opacity={isLoading ? 1 : 0} animation="slowest">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner> : error ?
                     <SizableText color="red">
                         {error}
                     </SizableText> :
-                    <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} marginBottom="5rem">
+                    <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} marginBottom="5rem" opacity={isLoading ? 0 : 1} animation="slow">
                         {filteredItems.map((item) => {
                             return (
                                 <ListItem key={item.id} item={item} addToCart={addToCart} isItemInCart={isItemInCart(item)} editCart={editCart} removeFromCart={removeFromCart} />

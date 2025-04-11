@@ -9,11 +9,13 @@ import {
     SmallButton,
     StyledGroup
 } from "../../../tamagui.config.ts";
+import {useNavigate} from "react-router-dom";
 
 const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) => {
     const [amount, setAmount] = useState(0);
     const [isChanged, setIsChanged] = useState(false);
     const [screenSize, setScreenSize] = useState(window.innerWidth);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => {
@@ -124,7 +126,11 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                         />
                         <SmallButtonWithAccent icon={Minus} disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
                     </StyledGroup>
-                    <SmallButton width="100%" icon={FileSearch}>{screenSize > 768 ? 'View details' : ''}</SmallButton>
+                    <SmallButton width="100%" icon={FileSearch}
+                                 onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/sell/view/' + item.id)) : navigate('/sell/view/' + item.id)}}
+                                 >
+                        {screenSize > 768 ? 'View details' : ''}
+                    </SmallButton>
                     <SmallButtonWithAccent width="100%" icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>{screenSize > 768 ? 'Add to cart' : ''}</SmallButtonWithAccent>
                 </VerticalContainer>
             </HorizontalContainer>
