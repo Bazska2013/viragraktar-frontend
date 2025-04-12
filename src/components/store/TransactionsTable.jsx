@@ -82,9 +82,9 @@ const TransactionsTable = (props) => {
                                 return (
                                     <tr key={item.id} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                         <td><SizableText>{item.name}</SizableText></td>
-                                        <td><SizableText>{item.price}</SizableText></td>
+                                        <td><SizableText>{props.before ? props.sign + item.price : item.price + " " + props.sign}</SizableText></td>
                                         <td><SizableText>{item.amount}</SizableText></td>
-                                        <td><SizableText>{item.amount * item.price}</SizableText></td>
+                                        <td><SizableText>{props.before ? props.sign + item.amount * item.price : item.amount * item.price + " " + props.sign}</SizableText></td>
                                     </tr>
                                 )
                             })}
@@ -119,7 +119,7 @@ const TransactionsTable = (props) => {
                                         <td><SizableText>{generateTime(item.created_at)}</SizableText></td>
                                         <td><SizableText>{findUserName(item.user_id)}</SizableText></td>
                                         <td><SizableText>{item.credit ? 'Credit card' : 'Cash'}</SizableText></td>
-                                        <td><SizableText>{item.total}</SizableText></td>
+                                        <td><SizableText>{props.before ? props.sign + item.total : item.total + " " + props.sign}</SizableText></td>
                                     </tr>
                                 )
                             })}
@@ -138,7 +138,7 @@ const TransactionsTable = (props) => {
                     justifyContent="space-between"
                 >
                     <H6>Total</H6>
-                    <H6>HUF {props.items.reduce((acc, item) => acc + item.amount * item.price, 0)}</H6>
+                    <H6>{props.before ? props.sign + props.items.reduce((acc, item) => acc + item.amount * item.price, 0) : props.items.reduce((acc, item) => acc + item.amount * item.price, 0) + " " + props.sign}</H6>
                 </HorizontalContainer>
             }
         </VerticalContainer>

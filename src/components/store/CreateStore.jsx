@@ -3,9 +3,9 @@ import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import React, {useState} from "react";
-import {Checkbox, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
+import {Checkbox, Input, Label, SizableText, Form, Spinner, H4, Separator, Switch} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
-import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const CreateStore = () => {
     const navigate = useNavigate();
@@ -15,19 +15,29 @@ const CreateStore = () => {
     const handleSubmit = async (values) => {
         let response;
         setIsLoading(true);
+        let currency = {
+            sign: values.sign,
+            before: values.before,
+        }
         try {
             response = await axios.post('/api/store', {
                 name: values.name,
                 opening_hours: values.opening_hours,
-                calculation_enabled: values.calculation_enabled,
+                currency: JSON.stringify(currency),
             });
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);
         } finally {
             setIsLoading(false);
-            if (response?.status === 201) {
-                navigate('/sell', {replace: true});
+            if (response?.status === 200) {
+                if (document.startViewTransition) {
+                    document.startViewTransition(() => {
+                        navigate('/sell', {replace: true});
+                    });
+                } else {
+                    navigate('/sell', {replace: true});
+                }
             }
         }
     }
@@ -48,7 +58,8 @@ const CreateStore = () => {
                     initialValues={{
                         name: '',
                         opening_hours: '',
-                        calculation_enabled: false,
+                        before: false,
+                        sign: '',
                     }}
                     onSubmit={(values) => {
                         handleSubmit(values)
@@ -80,14 +91,30 @@ const CreateStore = () => {
                                 <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} />
                                 <Separator />
                                 <VerticalContainer>
-                                    <Label htmlFor="calculation_enabled">
-                                        <H4>Enable price calculation</H4>
+                                    <Label htmlFor="sign">
+                                        <H4>Set the currency sign used in this store</H4>
                                     </Label>
-                                    <Checkbox id="calculation_enabled" name="calculation_enabled" checked={values.calculation_enabled} onCheckedChange={(checked) => setFieldValue('calculation_enabled', checked)}>
-                                        <Checkbox.Indicator>
-                                            <Check />
-                                        </Checkbox.Indicator>
-                                    </Checkbox>
+                                    <Input
+                                        backgroundColor="none"
+                                        flex={1}
+                                        borderWidth={2}
+                                        type="text"
+                                        name="sign"
+                                        id="sign"
+                                        value={values.sign}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.sign}
+                                    />
+                                    <Label htmlFor="before">
+                                        <H4>Appear {values.before ? 'before' : 'after'} the price</H4>
+                                    </Label>
+                                    <HorizontalContainer>
+                                        <SizableText>after</SizableText>
+                                        <Switch size="$3" id="before" name="before" checked={values.before} onCheckedChange={(checked) => setFieldValue('before', checked)}>
+                                            <Switch.Thumb animation="quicker" />
+                                        </Switch>
+                                        <SizableText>before</SizableText>
+                                    </HorizontalContainer>
                                 </VerticalContainer>
                                 <Separator />
                                 <Form.Trigger asChild>

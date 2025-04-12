@@ -12,7 +12,7 @@ const ProfileDetails = (props) => {
                         justifyContent="space-between"
                     >
                         <H4>Username</H4>
-                        <SizableText>{props.user.name}</SizableText>
+                        <SizableText>{props.user?.name}</SizableText>
                     </HorizontalContainer>
                     <Separator />
                     <HorizontalContainer
@@ -20,7 +20,7 @@ const ProfileDetails = (props) => {
                         justifyContent="space-between"
                     >
                         <H4>Email</H4>
-                        <SizableText>{props.user.email}</SizableText>
+                        <SizableText>{props.user?.email}</SizableText>
                     </HorizontalContainer>
                     {props.store && <>
                         <Separator />
@@ -33,7 +33,7 @@ const ProfileDetails = (props) => {
                         </VerticalContainer>
                     </>
                     }
-                    <SizableText alignSelf="center">Register date: {props.user.created_at.slice(0,10)}</SizableText>
+                    <SizableText alignSelf="center">Register date: {props.user?.created_at.slice(0,10)}</SizableText>
                 </ProfileContainer>
             </VerticalContainer>
     )

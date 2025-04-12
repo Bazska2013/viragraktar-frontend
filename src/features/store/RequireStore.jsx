@@ -10,6 +10,7 @@ export const RequireStore = ({children}) => {
     const [hasStore, setHasStore] = useState(false);
     const store = useSelector(selectStore);
     const dispatch = useDispatch();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const checkStore = async () => {
@@ -25,7 +26,7 @@ export const RequireStore = ({children}) => {
                     dispatch(createStore(response.data));
                 }
             } catch (error) {
-                console.log(error);
+                setError(error.response.data.message);
                 setHasStore(false);
             } finally {
                 setIsLoading(false);

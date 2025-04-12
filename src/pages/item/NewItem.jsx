@@ -1,5 +1,5 @@
 import {Formik} from "formik";
-import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator, H2, Square} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator, H2, Square, H6} from "tamagui";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
@@ -11,6 +11,9 @@ import {selectStore} from "../../features/store/storeSlice.js";
 import Labels from "../../components/item/buy/Labels.jsx";
 
 const NewItem = () => {
+    const store = useSelector(selectStore);
+    const [sign, setSign] = useState('');
+    const [before, setBefore] = useState(false);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [serverError, setServerError] = useState(null);
@@ -29,7 +32,14 @@ const NewItem = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (store) {
+            setSign(JSON.parse(store.currency).sign);
+            setBefore(JSON.parse(store.currency).before);
+        }
+    }, []);
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
@@ -142,15 +152,25 @@ const NewItem = () => {
                                 <Label htmlFor="price">
                                     <H4>Price of the item</H4>
                                 </Label>
-                                <Input
-                                    backgroundColor="none"
-                                    type="number"
-                                    id="price"
-                                    min={0}
-                                    value={values.price}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.price}
-                                />
+                                <HorizontalContainer alignItems="center" justifyContent="space-between">
+                                    {before &&
+                                        <H6>{sign}</H6>
+                                    }
+                                    <Input
+                                        backgroundColor="none"
+                                        flex={1}
+                                        borderWidth={2}
+                                        type="number"
+                                        id="price"
+                                        min={0}
+                                        value={values.price}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.price}
+                                    />
+                                    {!before &&
+                                        <H6>{sign}</H6>
+                                    }
+                                </HorizontalContainer>
                                 <SizableText size='small' color='red'>
                                     {errors.price}
                                 </SizableText>

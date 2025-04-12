@@ -4,7 +4,7 @@ import {H3, Spinner, Sheet, H2, Group, SizableText, H4, Separator, H6, SheetScro
 import {Banknote, CreditCard, DollarSign, X} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, SmallButton, StyledGroup, VerticalContainer} from "../../../tamagui.config.ts";
 
-const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChange}) => {
+const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChange, sign, before}) => {
     const [total, setTotal] = useState(0);
     const [cash, setCash] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -81,8 +81,8 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChan
                                         <SizableText width="10%" textAlign="center">{index + 1}</SizableText>
                                         <SizableText width="20%" textAlign="center">{item.name}</SizableText>
                                         <SizableText width="25%" textAlign="center">{item.amount}</SizableText>
-                                        <SizableText width="15%" textAlign="center">{item.price}</SizableText>
-                                        <SizableText width="20%" textAlign="center">{item.price * item.amount}</SizableText>
+                                        <SizableText width="15%" textAlign="center">{before ? sign + item.price : item.price + " " + sign}</SizableText>
+                                        <SizableText width="20%" textAlign="center">{before ? sign + item.price * item.amount : item.price * item.amount + " " + sign}</SizableText>
                                     </HorizontalContainer>
                                 ))}
                                 <Separator />
@@ -96,7 +96,7 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChan
                                 <Separator />
                                 <HorizontalContainer alignItems="center" justifyContent="space-between" marginBottom="3rem">
                                     <H4>
-                                        Total: {total} HUF
+                                        Total: {before ? sign + total : total + " " + sign}
                                     </H4>
                                     <BigButton icon={DollarSign} onClick={() => handleCheckout()}>Sell</BigButton>
                                 </HorizontalContainer>

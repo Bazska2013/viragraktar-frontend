@@ -1,7 +1,7 @@
 import {
     Form,
     H2,
-    H4, Image,
+    H4, H6, Image,
     Input,
     Label,
     Separator,
@@ -26,7 +26,7 @@ import * as yup from "yup";
 import axios from "../../../axiosConfig.js";
 import Labels from "./Labels.jsx";
 
-const CombineItems = ({items, closeModal, refetchItems, emptySelection}) => {
+const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, sign}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [serverError, setServerError] = useState(null);
     const [image, setImage] = useState(null);
@@ -165,17 +165,25 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection}) => {
                                                     <Label htmlFor="price">
                                                         <H4>Price of the combined item</H4>
                                                     </Label>
-                                                    <Input
-                                                        backgroundColor="none"
-                                                        flex={1}
-                                                        borderWidth={2}
-                                                        type="number"
-                                                        id="price"
-                                                        min={0}
-                                                        value={values.price}
-                                                        onChange={handleChange}
-                                                        isInvalid={!!errors.price}
-                                                    />
+                                                    <HorizontalContainer alignItems="center" justifyContent="space-between">
+                                                        {before &&
+                                                            <H6>{sign}</H6>
+                                                        }
+                                                        <Input
+                                                            backgroundColor="none"
+                                                            flex={1}
+                                                            borderWidth={2}
+                                                            type="number"
+                                                            id="price"
+                                                            min={0}
+                                                            value={values.price}
+                                                            onChange={handleChange}
+                                                            isInvalid={!!errors.price}
+                                                        />
+                                                        {!before &&
+                                                            <H6>{sign}</H6>
+                                                        }
+                                                    </HorizontalContainer>
                                                     <SizableText size='small' color='red'>
                                                         {errors.price}
                                                     </SizableText>

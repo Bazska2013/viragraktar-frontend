@@ -6,8 +6,14 @@ import {SizableText, Spinner, AnimatePresence, Sheet, H2} from "tamagui";
 import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import {Delete, ShoppingBasket} from "@tamagui/lucide-icons";
 import FilterBar from "../../components/item/FilterBar.jsx";
+import {useSelector} from "react-redux";
+import {selectStore} from "../../features/store/storeSlice.js";
 
 const Sell = () => {
+    const store = useSelector(selectStore);
+    const [sign, setSign] = useState('');
+    const [before, setBefore] = useState(false);
+
     const [items, setItems] = useState([]);
     const [cart, setCart] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -31,15 +37,17 @@ const Sell = () => {
             setIsLoading(false);
             if (response?.status === 200) {
                 setItems(response.data);
+                setFilteredItems(response.data);
             }
         }
     }
 
     useEffect(() => {
         fetchItems().then((response) => {
-            setFilteredItems(items);
             setFilterString('');
             setFilterLabels([]);
+            setSign(JSON.parse(store.currency).sign);
+            setBefore(JSON.parse(store.currency).before);
         });
     }, []);
 
@@ -121,7 +129,7 @@ const Sell = () => {
                 zIndex={100_000}
                 animation='medium'
             >
-                <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} onOpenChange={setShow} />
+                <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} onOpenChange={setShow} sign={sign} before={before} />
             </Sheet>
             {isLoading ?
                 <Spinner alignSelf="center" size="large" opacity={isLoading ? 1 : 0} animation="slowest">
@@ -133,7 +141,7 @@ const Sell = () => {
                     <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} marginBottom="5rem" opacity={isLoading ? 0 : 1} animation="slow">
                         {filteredItems.map((item) => {
                             return (
-                                <ListItem key={item.id} item={item} addToCart={addToCart} isItemInCart={isItemInCart(item)} editCart={editCart} removeFromCart={removeFromCart} />
+                                <ListItem key={item.id} item={item} addToCart={addToCart} isItemInCart={isItemInCart(item)} editCart={editCart} removeFromCart={removeFromCart} sign={sign} before={before} />
                             )
                         })}
                     </HorizontalContainer>

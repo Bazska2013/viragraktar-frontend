@@ -11,6 +11,7 @@ export const RequireAuth = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const auth = useSelector(selectAuth);
     const dispatch = useDispatch();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -19,7 +20,7 @@ export const RequireAuth = ({ children }) => {
                 setIsAuthenticated(true);
                 dispatch(setUser(response.data));
             } catch (error) {
-                console.log(error);
+                setError(error.response.data);
                 setIsAuthenticated(false);
             } finally {
                 setIsLoading(false);

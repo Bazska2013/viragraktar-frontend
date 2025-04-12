@@ -10,7 +10,7 @@ import TransactionsTable from "./TransactionsTable.jsx";
 import {Document, Image, Page, PDFDownloadLink, Text, View} from '@react-pdf/renderer';
 import {toPng} from "html-to-image";
 
-const ViewReport = () => {
+const ViewReport = ({sign, before}) => {
     const [data, setData] = useState([]);
     const [date, setDate] = useState('');
     const [start, setStart] = useState('');
@@ -468,7 +468,7 @@ const ViewReport = () => {
                     </HorizontalContainer>
                     {showTable &&
                         <VerticalContainer alignItems="center" justifyContent="center">
-                            <TransactionsTable items={aggregateItems()} transactions={data} distShown={showDistTable} transShown={showTransactionTable} totalShown={showTotal} />
+                            <TransactionsTable items={aggregateItems()} transactions={data} distShown={showDistTable} transShown={showTransactionTable} totalShown={showTotal} sign={sign} before={before} />
                         </VerticalContainer>
                     }
                 </VerticalContainer>

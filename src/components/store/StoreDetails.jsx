@@ -5,16 +5,17 @@ import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 
 const StoreDetails = (props) => {
-    const openingHours = JSON.parse(props.store.opening_hours);
+    const openingHours = JSON.parse(props.store?.opening_hours);
     const [storeId, setStoreId] = useState(null);
     const [copied, setCopied] = useState(false);
+    const [error, setError] = useState(null);
 
     const getStoreId = async () => {
         let response;
         try {
             response = await axios.get('/api/store/id');
         } catch (error) {
-            console.log(error);
+            setError(error.response.data.message);
         } finally {
             if (response?.status === 200) {
                 setStoreId(response.data);
@@ -49,7 +50,7 @@ const StoreDetails = (props) => {
             <H2>Store details</H2>
             <ProfileContainer>
                 <H4>Store name</H4>
-                <SizableText>{props.store.name}</SizableText>
+                <SizableText>{props.store?.name}</SizableText>
                 <Separator />
                 <H4>Opening hours</H4>
                 <HorizontalContainer flexWrap="wrap">
@@ -61,8 +62,8 @@ const StoreDetails = (props) => {
                     ))}
                 </HorizontalContainer>
                 <Separator />
-                <H4>Is calculation enabled?</H4>
-                <SizableText>{props.store.calculation_enabled ? 'Yes' : 'No'}</SizableText>
+                <H4>Currency used</H4>
+                <SizableText>{props.sign}</SizableText>
                 <Separator />
                 <H4>Click the button to copy the Store ID</H4>
                 <SmallButtonWithAccent icon={ClipboardCopy} onPress={copyToClipboard}>{copied? 'Copied!' : storeId}</SmallButtonWithAccent>

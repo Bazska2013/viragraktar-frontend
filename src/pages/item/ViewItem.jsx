@@ -5,8 +5,13 @@ import {FileSearch, X} from "@tamagui/lucide-icons";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import flowerImage from "../../assets/defaultFlower.svg";
+import {useSelector} from "react-redux";
+import {selectStore} from "../../features/store/storeSlice.js";
 
 const ViewItem = () => {
+    const store = useSelector(selectStore);
+    const [sign, setSign] = useState('');
+    const [before, setBefore] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [fetchError, setFetchError] = useState(null);
     const navigate = useNavigate();
@@ -44,7 +49,10 @@ const ViewItem = () => {
     }
 
     useEffect(() => {
-        fetchItem();
+        fetchItem().then(() => {
+            setSign(JSON.parse(store.currency).sign);
+            setBefore(JSON.parse(store.currency).before);
+        });
     }, [id]);
 
     if (fetchError) {
@@ -92,7 +100,7 @@ const ViewItem = () => {
                 <Separator />
                 <VerticalContainer>
                     <H4>Price of the item</H4>
-                    <SizableText>{item?.price}</SizableText>
+                    <SizableText>{before ? sign + item?.price : item?.price + " " + sign}</SizableText>
                 </VerticalContainer>
                 <Separator />
                 <VerticalContainer>

@@ -28,7 +28,6 @@ const YearPicker = (props) => {
             (direction === "down" ? parseInt(year) - 10 : parseInt(year) + 10).toString()
         );
         setYears(newYears);
-        console.log(years);
     }
 
     return (

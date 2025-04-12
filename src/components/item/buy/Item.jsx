@@ -11,8 +11,10 @@ import {
     StyledGroup,
     VerticalContainer
 } from "../../../tamagui.config.ts";
+import {selectStore} from "../../../features/store/storeSlice.js";
+import {useSelector} from "react-redux";
 
-const Item = ({props, refetch, addToSelection, removeFromSelection}) => {
+const Item = ({props, refetch, addToSelection, removeFromSelection, sign, before}) => {
 
     const [item, setItem] = useState(props);
     const navigate = useNavigate();
@@ -128,7 +130,7 @@ const Item = ({props, refetch, addToSelection, removeFromSelection}) => {
                     height: 180,
                 }} />
                 <H4>{item.name}</H4>
-                <SizableText>Price: HUF {item.price}</SizableText>
+                <SizableText>{before ? sign + item.price : item.price + " " + sign}</SizableText>
             </VerticalContainer>
             <VerticalContainer
                 flex={1}

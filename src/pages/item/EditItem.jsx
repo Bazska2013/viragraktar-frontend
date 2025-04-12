@@ -3,12 +3,17 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
-import {SizableText, Form, Spinner, Label, Input, TextArea, Image, H4, Separator, H2, Square} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, TextArea, Image, H4, Separator, H2, Square, H6} from "tamagui";
 import {ChevronLeft, Save, Upload, X} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 import Labels from "../../components/item/buy/Labels.jsx";
+import {selectStore} from "../../features/store/storeSlice.js";
+import {useSelector} from "react-redux";
 
 const EditItem = () => {
+    const store = useSelector(selectStore);
+    const [sign, setSign] = useState('');
+    const [before, setBefore] = useState(false);
     const [item, setItem] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [serverError, setServerError] = useState(null);
@@ -77,7 +82,6 @@ const EditItem = () => {
         } catch (error) {
             setIsLoading(false);
             setServerError(error.response.data.message);
-            console.log(error.response)
         } finally {
             setIsLoading(false);
             if (response?.status === 200) {
@@ -93,7 +97,10 @@ const EditItem = () => {
     }
 
     useEffect(() => {
-        fetchItem();
+        fetchItem().then(() => {
+            setSign(JSON.parse(store.currency).sign);
+            setBefore(JSON.parse(store.currency).before);
+        });
     }, []);
 
     if (isLoading) {
@@ -172,17 +179,25 @@ const EditItem = () => {
                                 <Label htmlFor="price">
                                     <H4>Price of the item</H4>
                                 </Label>
-                                <Input
-                                    backgroundColor="none"
-                                    flex={1}
-                                    borderWidth={2}
-                                    type="number"
-                                    id="price"
-                                    min={0}
-                                    value={values.price}
-                                    onChange={handleChange}
-                                    isInvalid={!!errors.price}
-                                />
+                                <HorizontalContainer alignItems="center" justifyContent="space-between">
+                                    {before &&
+                                        <H6>{sign}</H6>
+                                    }
+                                    <Input
+                                        backgroundColor="none"
+                                        flex={1}
+                                        borderWidth={2}
+                                        type="number"
+                                        id="price"
+                                        min={0}
+                                        value={values.price}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.price}
+                                    />
+                                    {!before &&
+                                        <H6>{sign}</H6>
+                                    }
+                                </HorizontalContainer>
                                 <SizableText size='small' color='red'>
                                     {errors.price}
                                 </SizableText>

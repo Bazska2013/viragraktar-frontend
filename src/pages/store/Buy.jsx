@@ -14,8 +14,13 @@ import {
 import CombineItems from "../../components/item/buy/CombineItems.jsx";
 import SearchBar from "../../components/item/FilterBar.jsx";
 import FilterBar from "../../components/item/FilterBar.jsx";
+import {selectStore} from "../../features/store/storeSlice.js";
+import {useSelector} from "react-redux";
 
 const Buy = () => {
+    const store = useSelector(selectStore);
+    const [sign, setSign] = useState('');
+    const [before, setBefore] = useState(false);
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -61,15 +66,17 @@ const Buy = () => {
             setIsLoading(false);
             if (response?.status === 200) {
                 setItems(response.data);
+                setFilteredItems(response.data);
             }
         }
     }
 
     useEffect(() => {
         fetchItems().then((response) => {
-            setFilteredItems(items);
             setFilterString('');
             setFilterLabels([]);
+            setSign(JSON.parse(store.currency).sign);
+            setBefore(JSON.parse(store.currency).before);
         });
     }, []);
 
@@ -144,7 +151,7 @@ const Buy = () => {
                 zIndex={100_000}
                 animation="medium"
             >
-                <CombineItems items={selectedItems} closeModal={setShow} refetchItems={fetchItems} emptySelection={setSelectedItems} />
+                <CombineItems items={selectedItems} closeModal={setShow} refetchItems={fetchItems} emptySelection={setSelectedItems} before={before} sign={sign} />
             </Sheet>
             {isLoading ?
                 <Spinner size="large" opacity={isLoading ? 1 : 0} animation="slowest">
@@ -156,7 +163,7 @@ const Buy = () => {
                     <>
                         <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} opacity={isLoading ? 0 : 1} animation="slow">
                             {filteredItems.map((item) => (
-                                <Item key={item.id} props={item} refetch={fetchItems} addToSelection={handleAddToSelection} removeFromSelection={handleRemoveFromSelection} />
+                                <Item key={item.id} props={item} refetch={fetchItems} addToSelection={handleAddToSelection} removeFromSelection={handleRemoveFromSelection} sign={sign} before={before} />
                             ))}
                         </HorizontalContainer>
                         <BigButton

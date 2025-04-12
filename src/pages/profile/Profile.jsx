@@ -35,11 +35,14 @@ const Profile = () => {
     const navigate = useNavigate();
     const user = useSelector(selectCurrentUser);
     const store = useSelector(selectStore);
+    const [sign, setSign] = useState('');
+    const [before, setBefore] = useState(false);
     const [profit, setProfit] = useState(0);
     const [isProfitLoading, setIsProfitLoading] = useState(false);
     const [profitError, setProfitError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState('profileDetails');
+    const [error, setError] = useState(null);
 
     const [screenSize, setScreenSize] = useState(window.innerWidth);
 
@@ -59,7 +62,7 @@ const Profile = () => {
                 setIsLoading(true);
             })
         } catch (error) {
-            console.log(error);
+            setError(error.response.data.message);
         } finally {
             dispatch(logout());
             dispatch(removeUser());
@@ -88,6 +91,8 @@ const Profile = () => {
     useEffect(() => {
         if (store) {
             getTodayProfit();
+            setSign(JSON.parse(store.currency).sign);
+            setBefore(JSON.parse(store.currency).before);
         }
     }, []);
 
@@ -114,10 +119,13 @@ const Profile = () => {
                             height="max-content"
                         >
                             <H4>Hello {user?.name}!</H4>
-                            {store &&
-                                profitError ? <H6>An error occured when trying to load today's profit: {profitError}</H6> :
-                                    <H6>Today's profit of {store?.name} is HUF {isProfitLoading ? <Spinner /> : profit}</H6>
-                            }
+                            {store ? (
+                                profitError ? (
+                                    <H6>An error occurred when trying to load today's profit: {profitError}</H6>
+                                ) : (
+                                    <H6>Today's profit of {store?.name} is {isProfitLoading ? <Spinner /> : before ? sign + profit : profit + " " + sign}</H6>
+                                )
+                            ) : null}
                         </VerticalContainer>
                         <SizableText>User settings</SizableText>
                         <StyledGroup orientation="vertical"
@@ -248,12 +256,12 @@ const Profile = () => {
                                 {currentPage === 'profileDetails' ? <ProfileDetails user={user} store={store} /> :
                                     currentPage === 'changeName' ? <ChangeName user={user} /> :
                                         currentPage === 'changePassword' ? <ChangePassword user={user} /> :
-                                            currentPage === 'storeDetails' ? <StoreDetails store={store} /> :
+                                            currentPage === 'storeDetails' ? <StoreDetails store={store} sign={sign} /> :
                                                 currentPage === 'joinStore' ? <JoinStore /> :
                                                     currentPage === 'updateStore' ? <UpdateStore /> :
                                                         currentPage === 'manageUsers' ? <StoreUsers /> :
                                                             currentPage === 'createStore' ? <CreateStore /> :
-                                                                currentPage === 'viewReport' ? <ViewReport /> :
+                                                                currentPage === 'viewReport' ? <ViewReport sign={sign} before={before} /> :
                                                                     currentPage === 'modifyLabels' ? <ModifyLabels /> : <></>}
                             </VerticalContainer>
                         </>}
@@ -266,12 +274,12 @@ const Profile = () => {
                             {currentPage === 'profileDetails' ? <ProfileDetails user={user} store={store} /> :
                                 currentPage === 'changeName' ? <ChangeName user={user} /> :
                                     currentPage === 'changePassword' ? <ChangePassword user={user} /> :
-                                        currentPage === 'storeDetails' ? <StoreDetails store={store} /> :
+                                        currentPage === 'storeDetails' ? <StoreDetails store={store} sign={sign} /> :
                                             currentPage === 'joinStore' ? <JoinStore /> :
                                                 currentPage === 'updateStore' ? <UpdateStore /> :
                                                     currentPage === 'manageUsers' ? <StoreUsers /> :
                                                         currentPage === 'createStore' ? <CreateStore /> :
-                                                            currentPage === 'viewReport' ? <ViewReport /> :
+                                                            currentPage === 'viewReport' ? <ViewReport sign={sign} before={before} /> :
                                                                 currentPage === 'modifyLabels' ? <ModifyLabels /> : <></>}
                         </VerticalContainer>
                     </>}

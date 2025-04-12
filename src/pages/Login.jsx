@@ -41,7 +41,6 @@ const Login = () => {
                 password: values.password,
                 device_name: 'web'
             });
-            console.log(response);
         } catch (error) {
             setIsLoading(false);
             setServerError(error.response?.data?.message);

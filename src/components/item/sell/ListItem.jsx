@@ -11,7 +11,7 @@ import {
 } from "../../../tamagui.config.ts";
 import {useNavigate} from "react-router-dom";
 
-const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) => {
+const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sign, before }) => {
     const [amount, setAmount] = useState(0);
     const [isChanged, setIsChanged] = useState(false);
     const [screenSize, setScreenSize] = useState(window.innerWidth);
@@ -102,7 +102,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart }) =
                         height: 180,
                     }} />
                     <H4>{item.name}</H4>
-                    <SizableText>Price: HUF {item.price}</SizableText>
+                    <SizableText>{before ? sign + item.price : item.price + " " + sign}</SizableText>
                 </VerticalContainer>
                 <VerticalContainer
                     flex={1}
