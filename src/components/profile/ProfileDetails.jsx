@@ -2,7 +2,7 @@ import {HorizontalContainer, ProfileContainer, VerticalContainer} from "../../ta
 import {H2, H4, Separator, SizableText} from "tamagui";
 import React from "react";
 
-const ProfileDetails = (props) => {
+const ProfileDetails = ({user, store}) => {
     return (
             <VerticalContainer>
                 <H2>Profile details</H2>
@@ -12,7 +12,7 @@ const ProfileDetails = (props) => {
                         justifyContent="space-between"
                     >
                         <H4>Username</H4>
-                        <SizableText>{props.user?.name}</SizableText>
+                        <SizableText>{user?.name}</SizableText>
                     </HorizontalContainer>
                     <Separator />
                     <HorizontalContainer
@@ -20,20 +20,20 @@ const ProfileDetails = (props) => {
                         justifyContent="space-between"
                     >
                         <H4>Email</H4>
-                        <SizableText>{props.user?.email}</SizableText>
+                        <SizableText>{user?.email}</SizableText>
                     </HorizontalContainer>
-                    {props.store && <>
+                    {store && <>
                         <Separator />
                         <VerticalContainer>
                             <H4>Privileges</H4>
-                            {!props.user.is_admin && !props.user.is_buyer && !props.user.is_seller && <SizableText>None</SizableText>}
-                            <SizableText>{props.user.is_admin ? 'Admin' : ''}</SizableText>
-                            <SizableText>{props.user.is_buyer ? 'Buyer' : ''}</SizableText>
-                            <SizableText>{props.user.is_seller ? 'Seller' : ''}</SizableText>
+                            {!user.is_admin && !user.is_buyer && !user.is_seller && <SizableText>None</SizableText>}
+                            <SizableText>{user.is_admin ? 'Admin' : ''}</SizableText>
+                            <SizableText>{user.is_buyer ? 'Buyer' : ''}</SizableText>
+                            <SizableText>{user.is_seller ? 'Seller' : ''}</SizableText>
                         </VerticalContainer>
                     </>
                     }
-                    <SizableText alignSelf="center">Register date: {props.user?.created_at.slice(0,10)}</SizableText>
+                    <SizableText alignSelf="center">Register date: {user?.created_at.slice(0,10)}</SizableText>
                 </ProfileContainer>
             </VerticalContainer>
     )

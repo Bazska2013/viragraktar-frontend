@@ -4,8 +4,8 @@ import {H2, H4, Separator, SizableText} from "tamagui";
 import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 
-const StoreDetails = (props) => {
-    const openingHours = JSON.parse(props.store ? props.store.opening_hours : '{}');
+const StoreDetails = ({store, sign}) => {
+    const openingHours = JSON.parse(store ? store.opening_hours : '{}');
     const [storeId, setStoreId] = useState(null);
     const [copied, setCopied] = useState(false);
     const [error, setError] = useState(null);
@@ -50,7 +50,7 @@ const StoreDetails = (props) => {
             <H2>Store details</H2>
             <ProfileContainer>
                 <H4>Store name</H4>
-                <SizableText>{props.store?.name}</SizableText>
+                <SizableText>{store?.name}</SizableText>
                 <Separator />
                 <H4>Opening hours</H4>
                 <HorizontalContainer flexWrap="wrap">
@@ -63,7 +63,7 @@ const StoreDetails = (props) => {
                 </HorizontalContainer>
                 <Separator />
                 <H4>Currency used</H4>
-                <SizableText>{props.sign}</SizableText>
+                <SizableText>{sign}</SizableText>
                 <Separator />
                 <H4>Click the button to copy the Store ID</H4>
                 <SmallButtonWithAccent icon={ClipboardCopy} onPress={copyToClipboard}>{copied? 'Copied!' : storeId}</SmallButtonWithAccent>

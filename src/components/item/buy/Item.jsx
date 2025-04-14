@@ -11,8 +11,6 @@ import {
     StyledGroup,
     VerticalContainer
 } from "../../../tamagui.config.ts";
-import {selectStore} from "../../../features/store/storeSlice.js";
-import {useSelector} from "react-redux";
 
 const Item = ({props, refetch, addToSelection, removeFromSelection, sign, before}) => {
 

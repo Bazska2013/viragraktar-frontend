@@ -6,7 +6,7 @@ import YearPicker from "./YearPicker.jsx";
 import MonthPicker from "./MonthPicker.jsx";
 import DayPicker from "./DayPicker.jsx";
 
-const DatePicker = (props) => {
+const DatePicker = ({setValue}) => {
     const [date, setDate] = useState('');
     const [year, setYear] = useState(new Date ().getFullYear());
     const [month, setMonth] = useState(new Date().getMonth());
@@ -63,7 +63,7 @@ const DatePicker = (props) => {
         if (newDay < 10) {
             newDay = '0' + newDay;
         }
-        props.setValue(year + '-' + newMonth + '-' + newDay);
+        setValue(year + '-' + newMonth + '-' + newDay);
         setDate(year + '. ' + newMonth + '. ' + newDay + '.');
     }, [year, month, day]);
 

@@ -31,10 +31,13 @@ import ViewReport from "../../components/store/ViewReport.jsx";
 import ModifyLabels from "../../components/store/ModifyLabels.jsx";
 
 const Profile = () => {
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const user = useSelector(selectCurrentUser);
     const store = useSelector(selectStore);
+
     const [sign, setSign] = useState('');
     const [before, setBefore] = useState(false);
     const [profit, setProfit] = useState(0);

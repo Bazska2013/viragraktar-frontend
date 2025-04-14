@@ -1,18 +1,18 @@
 import {DateButton} from "../../tamagui.config.ts";
 import React from "react";
 
-const DateTable = (props) => {
+const DateTable = ({elements, days, setValue, selected}) => {
 
     const rows = [];
-    if (props.elements) {
-        for (let i = 0; i < props.elements.length; i += 3) {
-            rows.push(props.elements.slice(i, i+3));
+    if (elements) {
+        for (let i = 0; i < elements.length; i += 3) {
+            rows.push(elements.slice(i, i+3));
         }
     }
 
     return (
         <table width="100%" style={{ textAlign: "center" }}>
-            {props.days &&
+            {days &&
                 <thead>
                 <tr>
                     <th>Mon</th>
@@ -26,13 +26,13 @@ const DateTable = (props) => {
                 </thead>
             }
             <tbody>
-            {props.days ?
-                props.days.map((row, rowIndex) => (
+            {days ?
+                days.map((row, rowIndex) => (
                     <tr key={rowIndex}>
                         {row.map((cell, colIndex) => (
                             <td key={colIndex} style={{textAlign: "center"}}>
                                 {cell ?
-                                    <DateButton backgroundColor={props.selected === cell ? '#E1E89B' : ''} width='25px' padding="$3" borderRadius="$10" size="$1" onClick={() => props.setValue(cell)}>
+                                    <DateButton backgroundColor={selected === cell ? '#E1E89B' : ''} width='25px' padding="$3" borderRadius="$10" size="$1" onClick={() => setValue(cell)}>
                                         {cell}
                                     </DateButton>
                                     : ''
@@ -46,7 +46,7 @@ const DateTable = (props) => {
                         <tr key={rowIndex}>
                             {row.map((cell, colIndex) => (
                                 <td key={colIndex} style={{padding: '5px'}}>
-                                    <DateButton backgroundColor={props.selected === cell ? '#E1E89B' : ''} width='100%' size="$3" onClick={() => props.setValue(cell)}>
+                                    <DateButton backgroundColor={selected === cell ? '#E1E89B' : ''} width='100%' size="$3" onClick={() => setValue(cell)}>
                                         {cell}
                                     </DateButton>
                                 </td>

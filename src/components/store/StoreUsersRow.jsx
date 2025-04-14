@@ -6,10 +6,10 @@ import {Group, SizableText, Spinner, Separator, Label, Switch, H6} from "tamagui
 import {Save, Trash} from "@tamagui/lucide-icons";
 import {HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 
-const StoreUsersRow = (props) => {
-    const [isSeller, setIsSeller] = useState(!!props.isSeller);
-    const [isBuyer, setIsBuyer] = useState(!!props.isBuyer);
-    const [isAdmin, setIsAdmin] = useState(!!props.isAdmin);
+const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name, email}) => {
+    const [isSellerR, setIsSellerR] = useState(!!isSeller);
+    const [isBuyerR, setIsBuyerR] = useState(!!isBuyer);
+    const [isAdminR, setIsAdminR] = useState(!!isAdmin);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const currentUser = useSelector(selectCurrentUser);
@@ -21,16 +21,16 @@ const StoreUsersRow = (props) => {
         setIsChanged(true);
         switch (type) {
             case 'seller':
-                setIsSeller(checked);
+                setIsSellerR(checked);
                 break;
             case 'buyer':
-                setIsBuyer(checked);
+                setIsBuyerR(checked);
                 break;
             case 'admin':
-                if (currentUser.id === props.user.id) {
+                if (currentUser.id === user.id) {
                     return;
                 }
-                setIsAdmin(checked);
+                setIsAdminR(checked);
                 break;
         }
     }
@@ -39,7 +39,7 @@ const StoreUsersRow = (props) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.post('/api/update-privileges/' + props.id, {
+            response = await axios.post('/api/update-privileges/' + id, {
                 is_seller: isSeller,
                 is_buyer: isBuyer,
                 is_admin: isAdmin
@@ -76,14 +76,14 @@ const StoreUsersRow = (props) => {
         let response;
         setIsLoading(true);
         try {
-            response = await axios.post('/api/store/users/remove/' + props.id);
+            response = await axios.post('/api/store/users/remove/' + id);
         } catch (error) {
             setIsLoading(false);
             setError(error.response.data.message);
         } finally {
             setIsLoading(false);
             if (response?.status === 204) {
-                props.refetchUsers();
+                refetchUsers();
             }
         }
     }
@@ -105,44 +105,44 @@ const StoreUsersRow = (props) => {
         <VerticalContainer>
             <HorizontalContainer flex={1} alignItems="center">
                 <H6 flex={1}>Name</H6>
-                <SizableText flex={2}>{props.name}</SizableText>
+                <SizableText flex={2}>{name}</SizableText>
             </HorizontalContainer>
             <Separator />
             <HorizontalContainer flex={1} alignItems="center">
                 <H6 flex={1}>Email</H6>
-                <SizableText flex={2}>{props.email}</SizableText>
+                <SizableText flex={2}>{email}</SizableText>
             </HorizontalContainer>
             <Separator />
             <HorizontalContainer flex={1} alignItems="center" justifyContent="space-between">
-                <Label htmlFor={props.name + 'seller'}>
+                <Label htmlFor={name + 'seller'}>
                     <H6>Seller</H6>
                 </Label>
-                <Switch checked={isSeller} id={props.name + 'seller'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'seller')}>
+                <Switch checked={isSellerR} id={name + 'seller'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'seller')}>
                     <Switch.Thumb animation="bouncy" />
                 </Switch>
             </HorizontalContainer>
             <Separator />
             <HorizontalContainer flex={1} alignItems="center" justifyContent="space-between">
-                <Label htmlFor={props.name + 'buyer'}>
+                <Label htmlFor={name + 'buyer'}>
                     <H6>Buyer</H6>
                 </Label>
-                <Switch checked={isBuyer} id={props.name + 'buyer'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'buyer')}>
+                <Switch checked={isBuyerR} id={name + 'buyer'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'buyer')}>
                     <Switch.Thumb animation="bouncy" />
                 </Switch>
             </HorizontalContainer>
             <Separator />
-            <HorizontalContainer flex={1} alignItems="center" justifyContent="space-between">
-                <Label htmlFor={props.name + 'admin'}>
+            <HorizontalContainer flex={1} alignItems="center" justifyContent="space-betwueen">
+                <Label htmlFor={name + 'admin'}>
                     <H6>Admin</H6>
                 </Label>
-                <Switch checked={isAdmin} disabled={currentUser.id === props.id} opacity={currentUser.id !== props.id ? "1" : "0.5"} id={props.name + 'admin'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'admin')}>
+                <Switch checked={isAdminR} disabled={currentUser.id === id} opacity={currentUser.id !== id ? "1" : "0.5"} id={name + 'admin'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'admin')}>
                     <Switch.Thumb animation="bouncy" />
                 </Switch>
             </HorizontalContainer>
             <Separator />
             <Group orientation="horizontal" justifyContent="space-between" alignSelf="center">
                 <SmallButtonWithAccent icon={Save} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleSave()} >Save changes</SmallButtonWithAccent>
-                <SmallButtonWithAccent icon={Trash} disabled={currentUser.id === props.id} opacity={currentUser.id !== props.id ? "1" : "0.5"} onClick={() => handleDelete()} >Remove user</SmallButtonWithAccent>
+                <SmallButtonWithAccent icon={Trash} disabled={currentUser.id === id} opacity={currentUser.id !== id ? "1" : "0.5"} onClick={() => handleDelete()} >Remove user</SmallButtonWithAccent>
             </Group>
         </VerticalContainer>
     )

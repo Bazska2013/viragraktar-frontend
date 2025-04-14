@@ -4,14 +4,14 @@ import {Check} from "@tamagui/lucide-icons";
 import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import React from "react";
 
-const SelectHours = (props) => {
+const SelectHours = ({day, from, onSelectFrom, to, onSelectTo, closed, onClick}) => {
     return (
         <VerticalContainer>
             <H4>
-                {props.day}
+                {day}
             </H4>
             <Group orientation="vertical">
-                    <Form.Select value={props.from} onChange={props.onSelectFrom}>
+                    <Form.Select value={from} onChange={onSelectFrom}>
                         <option>0:0</option>
                         <option>0:30</option>
                         <option>1:0</option>
@@ -61,7 +61,7 @@ const SelectHours = (props) => {
                         <option>23:0</option>
                         <option>23:30</option>
                     </Form.Select>
-                    <Form.Select value={props.to} onChange={props.onSelectTo}>
+                    <Form.Select value={to} onChange={onSelectTo}>
                         <option>0:0</option>
                         <option>0:30</option>
                         <option>1:0</option>
@@ -113,10 +113,10 @@ const SelectHours = (props) => {
                     </Form.Select>
             </Group>
             <HorizontalContainer flex={1} alignItems="center">
-                <Label flex={6} htmlFor={props.day + 'closed'}>
+                <Label flex={6} htmlFor={day + 'closed'}>
                     <H5>Closed</H5>
                 </Label>
-                <Checkbox flex={1} id={props.day + 'closed'} name={props.day + 'closed'} checked={!!props.closed} onCheckedChange={props.onClick}>
+                <Checkbox flex={1} id={day + 'closed'} name={day + 'closed'} checked={!!closed} onCheckedChange={onClick}>
                     <Checkbox.Indicator>
                         <Check />
                     </Checkbox.Indicator>

@@ -4,12 +4,12 @@ import {ChevronLeft, ChevronRight} from "@tamagui/lucide-icons";
 import DateTable from "./DateTable.jsx";
 import React, {useEffect, useState} from "react";
 
-const YearPicker = (props) => {
+const YearPicker = ({currentYear, setYear}) => {
     const [years, setYears] = useState(['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030']);
 
     const findCurrentYears = () => {
-        if (props.currentYear >= years.at(0)) {
-            if (props.currentYear <= years.at(11)) {
+        if (currentYear >= years.at(0)) {
+            if (currentYear <= years.at(11)) {
                 return;
             }
             handleYearsShift('up');
@@ -38,7 +38,7 @@ const YearPicker = (props) => {
                 <Button borderRadius="$10" size="$2" icon={ChevronRight} onClick={() => handleYearsShift("up")} />
             </HorizontalContainer>
             <HorizontalContainer alignItems="center" justifyContent="space-between">
-                <DateTable elements={years} selected={props.currentYear.toString()} setValue={props.setYear} />
+                <DateTable elements={years} selected={currentYear.toString()} setValue={setYear} />
             </HorizontalContainer>
         </VerticalContainer>
     )

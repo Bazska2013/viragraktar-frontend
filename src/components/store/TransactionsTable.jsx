@@ -3,7 +3,7 @@ import {H4, H6, SizableText} from "tamagui";
 import axios from "../../axiosConfig.js";
 import React, {useEffect, useState} from "react";
 
-const TransactionsTable = (props) => {
+const TransactionsTable = ({distShown, items, transactions, sign, before, transShown, totalShown}) => {
     const [storeUsers, setStoreUsers] = useState([]);
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const TransactionsTable = (props) => {
     return (
         <VerticalContainer width="100%" alignSelf="center" alignItems="center">
             <VerticalContainer width="100%">
-                {props.distShown &&
+                {distShown &&
                     <VerticalContainer
                         borderRadius="$5"
                         width="100%"
@@ -78,13 +78,13 @@ const TransactionsTable = (props) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {props.items.map((item, index) => {
+                            {items.map((item, index) => {
                                 return (
                                     <tr key={item.id} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                         <td><SizableText>{item.name}</SizableText></td>
-                                        <td><SizableText>{props.before ? props.sign + item.price : item.price + " " + props.sign}</SizableText></td>
+                                        <td><SizableText>{before ? sign + item.price : item.price + " " + sign}</SizableText></td>
                                         <td><SizableText>{item.amount}</SizableText></td>
-                                        <td><SizableText>{props.before ? props.sign + item.amount * item.price : item.amount * item.price + " " + props.sign}</SizableText></td>
+                                        <td><SizableText>{before ? sign + item.amount * item.price : item.amount * item.price + " " + sign}</SizableText></td>
                                     </tr>
                                 )
                             })}
@@ -92,7 +92,7 @@ const TransactionsTable = (props) => {
                         </table>
                     </VerticalContainer>
                 }
-                {props.transShown &&
+                {transShown &&
                     <VerticalContainer
                         borderRadius="$5"
                         width="100%"
@@ -112,14 +112,14 @@ const TransactionsTable = (props) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {props.transactions.map((item, index) => {
+                            {transactions.map((item, index) => {
                                 return (
                                     <tr key={item.id} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                         <td><SizableText>{generateDate(item.created_at)}</SizableText></td>
                                         <td><SizableText>{generateTime(item.created_at)}</SizableText></td>
                                         <td><SizableText>{findUserName(item.user_id)}</SizableText></td>
                                         <td><SizableText>{item.credit ? 'Credit card' : 'Cash'}</SizableText></td>
-                                        <td><SizableText>{props.before ? props.sign + item.total : item.total + " " + props.sign}</SizableText></td>
+                                        <td><SizableText>{before ? sign + item.total : item.total + " " + sign}</SizableText></td>
                                     </tr>
                                 )
                             })}
@@ -128,7 +128,7 @@ const TransactionsTable = (props) => {
                     </VerticalContainer>
                 }
             </VerticalContainer>
-            {props.totalShown &&
+            {totalShown &&
                 <HorizontalContainer
                     borderRadius="$5"
                     width="100%"
@@ -138,7 +138,7 @@ const TransactionsTable = (props) => {
                     justifyContent="space-between"
                 >
                     <H6>Total</H6>
-                    <H6>{props.before ? props.sign + props.items.reduce((acc, item) => acc + item.amount * item.price, 0) : props.items.reduce((acc, item) => acc + item.amount * item.price, 0) + " " + props.sign}</H6>
+                    <H6>{before ? sign + items.reduce((acc, item) => acc + item.amount * item.price, 0) : items.reduce((acc, item) => acc + item.amount * item.price, 0) + " " + sign}</H6>
                 </HorizontalContainer>
             }
         </VerticalContainer>

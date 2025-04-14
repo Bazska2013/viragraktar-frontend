@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {HorizontalContainer} from "../../tamagui.config.ts";
 
-const SelectOpeningHours = (props) => {
-    const [openingHours, setOpeningHours] = useState(props.defaultValue ? JSON.parse(props.defaultValue) : {
+const SelectOpeningHours = ({defaultValue, setFieldValue }) => {
+    const [openingHours, setOpeningHours] = useState(defaultValue ? JSON.parse(defaultValue) : {
         Mon: { from: "00:00", to: "00:00", closed: false },
         Tue: { from: "00:00", to: "00:00", closed: false },
         Wed: { from: "00:00", to: "00:00", closed: false },
@@ -15,8 +15,8 @@ const SelectOpeningHours = (props) => {
     });
 
     useEffect(() => {
-        props.setFieldValue('opening_hours', JSON.stringify(openingHours));
-    }, [openingHours, props.setFieldValue]);
+        setFieldValue('opening_hours', JSON.stringify(openingHours));
+    }, [openingHours, setFieldValue]);
 
     const handleSelectFrom = (day, value) => {
         setOpeningHours(prev => ({
