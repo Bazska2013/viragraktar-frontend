@@ -28,7 +28,11 @@ const JoinStore = () => {
             setError(error.response.data.message);
         } finally {
             setIsLoading(false);
-            if (response?.status === 200) {
+            if (document.startViewTransition) {
+                document.startViewTransition(() => {
+                    navigate('/sell', {replace: true});
+                });
+            } else {
                 navigate('/sell', {replace: true});
             }
         }

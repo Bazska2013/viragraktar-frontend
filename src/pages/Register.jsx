@@ -47,7 +47,11 @@ const Register = () => {
             setServerError(error.response.data.message);
         } finally {
             setIsLoading(false);
-            if (response.status === 201) {
+            if (document.startViewTransition) {
+                document.startViewTransition(() => {
+                    navigate('/login', {replace: true});
+                });
+            } else {
                 navigate('/login', {replace: true});
             }
         }

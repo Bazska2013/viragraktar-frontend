@@ -63,6 +63,7 @@ const Labels = ({value, id, onChange, isInvalid, combined}) => {
                 type="text"
                 value={searchField}
                 onChange={e => {setSearchField(e.target.value)}}
+                placeholder="Search for labels..."
             />
             <Separator />
             <H6>Available labels</H6>

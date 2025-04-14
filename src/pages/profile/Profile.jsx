@@ -68,7 +68,13 @@ const Profile = () => {
             dispatch(removeUser());
             dispatch(deleteStore());
             setIsLoading(false);
-            navigate('/login', {replace: true});
+            if (document.startViewTransition) {
+                document.startViewTransition(() => {
+                    navigate('/login', {replace: true});
+                });
+            } else {
+                navigate('/login', {replace: true});
+            }
         }
     }
 

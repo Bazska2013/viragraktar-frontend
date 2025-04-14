@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 
 const FilterBar = ({title, onTextChange, onLabelChange}) => {
     const store = useSelector(selectStore);
-    const [labels, setLabels] = useState(JSON.parse(store.labels));
+    const [labels, setLabels] = useState(JSON.parse(store?.labels));
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchField, setSearchField] = useState('');
     const [selectedLabels, setSelectedLabels] = useState([]);
@@ -77,9 +77,9 @@ const FilterBar = ({title, onTextChange, onLabelChange}) => {
                 </YStack>
                 <SmallButton icon={searchOpen ? FilterX : Filter} onClick={() => handleChangeOpen()}>{searchOpen ? 'Remove filters' : 'Filter'}</SmallButton>
             </HorizontalContainer>
-            <HorizontalContainer animation="slow" overflow="scroll" opacity={searchOpen ? 1 : 0}>
+            <HorizontalContainer animation="slow" alignItems="center" overflow="scroll" opacity={searchOpen ? 1 : 0} height={searchOpen ? "100%" : 0}>
                 {labels.map((label, index) => (
-                    <SmallButton key={label} backgroundColor={isInSelection(label) ? '#FBF9EF' : '#f5f5f5'} focusStyle={{backgroundColor: '#FBF9EF'}} onClick={() => handleChangeLabel(label)} >{label}</SmallButton>
+                    <SmallButton marginLeft={5} marginRight={5} key={label} backgroundColor={isInSelection(label) ? '#FBF9EF' : '#f5f5f5'} focusStyle={{backgroundColor: '#FBF9EF'}} onClick={() => handleChangeLabel(label)} >{label}</SmallButton>
                 ))}
             </HorizontalContainer>
         </VerticalContainer>

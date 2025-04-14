@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 
 const StoreDetails = (props) => {
-    const openingHours = JSON.parse(props.store?.opening_hours);
+    const openingHours = JSON.parse(props.store ? props.store.opening_hours : '{}');
     const [storeId, setStoreId] = useState(null);
     const [copied, setCopied] = useState(false);
     const [error, setError] = useState(null);
