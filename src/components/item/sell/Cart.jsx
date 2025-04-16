@@ -63,7 +63,7 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChan
                         </HorizontalContainer>
                         <SizableText marginBottom="1rem">Swipe down to change the selected items</SizableText>
                         {isLoading ?
-                            <Spinner>
+                            <Spinner color="#292023">
                                 <span className="sr-only">Loading...</span>
                             </Spinner> :
                             <VerticalContainer justifyContent="center">

@@ -132,7 +132,7 @@ const Sell = () => {
                 <Cart cart={cart} removeFromCart={removeFromCart} editCart={editCart} fetchItems={fetchItems} emptyCart={emptyCart} onOpenChange={setShow} sign={sign} before={before} />
             </Sheet>
             {isLoading ?
-                <Spinner alignSelf="center" size="large" opacity={isLoading ? 1 : 0} animation="slowest">
+                <Spinner color="#292023" alignSelf="center" size="large" opacity={isLoading ? 1 : 0} animation="slowest">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner> : error ?
                     <SizableText color="red">

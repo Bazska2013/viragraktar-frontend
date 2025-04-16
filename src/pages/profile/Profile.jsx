@@ -5,7 +5,7 @@ import {removeUser, selectCurrentUser} from "../../features/auth/userSlice.js";
 import React, {useEffect, useState} from "react";
 import {deleteStore, selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
-import {Spinner, SizableText, Separator, Group, H6, H4, H2} from "tamagui";
+import {Spinner, SizableText, Separator, Group, H6, H4, H2, AlertDialog, YStack, XStack} from "tamagui";
 import {
     BookKey,
     BookUser,
@@ -18,7 +18,14 @@ import {
     UserPen,
     UserSearch
 } from "@tamagui/lucide-icons";
-import {VerticalContainer, HorizontalContainer, BigButton, StyledListItem, StyledGroup} from "../../tamagui.config.ts";
+import {
+    VerticalContainer,
+    HorizontalContainer,
+    BigButton,
+    StyledListItem,
+    StyledGroup,
+    SmallButton, SmallButtonWithAccent
+} from "../../tamagui.config.ts";
 import {logout} from "../../features/auth/authSlice.js";
 import ProfileDetails from "../../components/profile/ProfileDetails.jsx";
 import ChangeName from "../../components/profile/ChangeName.jsx";
@@ -97,6 +104,20 @@ const Profile = () => {
         }
     }
 
+    const handleLeaveStore = async () => {
+        let response;
+        try {
+            response = await axios.post('/api/store/users/remove/' + user.id);
+        } catch (error) {
+            setError(error.response.data.message);
+        } finally {
+            if (response?.status === 204) {
+                dispatch(deleteStore());
+                handleLogout();
+            }
+        }
+    }
+
     useEffect(() => {
         if (store) {
             getTodayProfit();
@@ -126,13 +147,14 @@ const Profile = () => {
                             boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                             padding="$3"
                             height="max-content"
+                            backgroundColor="white"
                         >
                             <H4>Hello {user?.name}!</H4>
                             {store ? (
                                 profitError ? (
                                     <H6>An error occurred when trying to load today's profit: {profitError}</H6>
                                 ) : (
-                                    <H6>Today's profit of {store?.name} is {isProfitLoading ? <Spinner /> : before ? sign + profit : profit + " " + sign}</H6>
+                                    <H6>Today's profit of {store?.name} is {isProfitLoading ? <Spinner color="#292023" /> : before ? sign + profit : profit + " " + sign}</H6>
                                 )
                             ) : null}
                         </VerticalContainer>
@@ -225,11 +247,61 @@ const Profile = () => {
                                     />
                                 </Group.Item>
                                 <Group.Item>
-                                    <StyledListItem
-                                        title="Leave store"
-                                        icon={LogOut}
-                                        iconAfter={ChevronRight}
-                                    />
+                                    <AlertDialog native>
+                                        <AlertDialog.Trigger asChild>
+                                            <StyledListItem
+                                                title="Leave store"
+                                                icon={LogOut}
+                                                iconAfter={ChevronRight}
+                                            />
+                                        </AlertDialog.Trigger>
+
+                                        <AlertDialog.Portal>
+                                            <AlertDialog.Overlay
+                                                key="overlay"
+                                                animation="quick"
+                                                opacity={0.5}
+                                                enterStyle={{ opacity: 0 }}
+                                                exitStyle={{ opacity: 0 }}
+                                            />
+                                            <AlertDialog.Content
+                                                bordered
+                                                elevate
+                                                key="content"
+                                                animation={[
+                                                    'quick',
+                                                    {
+                                                        opacity: {
+                                                            overshootClamping: true,
+                                                        },
+                                                    },
+                                                ]}
+                                                enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+                                                exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+                                                x={0}
+                                                scale={1}
+                                                opacity={1}
+                                                y={0}
+                                            >
+                                                <YStack gap="$4">
+                                                    <AlertDialog.Title>Action required</AlertDialog.Title>
+                                                    <AlertDialog.Description>
+                                                        Please confirm if you want to leave the store
+                                                        (Note: you will also be logged out)
+                                                    </AlertDialog.Description>
+
+                                                    <XStack gap="$3" justifyContent="flex-end">
+                                                        <AlertDialog.Cancel asChild>
+                                                            <SmallButton>Cancel</SmallButton>
+                                                        </AlertDialog.Cancel>
+                                                        <AlertDialog.Action asChild>
+                                                            <BigButton size="$3" theme="accent" onClick={() => handleLeaveStore()}>Confirm</BigButton>
+                                                        </AlertDialog.Action>
+                                                    </XStack>
+                                                </YStack>
+                                            </AlertDialog.Content>
+                                        </AlertDialog.Portal>
+                                    </AlertDialog>
                                 </Group.Item>
                             </StyledGroup>
                         </> : <>
@@ -255,7 +327,56 @@ const Profile = () => {
                                 </Group.Item>
                             </StyledGroup>
                         </>}
-                        <BigButton alignSelf="center" onClick={() => handleLogout()}>Log out</BigButton>
+                        <AlertDialog native>
+                            <AlertDialog.Trigger asChild>
+                                <BigButton alignSelf="center">Log out</BigButton>
+                            </AlertDialog.Trigger>
+
+                            <AlertDialog.Portal>
+                                <AlertDialog.Overlay
+                                    key="overlay"
+                                    animation="quick"
+                                    opacity={0.5}
+                                    enterStyle={{ opacity: 0 }}
+                                    exitStyle={{ opacity: 0 }}
+                                />
+                                <AlertDialog.Content
+                                    bordered
+                                    elevate
+                                    key="content"
+                                    animation={[
+                                        'quick',
+                                        {
+                                            opacity: {
+                                                overshootClamping: true,
+                                            },
+                                        },
+                                    ]}
+                                    enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+                                    exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+                                    x={0}
+                                    scale={1}
+                                    opacity={1}
+                                    y={0}
+                                >
+                                    <YStack gap="$4">
+                                        <AlertDialog.Title>Action required</AlertDialog.Title>
+                                        <AlertDialog.Description>
+                                            Please confirm if you want to log out
+                                        </AlertDialog.Description>
+
+                                        <XStack gap="$3" justifyContent="flex-end">
+                                            <AlertDialog.Cancel asChild>
+                                                <SmallButton>Cancel</SmallButton>
+                                            </AlertDialog.Cancel>
+                                            <AlertDialog.Action asChild>
+                                                <BigButton size="$3" theme="accent" onClick={() => handleLogout()}>Confirm</BigButton>
+                                            </AlertDialog.Action>
+                                        </XStack>
+                                    </YStack>
+                                </AlertDialog.Content>
+                            </AlertDialog.Portal>
+                        </AlertDialog>
                         {screenSize < 768 && <>
                             <Separator />
                             <VerticalContainer width="100%"
@@ -294,7 +415,7 @@ const Profile = () => {
                     </>}
                 </HorizontalContainer>
             </> : <>
-                <Spinner>
+                <Spinner color="#292023">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </>}

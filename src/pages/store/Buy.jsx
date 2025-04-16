@@ -154,7 +154,7 @@ const Buy = () => {
                 <CombineItems items={selectedItems} closeModal={setShow} refetchItems={fetchItems} emptySelection={setSelectedItems} before={before} sign={sign} />
             </Sheet>
             {isLoading ?
-                <Spinner size="large" opacity={isLoading ? 1 : 0} animation="slowest">
+                <Spinner color="#292023" size="large" opacity={isLoading ? 1 : 0} animation="slowest">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner> : error ?
                     <SizableText color="red">

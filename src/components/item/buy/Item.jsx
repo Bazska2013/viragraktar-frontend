@@ -87,7 +87,7 @@ const Item = ({props, refetch, addToSelection, removeFromSelection, sign, before
     if (isLoading) {
         return (
             <HorizontalContainer>
-                <Spinner>
+                <Spinner color="#292023">
                     <span className='sr-only'>Loading...</span>
                 </Spinner>
             </HorizontalContainer>
@@ -112,7 +112,7 @@ const Item = ({props, refetch, addToSelection, removeFromSelection, sign, before
             borderRadius="$5"
             boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
             alignSelf="center"
-            backgroundColor={selected ? 'rgba(251,249,239,0.9)' : ''}
+            backgroundColor={selected ? 'rgba(251,249,239,0.9)' : 'white'}
             flex={1}
             padding="$3"
         >

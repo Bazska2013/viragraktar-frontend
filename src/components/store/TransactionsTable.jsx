@@ -66,6 +66,7 @@ const TransactionsTable = ({distShown, items, transactions, sign, before, transS
                         boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                         padding="$3"
                         height="max-content"
+                        backgroundColor="white"
                     >
                         <H4 alignSelf="center">Item distribution</H4>
                         <table width="100%" id="distTable">
@@ -99,6 +100,7 @@ const TransactionsTable = ({distShown, items, transactions, sign, before, transS
                         boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                         padding="$3"
                         alignSelf="center"
+                        backgroundColor="white"
                     >
                         <H4 alignSelf="center">Transactions history</H4>
                         <table width="100%" id="transTable">
@@ -136,6 +138,7 @@ const TransactionsTable = ({distShown, items, transactions, sign, before, transS
                     padding="$3"
                     alignItems="center"
                     justifyContent="space-between"
+                    backgroundColor="white"
                 >
                     <H6>Total</H6>
                     <H6>{before ? sign + items.reduce((acc, item) => acc + item.amount * item.price, 0) : items.reduce((acc, item) => acc + item.amount * item.price, 0) + " " + sign}</H6>

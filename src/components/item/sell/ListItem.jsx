@@ -80,7 +80,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sig
         <VerticalContainer
             borderRadius="$5"
             boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
-            backgroundColor={isItemInCart ? 'rgba(251,249,239,0.9)' : ''}
+            backgroundColor={isItemInCart ? 'rgba(251,249,239,0.9)' : 'white'}
             alignSelf="center"
             flex={1}
             padding="$3"

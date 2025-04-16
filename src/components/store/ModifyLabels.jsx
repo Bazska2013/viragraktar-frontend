@@ -72,7 +72,7 @@ const ModifyLabels = () => {
     return (
         <VerticalContainer>
             {isLoading ? <>
-                <Spinner>
+                <Spinner color="#292023">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </> : <VerticalContainer>

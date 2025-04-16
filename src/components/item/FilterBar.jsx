@@ -1,4 +1,10 @@
-import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
+import {
+    BigButton,
+    HorizontalContainer,
+    SmallButton,
+    SmallButtonWithAccent,
+    VerticalContainer
+} from "../../tamagui.config.ts";
 import {AnimatePresence, H2, Input, Square, YStack} from "tamagui";
 import {Filter, FilterX, Search, X} from "@tamagui/lucide-icons";
 import React, {useEffect, useState} from "react";
@@ -66,7 +72,7 @@ const FilterBar = ({title, onTextChange, onLabelChange}) => {
                 <H2>{title}</H2>
                 <YStack animation="quick" scale={searchOpen ? 1 : 0} opacity={searchOpen ? 1 : 0} width={searchField.length * 10} minWidth="200px" maxWidth="50%">
                     <Input
-                        backgroundColor="none"
+                        backgroundColor="white"
                         type="text"
                         name="search"
                         placeholder="Search..."
@@ -75,7 +81,7 @@ const FilterBar = ({title, onTextChange, onLabelChange}) => {
                     />
                     <Search position="absolute" size="$1" right={10} top={12} />
                 </YStack>
-                <SmallButton icon={searchOpen ? FilterX : Filter} onClick={() => handleChangeOpen()}>{searchOpen ? 'Remove filters' : 'Filter'}</SmallButton>
+                <BigButton size="$4" icon={searchOpen ? FilterX : Filter} onClick={() => handleChangeOpen()}>{searchOpen ? 'Remove filters' : 'Filter'}</BigButton>
             </HorizontalContainer>
             <HorizontalContainer animation="slow" alignItems="center" overflow="scroll" opacity={searchOpen ? 1 : 0} height={searchOpen ? "100%" : 0}>
                 {labels.map((label, index) => (

@@ -3,13 +3,14 @@ import * as yup from 'yup';
 import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {Input, Label, SizableText, Form, Spinner, H2, H4, Separator, H1} from "tamagui";
-import {FileSignature, LogIn} from "@tamagui/lucide-icons";
+import {Input, Label, SizableText, Form, Spinner, H2, H4, Separator, H1, H6, Square} from "tamagui";
+import {FileSignature, LogIn, ShoppingCart, Store, User} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
 
 const Register = () => {
     const [serverError, setServerError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [currentIcon, setCurrentIcon] = useState('store');
 
     const [screenSize, setScreenSize] = useState(window.innerWidth);
 
@@ -57,9 +58,25 @@ const Register = () => {
         }
     }
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentIcon((prevIcon) => {
+                if (prevIcon === 'store') {
+                    return 'cart';
+                } else if (prevIcon === 'cart') {
+                    return 'profile';
+                } else {
+                    return 'store';
+                }
+            });
+        }, 3000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
     if (isLoading) {
         return (
-            <Spinner>
+            <Spinner color="#292023">
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
         )
@@ -73,6 +90,7 @@ const Register = () => {
                 boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                 padding="$3"
                 width={screenSize > 1280 ? '30%' : screenSize > 768 ? '50%' : '100%'}
+                backgroundColor="white"
             >
                 <H2>Register</H2>
                 <Formik
@@ -87,7 +105,7 @@ const Register = () => {
                 >
                     {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                         <Form noValidate onSubmit={formikSubmit}>
-                            <VerticalContainer>
+                            <VerticalContainer gap="$2">
                                 <VerticalContainer>
                                     <Label htmlFor="email">
                                         <H4>Email</H4>
@@ -185,8 +203,22 @@ const Register = () => {
                 </Formik>
             </VerticalContainer>
             {screenSize > 768 &&
-                <VerticalContainer height='100%' width={screenSize > 1280 ? '70%' : screenSize > 768 ? '50%' : '100%'} alignItems="center">
-                    <H1>Welcome!</H1>
+                <VerticalContainer width={screenSize > 1280 ? '70%' : screenSize > 768 ? '50%' : '100%'} height="max-content" alignSelf="center">
+                    <VerticalContainer alignSelf="center" alignItems="center">
+                        <H1>Welcome to Shopkeep!</H1>
+                        <H6>Make an account and log in to start managing your store</H6>
+                    </VerticalContainer>
+                    <VerticalContainer alignItems="center">
+                        <Square position="absolute" animation="slow" opacity={currentIcon === 'store' ? 1 : 0} rotate={currentIcon === 'store' ? '0deg' : '360deg'} scale={currentIcon === 'store' ? 1 : 0}>
+                            <Store size="$15" />
+                        </Square>
+                        <Square position="absolute" animation="slow" opacity={currentIcon === 'cart' ? 1 : 0} rotate={currentIcon === 'cart' ? '360deg' : '0deg'} scale={currentIcon === 'cart' ? 1 : 0}>
+                            <ShoppingCart size="$15" />
+                        </Square>
+                        <Square position="absolute" animation="slow" opacity={currentIcon === 'profile' ? 1 : 0} rotate={currentIcon === 'profile' ? '0deg' : '360deg'} scale={currentIcon === 'profile' ? 1 : 0}>
+                            <User size="$15" />
+                        </Square>
+                    </VerticalContainer>
                 </VerticalContainer>
             }
         </HorizontalContainer>

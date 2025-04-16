@@ -42,7 +42,7 @@ const CreateStore = () => {
 
     if (isLoading) {
         return (
-            <Spinner>
+            <Spinner color="#292023">
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
         )

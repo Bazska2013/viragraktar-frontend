@@ -104,6 +104,7 @@ export const EditContainer = styled(YStack, {
     borderRadius: "$3",
     boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
     alignSelf: 'center',
+    backgroundColor: 'white',
 });
 
 export const ProfileContainer = styled(YStack, {
@@ -114,6 +115,7 @@ export const ProfileContainer = styled(YStack, {
     padding:"$3",
     flex: 1,
     gap: "$5",
+    backgroundColor: 'white',
 })
 
 export const StyledListItem = styled(ListItem, {

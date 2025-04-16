@@ -1,5 +1,11 @@
 import {ClipboardCopy} from "@tamagui/lucide-icons";
-import {HorizontalContainer, ProfileContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
+import {
+    BigButton,
+    HorizontalContainer,
+    ProfileContainer,
+    SmallButtonWithAccent,
+    VerticalContainer
+} from "../../tamagui.config.ts";
 import {H2, H4, Separator, SizableText} from "tamagui";
 import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
@@ -66,7 +72,7 @@ const StoreDetails = ({store, sign}) => {
                 <SizableText>{sign}</SizableText>
                 <Separator />
                 <H4>Click the button to copy the Store ID</H4>
-                <SmallButtonWithAccent icon={ClipboardCopy} onPress={copyToClipboard}>{copied? 'Copied!' : storeId}</SmallButtonWithAccent>
+                <BigButton size="$4" icon={ClipboardCopy} onPress={copyToClipboard}>{copied? 'Copied!' : storeId}</BigButton>
             </ProfileContainer>
         </VerticalContainer>
     )

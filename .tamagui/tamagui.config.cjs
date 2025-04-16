@@ -47654,7 +47654,8 @@ var EditContainer = (0, import_core56.styled)(YStack, {
   padding: "$1",
   borderRadius: "$3",
   boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
-  alignSelf: "center"
+  alignSelf: "center",
+  backgroundColor: "white"
 });
 var ProfileContainer = (0, import_core56.styled)(YStack, {
   borderRadius: "$5",
@@ -47663,7 +47664,8 @@ var ProfileContainer = (0, import_core56.styled)(YStack, {
   boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.1)",
   padding: "$3",
   flex: 1,
-  gap: "$5"
+  gap: "$5",
+  backgroundColor: "white"
 });
 var StyledListItem = (0, import_core56.styled)(ListItem2, {
   backgroundColor: "#ffffff",

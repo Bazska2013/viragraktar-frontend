@@ -113,7 +113,7 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, 
                         </HorizontalContainer>
                         <SizableText marginBottom="1rem">Swipe down to change the selected items</SizableText>
                         {isLoading ?
-                            <Spinner>
+                            <Spinner color="#292023">
                                 <span className="sr-only">Loading...</span>
                             </Spinner> :
                                 <Formik

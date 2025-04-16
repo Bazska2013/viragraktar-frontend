@@ -40,7 +40,7 @@ const ChangePassword = () => {
     return (
         <VerticalContainer>
             {isLoading ? <>
-                <Spinner>
+                <Spinner color="#292023">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </> : <VerticalContainer>
@@ -115,7 +115,7 @@ const ChangePassword = () => {
                                 </VerticalContainer>
                                 <Separator />
                                 <Form.Trigger asChild>
-                                    <BigButton icon={BookKey} type='submit'>{isLoading ? <Spinner /> : 'Change password'}</BigButton>
+                                    <BigButton icon={BookKey} type='submit'>{isLoading ? <Spinner color="#FBF9EF" /> : 'Change password'}</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color="red">{error}</SizableText>}
                             </Form>

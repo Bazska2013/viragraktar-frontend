@@ -38,7 +38,7 @@ const ChangeName = ({user}) => {
     return (
         <VerticalContainer>
             {isLoading ? <>
-                <Spinner>
+                <Spinner color="#292023">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </> : <VerticalContainer>
@@ -74,7 +74,7 @@ const ChangeName = ({user}) => {
                                 </VerticalContainer>
                                 <Separator />
                                 <Form.Trigger asChild>
-                                    <BigButton icon={UserPen} type='submit'>{isLoading ? <Spinner /> : 'Change name'}</BigButton>
+                                    <BigButton icon={UserPen} type='submit'>{isLoading ? <Spinner color="#FBF9EF" /> : 'Change name'}</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color="red">{error}</SizableText>}
                             </Form>

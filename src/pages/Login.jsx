@@ -5,9 +5,10 @@ import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {login} from "../features/auth/authSlice.js";
 import {useDispatch} from "react-redux";
-import {Input, Label, SizableText, Form, Spinner, H1, H2, H4, Separator} from "tamagui";
-import {AtSign, LogIn} from "@tamagui/lucide-icons";
+import {Input, Label, SizableText, Form, Spinner, H1, H2, H4, Separator, Image, H6, Square} from "tamagui";
+import {AtSign, LogIn, ShoppingCart, Store, User} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
+import SplashIcon from "../assets/storefront-dark.svg"
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [screenSize, setScreenSize] = useState(window.innerWidth);
+    const [currentIcon, setCurrentIcon] = useState('store');
 
     useEffect(() => {
         const handleResize = () => {
@@ -72,9 +74,25 @@ const Login = () => {
         })
     }
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentIcon((prevIcon) => {
+                if (prevIcon === 'store') {
+                    return 'cart';
+                } else if (prevIcon === 'cart') {
+                    return 'profile';
+                } else {
+                    return 'store';
+                }
+            });
+        }, 3000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
     if (isLoading) {
         return (
-            <Spinner>
+            <Spinner color="#292023">
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
         )
@@ -88,6 +106,7 @@ const Login = () => {
                 boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                 padding="$3"
                 width={screenSize > 1280 ? '30%' : screenSize > 768 ? '50%' : '100%'}
+                backgroundColor="white"
             >
                 <H2>Login</H2>
                 <Formik
@@ -157,8 +176,22 @@ const Login = () => {
                 </Formik>
             </VerticalContainer>
             {screenSize > 768 &&
-                <VerticalContainer height='100%' width={screenSize > 1280 ? '70%' : screenSize > 768 ? '50%' : '100%'} alignItems="center">
-                    <H1>Welcome back!</H1>
+                <VerticalContainer width={screenSize > 1280 ? '70%' : screenSize > 768 ? '50%' : '100%'} height="max-content" alignSelf="center">
+                    <VerticalContainer alignSelf="center" alignItems="center">
+                        <H1>Welcome back to Shopkeep!</H1>
+                        <H6>Log in to start managing your store</H6>
+                    </VerticalContainer>
+                    <VerticalContainer alignItems="center">
+                        <Square position="absolute" animation="slow" opacity={currentIcon === 'store' ? 1 : 0} rotate={currentIcon === 'store' ? '0deg' : '360deg'} scale={currentIcon === 'store' ? 1 : 0}>
+                            <Store size="$15" />
+                        </Square>
+                        <Square position="absolute" animation="slow" opacity={currentIcon === 'cart' ? 1 : 0} rotate={currentIcon === 'cart' ? '360deg' : '0deg'} scale={currentIcon === 'cart' ? 1 : 0}>
+                            <ShoppingCart size="$15" />
+                        </Square>
+                        <Square position="absolute" animation="slow" opacity={currentIcon === 'profile' ? 1 : 0} rotate={currentIcon === 'profile' ? '0deg' : '360deg'} scale={currentIcon === 'profile' ? 1 : 0}>
+                            <User size="$15" />
+                        </Square>
+                    </VerticalContainer>
                 </VerticalContainer>
             }
         </HorizontalContainer>

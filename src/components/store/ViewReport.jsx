@@ -355,7 +355,7 @@ const ViewReport = ({sign, before}) => {
                         <PDFDownloadLink document={<MyDocument />} fileName={oneDay ? date + '-report' : start + '-' + end + '-report'} ref={pdfDownloadLinkRef}>
                             {({ url, loading }) => (
                                 <BigButton icon={Download} disabled={downloading || loading} onClick={handleDownloadReport}>
-                                    {loading ? <Spinner /> : 'Download PDF'}
+                                    {loading ? <Spinner color="#FBF9EF" /> : 'Download PDF'}
                                 </BigButton>
                             )}
                         </PDFDownloadLink>
@@ -370,6 +370,7 @@ const ViewReport = ({sign, before}) => {
                         alignSelf="center"
                         boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                         padding="$3"
+                        backgroundColor="white"
                     >{oneDay ? 'Report about ' + date : 'Report made from ' + start + ' to ' + end}</H4>
                     <HorizontalContainer width="100%" justifyContent="center" alignSelf="center">
                         {showDistribution &&
@@ -377,6 +378,7 @@ const ViewReport = ({sign, before}) => {
                                                    borderRadius="$5"
                                                    boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                                                    padding="$3"
+                                                   backgroundColor="white"
                                 >
                                     <H4>Distribution of items sold</H4>
                                     <div id="distChartContainer">
@@ -428,6 +430,7 @@ const ViewReport = ({sign, before}) => {
                                                borderRadius="$5"
                                                boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                                                padding="$3"
+                                               backgroundColor="white"
                             >
                                 <H4>Revenue from transactions</H4>
                                 <div id="transChartContainer">
@@ -479,6 +482,7 @@ const ViewReport = ({sign, before}) => {
                     alignSelf="center"
                     boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                     padding="$3"
+                    backgroundColor="white"
                 >
                     No data available for this date
                 </H4>

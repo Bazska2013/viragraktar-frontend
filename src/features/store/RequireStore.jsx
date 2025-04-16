@@ -37,7 +37,7 @@ export const RequireStore = ({children}) => {
     }, [store]);
 
     if (isLoading) {
-        return <Spinner animation="border" role="status">
+        return <Spinner color="#292023" animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
         </Spinner>;
     }

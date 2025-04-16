@@ -42,7 +42,7 @@ const JoinStore = () => {
         <VerticalContainer>
             <H4>Join a store</H4>
             {isLoading ? <>
-                <Spinner>
+                <Spinner color="#292023">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </> : <ProfileContainer>
@@ -76,7 +76,7 @@ const JoinStore = () => {
                                     </SizableText>
                                 </VerticalContainer>
                                 <Form.Trigger asChild>
-                                    <BigButton icon={PenSquare} type="submit">{isLoading ? <Spinner /> : "Join store"}</BigButton>
+                                    <BigButton icon={PenSquare} type="submit">{isLoading ? <Spinner color="#FBF9EF" /> : "Join store"}</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color='red' >{error}</SizableText>}
                             </VerticalContainer>
