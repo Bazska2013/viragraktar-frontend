@@ -131,11 +131,11 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
                 </Switch>
             </HorizontalContainer>
             <Separator />
-            <HorizontalContainer flex={1} alignItems="center" justifyContent="space-betwueen">
+            <HorizontalContainer flex={1} alignItems="center" justifyContent="space-between">
                 <Label htmlFor={name + 'admin'}>
                     <H6>Admin</H6>
                 </Label>
-                <Switch checked={isAdminR} disabled={currentUser.id === user.id} opacity={currentUser.id !== id ? "1" : "0.5"} id={name + 'admin'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'admin')}>
+                <Switch checked={isAdminR} disabled={currentUser.id === user?.id} opacity={currentUser.id !== id ? "1" : "0.5"} id={name + 'admin'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'admin')}>
                     <Switch.Thumb animation="bouncy" />
                 </Switch>
             </HorizontalContainer>

@@ -30,7 +30,12 @@ const ModifyLabels = () => {
     }, [store]);
 
     const handleAddLabel = () => {
+        setError(null);
         if (label.length > 0) {
+            if (labels.includes(label)) {
+                setError('Label already exists');
+                return;
+            }
             setLabels([...labels, label]);
             setLabel('');
         }
@@ -38,6 +43,7 @@ const ModifyLabels = () => {
     }
 
     const handleRemoveLabel = (label) => {
+        setError(null);
         setLabels(labels.filter((l) => l !== label));
         setIsChanged(true);
     }
@@ -67,6 +73,7 @@ const ModifyLabels = () => {
         setLabels(JSON.parse(store.labels));
         setLabel('');
         setIsChanged(false);
+        setError(null);
     }
 
     return (

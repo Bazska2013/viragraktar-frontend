@@ -79,7 +79,11 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, 
             });
         } catch (error) {
             setIsLoading(false);
-            setServerError(error.response.data.message);
+            if (error.response.data.message === 'The image failed to upload.') {
+                setServerError('The image failed to upload. The maximum file size is 2MB, and only jpeg, png, jpg, gif, svg, webp formats are supported.');
+            } else {
+                setServerError(error.response.data.message);
+            }
         } finally {
             setIsLoading(false);
             if (response?.status === 201) {
