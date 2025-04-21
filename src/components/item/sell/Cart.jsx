@@ -89,8 +89,8 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChan
                                 <HorizontalContainer alignItems="center" justifyContent="space-between">
                                     <SizableText>Choose payment type</SizableText>
                                     <StyledGroup orientation='horizontal' alignItems="center">
-                                        <SmallButton boxShadow="unset" icon={Banknote} onClick={() => setCash(!cash)}>Cash</SmallButton>
-                                        <SmallButton boxShadow="unset" icon={CreditCard} onClick={() => setCash(!cash)}>Credit</SmallButton>
+                                        <SmallButton backgroundColor={cash ? '#dcdcdc' : ''} boxShadow="unset" icon={Banknote} onClick={() => setCash(!cash)}>Cash</SmallButton>
+                                        <SmallButton backgroundColor={!cash ? '#dcdcdc' : ''} boxShadow="unset" icon={CreditCard} onClick={() => setCash(!cash)}>Credit</SmallButton>
                                     </StyledGroup>
                                 </HorizontalContainer>
                                 <Separator />
