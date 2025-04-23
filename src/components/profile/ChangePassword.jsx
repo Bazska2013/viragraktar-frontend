@@ -66,6 +66,8 @@ const ChangePassword = () => {
                                         flex={1}
                                         borderWidth={2}
                                         type="password"
+                                        secureTextEntry
+                                        id="old_password"
                                         name="old_password"
                                         value={values.old_password}
                                         onChange={handleChange}
@@ -85,6 +87,8 @@ const ChangePassword = () => {
                                         flex={1}
                                         borderWidth={2}
                                         type="password"
+                                        secureTextEntry
+                                        id="password1"
                                         name="password1"
                                         value={values.password1}
                                         onChange={handleChange}
@@ -104,6 +108,8 @@ const ChangePassword = () => {
                                         flex={1}
                                         borderWidth={2}
                                         type="password"
+                                        secureTextEntry
+                                        id="password2"
                                         name="password2"
                                         value={values.password2}
                                         onChange={handleChange}

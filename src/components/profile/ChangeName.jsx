@@ -64,6 +64,7 @@ const ChangeName = ({user}) => {
                                         borderWidth={2}
                                         type="text"
                                         name="name"
+                                        id="name"
                                         value={values.name}
                                         onChange={handleChange}
                                         isInvalid={!!errors.name}

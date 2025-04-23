@@ -40,16 +40,16 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
         setIsLoading(true);
         try {
             response = await axios.post('/api/update-privileges/' + id, {
-                is_seller: isSeller,
-                is_buyer: isBuyer,
-                is_admin: isAdmin
+                is_seller: isSellerR,
+                is_buyer: isBuyerR,
+                is_admin: isAdminR
             });
         } catch (error) {
             setIsLoading(false);
             setError(error.response?.data?.message);
         } finally {
             setIsLoading(false);
-            if (response?.status === 200) {
+            if (response?.status === 204) {
                 setIsChanged(false);
                 await updateUser()
             }
@@ -141,8 +141,8 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
             </HorizontalContainer>
             <Separator />
             <StyledGroup orientation="horizontal" justifyContent="space-between" alignSelf="center">
-                <SmallButtonWithAccent boxShadow="unset" icon={Save} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleSave()} >Save changes</SmallButtonWithAccent>
-                <SmallButtonWithAccent boxShadow="unset" icon={Trash} disabled={currentUser.id === id} opacity={currentUser.id !== id ? "1" : "0.5"} onClick={() => handleDelete()} >Remove user</SmallButtonWithAccent>
+                <SmallButtonWithAccent boxShadow="unset" icon={Save} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={handleSave}>Save changes</SmallButtonWithAccent>
+                <SmallButtonWithAccent boxShadow="unset" icon={Trash} disabled={currentUser.id === id} opacity={currentUser.id !== id ? "1" : "0.5"} onClick={handleDelete}>Remove user</SmallButtonWithAccent>
             </StyledGroup>
         </VerticalContainer>
     )

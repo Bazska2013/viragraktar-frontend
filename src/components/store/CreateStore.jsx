@@ -6,11 +6,14 @@ import React, {useState} from "react";
 import {Checkbox, Input, Label, SizableText, Form, Spinner, H4, Separator, Switch} from "tamagui";
 import {Check, Save} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
+import {createStore} from "../../features/store/storeSlice.js";
+import {useDispatch} from "react-redux";
 
 const CreateStore = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const dispatch = useDispatch();
 
     const handleSubmit = async (values) => {
         let response;
@@ -30,6 +33,7 @@ const CreateStore = () => {
             setError(error.response.data.message);
         } finally {
             setIsLoading(false);
+            dispatch(createStore(response.data));
             if (document.startViewTransition) {
                 document.startViewTransition(() => {
                     navigate('/sell', {replace: true});

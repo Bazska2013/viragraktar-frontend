@@ -162,9 +162,14 @@ const Buy = () => {
                     </SizableText> :
                     <>
                         <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} opacity={isLoading ? 0 : 1} animation="slow">
-                            {filteredItems.map((item) => (
+                            {filteredItems.length > 0 && filteredItems.map((item) => (
                                 <Item key={item.id} props={item} refetch={fetchItems} addToSelection={handleAddToSelection} removeFromSelection={handleRemoveFromSelection} sign={sign} before={before} />
                             ))}
+                            {filteredItems.length === 0 &&
+                                <HorizontalContainer flex={1} justifyContent="center" alignItems="center">
+                                    <H2>No items found</H2>
+                                </HorizontalContainer>
+                            }
                         </HorizontalContainer>
                         <BigButton
                             opacity={isLoading ? 0 : 1} animation="slowest"

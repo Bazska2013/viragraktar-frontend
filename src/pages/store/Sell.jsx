@@ -139,11 +139,16 @@ const Sell = () => {
                         {error}
                     </SizableText> :
                     <HorizontalContainer flexWrap="wrap" marginLeft={10} marginRight={10} marginBottom="5rem" opacity={isLoading ? 0 : 1} animation="slow">
-                        {filteredItems.map((item) => {
+                        {filteredItems.length > 0 && filteredItems.map((item) => {
                             return (
                                 <ListItem key={item.id} item={item} addToCart={addToCart} isItemInCart={isItemInCart(item)} editCart={editCart} removeFromCart={removeFromCart} sign={sign} before={before} />
                             )
                         })}
+                        {filteredItems.length === 0 &&
+                            <HorizontalContainer flex={1} justifyContent="center" alignItems="center">
+                                <H2>No items found</H2>
+                            </HorizontalContainer>
+                        }
                     </HorizontalContainer>
             }
         </VerticalContainer>
