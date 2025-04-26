@@ -74,16 +74,17 @@ const Profile = () => {
         } catch (error) {
             setError(error.response.data.message);
         } finally {
-            dispatch(logout());
-            dispatch(removeUser());
-            dispatch(deleteStore());
-            setIsLoading(false);
+            await Promise.all([
+                dispatch(logout()),
+                dispatch(removeUser()),
+                dispatch(deleteStore())
+            ]);
             if (document.startViewTransition) {
                 document.startViewTransition(() => {
-                    navigate('/login', {replace: true});
+                    navigate('/login', { replace: true });
                 });
             } else {
-                navigate('/login', {replace: true});
+                navigate('/login', { replace: true });
             }
         }
     }
@@ -266,6 +267,7 @@ const Profile = () => {
                                             />
                                             <AlertDialog.Content
                                                 bordered
+
                                                 elevate
                                                 key="content"
                                                 animation={[

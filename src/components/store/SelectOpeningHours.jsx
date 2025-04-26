@@ -48,8 +48,8 @@ const SelectOpeningHours = ({defaultValue, setFieldValue }) => {
                     from={openingHours[day].from}
                     to={openingHours[day].to}
                     closed={openingHours[day].closed}
-                    onSelectFrom={(e) => handleSelectFrom(day, e.target.value)}
-                    onSelectTo={(e) => handleSelectTo(day, e.target.value)}
+                    onSelectFrom={(value) => handleSelectFrom(day, value)}
+                    onSelectTo={(value) => handleSelectTo(day, value)}
                     onClick={() => handleClick(day)}
                 />
             ))}

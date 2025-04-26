@@ -85,7 +85,7 @@ const UpdateStore = () => {
                                     </SizableText>
                                 </VerticalContainer>
                                 <Separator />
-                                <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} defaultValue={store.opening_hours} />
+                                <SelectOpeningHours name="opening_hours" setFieldValue={setFieldValue} defaultValue={store?.opening_hours} />
                                 <Separator />
                                 <VerticalContainer>
                                     <Label htmlFor="sign">
