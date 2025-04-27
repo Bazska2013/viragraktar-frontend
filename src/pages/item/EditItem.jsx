@@ -3,30 +3,9 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
-import {
-    SizableText,
-    Form,
-    Spinner,
-    Label,
-    Input,
-    Image,
-    H4,
-    Separator,
-    H2,
-    Square,
-    H6,
-    AlertDialog,
-    YStack, XStack
-} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, Image, H4, Separator, H2, Square, H6, AlertDialog, YStack, XStack} from "tamagui";
 import {Save, Trash, Upload, X} from "@tamagui/lucide-icons";
-import {
-    BigButton,
-    EditContainer,
-    HorizontalContainer,
-    SmallButton,
-    SmallButtonWithAccent,
-    VerticalContainer
-} from "../../tamagui.config.ts";
+import {BigButton, EditContainer, HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import Labels from "../../components/item/buy/Labels.jsx";
 import {selectStore} from "../../features/store/storeSlice.js";
 import {useSelector} from "react-redux";

@@ -4,14 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
 import {SizableText, Spinner, Separator, Label, Switch, H6, AlertDialog, YStack, XStack} from "tamagui";
 import {Save, Trash} from "@tamagui/lucide-icons";
-import {
-    BigButton,
-    HorizontalContainer,
-    SmallButton,
-    SmallButtonWithAccent,
-    StyledGroup,
-    VerticalContainer
-} from "../../tamagui.config.ts";
+import {BigButton, HorizontalContainer, SmallButton, SmallButtonWithAccent, StyledGroup, VerticalContainer} from "../../tamagui.config.ts";
 import PropTypes from "prop-types";
 
 const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name, email}) => {
