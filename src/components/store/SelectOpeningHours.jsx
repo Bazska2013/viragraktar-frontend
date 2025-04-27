@@ -41,7 +41,7 @@ const SelectOpeningHours = ({defaultValue, setFieldValue }) => {
 
     return (
         <HorizontalContainer flexWrap="wrap">
-            {Object.keys(openingHours).map((day, index) => (
+            {Object.keys(openingHours).map((day) => (
                 <SelectHours
                     key={day}
                     day={day}
@@ -59,6 +59,7 @@ const SelectOpeningHours = ({defaultValue, setFieldValue }) => {
 
 SelectOpeningHours.propTypes = {
     setFieldValue: PropTypes.func.isRequired,
+    defaultValue: PropTypes.string,
 };
 
 export default React.memo(SelectOpeningHours);

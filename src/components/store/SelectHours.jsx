@@ -1,8 +1,8 @@
-import {Form} from "react-bootstrap";
 import {Checkbox, Group, H4, H5, H6, Input, Label} from "tamagui";
 import {Check} from "@tamagui/lucide-icons";
 import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import React, {useEffect, useState, useCallback} from "react";
+import PropTypes from "prop-types";
 
 const SelectHours = ({day, from, onSelectFrom, to, onSelectTo, closed, onClick}) => {
     const [fromHour, setFromHour] = useState('00');
@@ -105,7 +105,7 @@ const SelectHours = ({day, from, onSelectFrom, to, onSelectTo, closed, onClick})
         }
         setToHour(hour);
         setToMinute(minute);
-    }, []);
+    }, [from, to]);
 
     return (
         <VerticalContainer>
@@ -184,6 +184,16 @@ const SelectHours = ({day, from, onSelectFrom, to, onSelectTo, closed, onClick})
             </HorizontalContainer>
         </VerticalContainer>
     );
+}
+
+SelectHours.propTypes = {
+    day: PropTypes.string.isRequired,
+    from: PropTypes.string.isRequired,
+    onSelectFrom: PropTypes.func.isRequired,
+    to: PropTypes.string.isRequired,
+    onSelectTo: PropTypes.func.isRequired,
+    closed: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired,
 }
 
 export default React.memo(SelectHours);

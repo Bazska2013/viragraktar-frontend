@@ -3,8 +3,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
-import {SizableText, Form, Spinner, Label, Input, TextArea, Image, H4, Separator, H2, Square, H6} from "tamagui";
-import {ChevronLeft, Save, Upload, X} from "@tamagui/lucide-icons";
+import {SizableText, Form, Spinner, Label, Input, Image, H4, Separator, H2, Square, H6} from "tamagui";
+import {Save, Upload, X} from "@tamagui/lucide-icons";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 import Labels from "../../components/item/buy/Labels.jsx";
 import {selectStore} from "../../features/store/storeSlice.js";
@@ -105,15 +105,7 @@ const EditItem = () => {
             setSign(JSON.parse(store.currency).sign);
             setBefore(JSON.parse(store.currency).before);
         });
-    }, []);
-
-    if (isLoading) {
-        return (
-            <Spinner color="#292023">
-                <span className="visually-hidden">Loading...</span>
-            </Spinner>
-        )
-    }
+    }, [store.currency]);
 
     if (fetchError) {
         return (
@@ -175,7 +167,6 @@ const EditItem = () => {
                                     id="labels"
                                     value={labels}
                                     onChange={setLabels}
-                                    isInvalid={!!errors.description}
                                 />
                             </VerticalContainer>
                             <Separator />
@@ -257,7 +248,7 @@ const EditItem = () => {
                             </VerticalContainer>
                             <Separator />
                             <Form.Trigger asChild>
-                                <BigButton icon={Save} type='submit'>Confirm changes</BigButton>
+                                <BigButton icon={Save} type='submit'>{isLoading ? <Spinner color="#FBF9EF" /> : 'Confirm changes'}</BigButton>
                             </Form.Trigger>
                             {serverError && <SizableText color="red">{serverError}</SizableText>}
                         </VerticalContainer>

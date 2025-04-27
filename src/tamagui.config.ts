@@ -20,7 +20,6 @@ export const BigButton = styled(Button, {
     },
     disabledStyle: {
         backgroundColor: '#44363A',
-        border: 'none',
     },
     size: "$6",
 });
@@ -41,7 +40,6 @@ export const SmallButtonWithAccent = styled(Button, {
     },
     disabledStyle: {
         backgroundColor: '#fffaf5',
-        border: 'none',
     },
     size: "$3",
 });
@@ -63,7 +61,6 @@ export const SmallButton = styled(Button, {
     },
     disabledStyle: {
         backgroundColor: '#fafafa',
-        border: 'none',
     },
     size: "$3",
 });

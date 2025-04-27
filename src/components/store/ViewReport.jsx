@@ -9,6 +9,7 @@ import DatePicker from "../datePicker/DatePicker.jsx";
 import TransactionsTable from "./TransactionsTable.jsx";
 import {Document, Image, Page, PDFDownloadLink, Text, View} from '@react-pdf/renderer';
 import {toPng} from "html-to-image";
+import PropTypes from "prop-types";
 
 const ViewReport = ({sign, before}) => {
     const [data, setData] = useState([]);
@@ -489,6 +490,11 @@ const ViewReport = ({sign, before}) => {
             }
         </VerticalContainer>
     )
+}
+
+ViewReport.propTypes = {
+    sign: PropTypes.string,
+    before: PropTypes.bool
 }
 
 export default React.memo(ViewReport);

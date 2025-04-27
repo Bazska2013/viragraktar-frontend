@@ -1,6 +1,7 @@
 import {HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {H2, H4, Separator, SizableText} from "tamagui";
 import React from "react";
+import PropTypes from "prop-types";
 
 const ProfileDetails = ({user, store}) => {
     return (
@@ -37,6 +38,18 @@ const ProfileDetails = ({user, store}) => {
                 </ProfileContainer>
             </VerticalContainer>
     )
+}
+
+ProfileDetails.propTypes = {
+    user: PropTypes.shape({
+        name: PropTypes.string,
+        email: PropTypes.string,
+        created_at: PropTypes.string,
+        is_admin: PropTypes.number,
+        is_buyer: PropTypes.number,
+        is_seller: PropTypes.number
+    }),
+    store: PropTypes.object
 }
 
 export default React.memo(ProfileDetails);

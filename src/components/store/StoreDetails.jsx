@@ -1,14 +1,9 @@
 import {ClipboardCopy} from "@tamagui/lucide-icons";
-import {
-    BigButton,
-    HorizontalContainer,
-    ProfileContainer,
-    SmallButtonWithAccent,
-    VerticalContainer
-} from "../../tamagui.config.ts";
+import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {H2, H4, Separator, SizableText} from "tamagui";
 import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
+import PropTypes from "prop-types";
 
 const StoreDetails = ({store, sign}) => {
     const openingHours = JSON.parse(store ? store.opening_hours : '{}');
@@ -73,9 +68,18 @@ const StoreDetails = ({store, sign}) => {
                 <Separator />
                 <H4>Click the button to copy the Store ID</H4>
                 <BigButton size="$4" icon={ClipboardCopy} onPress={copyToClipboard}>{copied? 'Copied!' : storeId}</BigButton>
+                {error && <SizableText color='red' >{error}</SizableText>}
             </ProfileContainer>
         </VerticalContainer>
     )
+}
+
+StoreDetails.propTypes = {
+    store: PropTypes.shape({
+        name: PropTypes.string,
+        opening_hours: PropTypes.string,
+    }),
+    sign: PropTypes.string,
 }
 
 export default React.memo(StoreDetails);

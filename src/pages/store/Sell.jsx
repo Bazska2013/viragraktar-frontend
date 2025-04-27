@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from '../../axiosConfig.js';
 import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
-import {SizableText, Spinner, AnimatePresence, Sheet, H2} from "tamagui";
+import {SizableText, Spinner, Sheet, H2} from "tamagui";
 import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import {Delete, ShoppingBasket} from "@tamagui/lucide-icons";
 import FilterBar from "../../components/item/FilterBar.jsx";
@@ -43,13 +43,13 @@ const Sell = () => {
     }
 
     useEffect(() => {
-        fetchItems().then((response) => {
+        fetchItems().then(() => {
             setFilterString('');
             setFilterLabels([]);
             setSign(JSON.parse(store.currency).sign);
             setBefore(JSON.parse(store.currency).before);
         });
-    }, []);
+    }, [store.currency]);
 
     useEffect(() => {
         if (cart.length > 0) {
@@ -86,7 +86,7 @@ const Sell = () => {
         } else {
             setFilteredItems(items);
         }
-    }, [filterString]);
+    }, [filterString, items]);
 
     useEffect(() => {
         if (filterLabels.length > 0) {
@@ -94,7 +94,7 @@ const Sell = () => {
         } else {
             setFilteredItems(items);
         }
-    }, [filterLabels]);
+    }, [filterLabels, items]);
 
     return (
         <VerticalContainer width="95%" alignSelf="center">

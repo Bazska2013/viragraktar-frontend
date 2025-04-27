@@ -4,7 +4,8 @@ import { Navigate } from "react-router-dom";
 import { selectAuth } from "./authSlice";
 import axios from "../../axiosConfig.js";
 import {setUser} from "./userSlice.js";
-import {Spinner} from "react-bootstrap";
+import {Spinner} from "tamagui";
+import PropTypes from "prop-types";
 
 export const RequireAuth = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -28,13 +29,21 @@ export const RequireAuth = ({ children }) => {
         };
 
         checkAuth();
-    }, [auth]);
+    }, [auth, dispatch]);
 
     if (isLoading) {
-        return <Spinner color="#292023" animation="border" role="status">
+        return <Spinner size="large" color="#292023" >
             <span className="visually-hidden">Loading...</span>
         </Spinner>;
     }
 
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
+
     return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
+
+RequireAuth.propTypes = {
+    children: PropTypes.node.isRequired,
+}

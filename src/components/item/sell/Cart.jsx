@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
-import {H3, Spinner, Sheet, H2, Group, SizableText, H4, Separator, H6, SheetScrollView, Square} from "tamagui";
+import {Spinner, Sheet, H2, SizableText, H4, Separator, H6, SheetScrollView, Square} from "tamagui";
 import {Banknote, CreditCard, DollarSign, X} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, SmallButton, StyledGroup, VerticalContainer} from "../../../tamagui.config.ts";
+import PropTypes from "prop-types";
 
-const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChange, sign, before}) => {
+const Cart = ({cart, fetchItems, emptyCart, onOpenChange, sign, before}) => {
     const [total, setTotal] = useState(0);
     const [cash, setCash] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -108,6 +109,15 @@ const Cart = ({cart, removeFromCart, editCart, fetchItems, emptyCart, onOpenChan
             </Sheet.Frame>
         </>
     )
+}
+
+Cart.propTypes = {
+    cart: PropTypes.array.isRequired,
+    fetchItems: PropTypes.func.isRequired,
+    emptyCart: PropTypes.func.isRequired,
+    onOpenChange: PropTypes.func.isRequired,
+    sign: PropTypes.string.isRequired,
+    before: PropTypes.bool.isRequired,
 }
 
 export default React.memo(Cart);

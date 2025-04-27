@@ -1,5 +1,5 @@
 import {Formik} from "formik";
-import {SizableText, Form, Spinner, Label, Input, TextArea, H4, Separator, H2, Square, H6} from "tamagui";
+import {SizableText, Form, Spinner, Label, Input, H4, Separator, H2, Square, H6} from "tamagui";
 import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
@@ -39,7 +39,7 @@ const NewItem = () => {
             setSign(JSON.parse(store.currency).sign);
             setBefore(JSON.parse(store.currency).before);
         }
-    }, []);
+    }, [store]);
 
     const schema = yup.object().shape({
         name: yup.string().required('Name is required'),
@@ -87,14 +87,6 @@ const NewItem = () => {
                 }
             }
         }
-    }
-
-    if (isLoading) {
-        return (
-            <Spinner color="#292023">
-                <span className="visually-hidden">Loading...</span>
-            </Spinner>
-        )
     }
 
     return (
@@ -148,7 +140,6 @@ const NewItem = () => {
                                     id="labels"
                                     value={labels}
                                     onChange={setLabels}
-                                    isInvalid={!!errors.description}
                                 />
                             </VerticalContainer>
                             <Separator />
@@ -216,7 +207,7 @@ const NewItem = () => {
                             </VerticalContainer>
                             <Separator />
                             <Form.Trigger asChild>
-                                <BigButton icon={Save} type="submit">Add new Item</BigButton>
+                                <BigButton icon={Save} type="submit">{isLoading ? <Spinner color="#FBF9EF" /> : 'Add new Item'}</BigButton>
                             </Form.Trigger>
                             {serverError && <SizableText color='red' >{serverError}</SizableText>}
                         </VerticalContainer>

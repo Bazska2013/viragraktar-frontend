@@ -2,9 +2,10 @@ import React, {useState} from "react";
 import axios from "../../axiosConfig.js";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
-import {Group, SizableText, Spinner, Separator, Label, Switch, H6} from "tamagui";
+import {SizableText, Spinner, Separator, Label, Switch, H6} from "tamagui";
 import {Save, Trash} from "@tamagui/lucide-icons";
 import {HorizontalContainer, SmallButtonWithAccent, StyledGroup, VerticalContainer} from "../../tamagui.config.ts";
+import PropTypes from "prop-types";
 
 const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name, email}) => {
     const [isSellerR, setIsSellerR] = useState(!!isSeller);
@@ -90,7 +91,7 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
 
     if (isLoading) {
         return (
-            <Spinner color="#292023">
+            <Spinner color="#292023" size="large">
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
         )
@@ -141,11 +142,22 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
             </HorizontalContainer>
             <Separator />
             <StyledGroup orientation="horizontal" justifyContent="space-between" alignSelf="center">
-                <SmallButtonWithAccent boxShadow="unset" icon={Save} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={handleSave}>Save changes</SmallButtonWithAccent>
-                <SmallButtonWithAccent boxShadow="unset" icon={Trash} disabled={currentUser.id === id} opacity={currentUser.id !== id ? "1" : "0.5"} onClick={handleDelete}>Remove user</SmallButtonWithAccent>
+                <SmallButtonWithAccent boxShadow="unset" icon={Save} disabled={!isChanged} opacity={isChanged ? 1 : 0.5} onClick={handleSave}>Save changes</SmallButtonWithAccent>
+                <SmallButtonWithAccent boxShadow="unset" icon={Trash} disabled={currentUser.id === id} opacity={currentUser.id !== id ? 1 : 0.5} onClick={handleDelete}>Remove user</SmallButtonWithAccent>
             </StyledGroup>
         </VerticalContainer>
     )
+}
+
+StoreUsersRow.propTypes = {
+    isSeller: PropTypes.number,
+    isBuyer: PropTypes.number,
+    isAdmin: PropTypes.number,
+    user: PropTypes.object,
+    id: PropTypes.number,
+    refetchUsers: PropTypes.func,
+    name: PropTypes.string,
+    email: PropTypes.string
 }
 
 export default React.memo(StoreUsersRow);

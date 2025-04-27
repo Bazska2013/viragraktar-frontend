@@ -1,15 +1,10 @@
-import {
-    BigButton,
-    HorizontalContainer,
-    SmallButton,
-    SmallButtonWithAccent,
-    VerticalContainer
-} from "../../tamagui.config.ts";
-import {AnimatePresence, H2, Input, Square, YStack} from "tamagui";
-import {Filter, FilterX, Search, X} from "@tamagui/lucide-icons";
+import {BigButton, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
+import {H2, Input, YStack} from "tamagui";
+import {Filter, FilterX, Search} from "@tamagui/lucide-icons";
 import React, {useEffect, useState} from "react";
 import {selectStore} from "../../features/store/storeSlice.js";
 import {useSelector} from "react-redux";
+import PropTypes from "prop-types";
 
 const FilterBar = ({title, onTextChange, onLabelChange}) => {
     const store = useSelector(selectStore);
@@ -43,7 +38,7 @@ const FilterBar = ({title, onTextChange, onLabelChange}) => {
 
     useEffect(() => {
         onLabelChange(selectedLabels);
-    }, [selectedLabels]);
+    }, [selectedLabels, onLabelChange]);
 
     useEffect(() => {
         if (searchField.length > 0) {
@@ -52,7 +47,7 @@ const FilterBar = ({title, onTextChange, onLabelChange}) => {
         } else {
             setLabels(JSON.parse(store.labels));
         }
-    }, [searchField]);
+    }, [searchField, store.labels]);
 
     const addLabel = (label) => {
         setSelectedLabels([...selectedLabels, label]);
@@ -84,12 +79,18 @@ const FilterBar = ({title, onTextChange, onLabelChange}) => {
                 <BigButton size="$4" icon={searchOpen ? FilterX : Filter} onClick={() => handleChangeOpen()}>{searchOpen ? 'Remove filters' : 'Filter'}</BigButton>
             </HorizontalContainer>
             <HorizontalContainer animation="slow" alignItems="center" overflow="scroll" opacity={searchOpen ? 1 : 0} height={searchOpen ? "100%" : 0}>
-                {labels.map((label, index) => (
+                {labels.map((label) => (
                     <SmallButton marginLeft={5} marginRight={5} key={label} backgroundColor={isInSelection(label) ? '#FBF9EF' : '#f5f5f5'} focusStyle={{backgroundColor: '#FBF9EF'}} onClick={() => handleChangeLabel(label)} >{label}</SmallButton>
                 ))}
             </HorizontalContainer>
         </VerticalContainer>
     )
+}
+
+FilterBar.propTypes = {
+    title: PropTypes.string.isRequired,
+    onTextChange: PropTypes.func.isRequired,
+    onLabelChange: PropTypes.func.isRequired,
 }
 
 export default React.memo(FilterBar);

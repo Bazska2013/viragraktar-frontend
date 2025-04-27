@@ -1,12 +1,5 @@
-import {
-    BigButton,
-    HorizontalContainer,
-    ProfileContainer,
-    SmallButton,
-    SmallButtonWithAccent,
-    VerticalContainer
-} from "../../tamagui.config.ts";
-import {AnimatePresence, H2, H4, Input, Paragraph, Separator, SizableText, Spinner, Square} from "tamagui";
+import {BigButton, HorizontalContainer, ProfileContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
+import {H2, H4, Input, Paragraph, Separator, SizableText, Spinner, Square} from "tamagui";
 import {selectStore, createStore} from "../../features/store/storeSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import {Plus, Save, SkipBack, X} from "@tamagui/lucide-icons";
@@ -78,42 +71,36 @@ const ModifyLabels = () => {
 
     return (
         <VerticalContainer>
-            {isLoading ? <>
-                <Spinner color="#292023">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </> : <VerticalContainer>
-                <H2>Modify labels</H2>
-                <ProfileContainer>
-                    <H4>Available labels</H4>
-                    <Square position="absolute" top={20} right={20} animation="quick" hoverStyle={{scale: 1.1}} pressStyle={{scale: 0.9}} scale={isChanged ? 1 : 0} opacity={isChanged ? 1 : 0} onClick={() => resetChanges()}>
-                        <SkipBack size="$2" />
-                    </Square>
-                    <Paragraph>Click on the available labels listed below to remove them from your store. Items that already have the selected label will continue to have it. You have to manually remove them from the individual items.</Paragraph>
-                    <HorizontalContainer flexWrap="wrap">
-                        {labels && labels.map((label, index) => (
-                            <SmallButton iconAfter={X} borderWidth={1} padding="$2" borderRadius="$5" key={label} onClick={() => handleRemoveLabel(label)} >{label}</SmallButton>
-                        ))}
-                    </HorizontalContainer>
-                    <Separator/>
-                    <H4>Add new label</H4>
-                    <Paragraph>Type in a new label in the input field below and click the button next to it to add it to the available labels. Click the Save changes button below to save your modifications. If you wish to revert the changes made click the button in the top right corner.</Paragraph>
-                    <HorizontalContainer alignItems="center">
-                        <Input
-                            backgroundColor="none"
-                            flex={1}
-                            borderWidth={2}
-                            type="text"
-                            name="label"
-                            value={label}
-                            onChange={(e) => setLabel(e.target.value)}
-                        />
-                        <SmallButtonWithAccent icon={Plus} onClick={() => handleAddLabel()} />
-                    </HorizontalContainer>
-                    <BigButton disabled={!isChanged} icon={Save} onClick={() => handleSubmit()}>Save changes</BigButton>
-                    {error && <SizableText color='red' >{error}</SizableText>}
-                </ProfileContainer>
-            </VerticalContainer>}
+            <H2>Modify labels</H2>
+            <ProfileContainer>
+                <H4>Available labels</H4>
+                <Square position="absolute" top={20} right={20} animation="quick" hoverStyle={{scale: 1.1}} pressStyle={{scale: 0.9}} scale={isChanged ? 1 : 0} opacity={isChanged ? 1 : 0} onClick={() => resetChanges()}>
+                    <SkipBack size="$2" />
+                </Square>
+                <Paragraph>Click on the available labels listed below to remove them from your store. Items that already have the selected label will continue to have it. You have to manually remove them from the individual items.</Paragraph>
+                <HorizontalContainer flexWrap="wrap">
+                    {labels && labels.map((label) => (
+                        <SmallButton iconAfter={X} borderWidth={1} padding="$2" borderRadius="$5" key={label} onClick={() => handleRemoveLabel(label)} >{label}</SmallButton>
+                    ))}
+                </HorizontalContainer>
+                <Separator/>
+                <H4>Add new label</H4>
+                <Paragraph>Type in a new label in the input field below and click the button next to it to add it to the available labels. Click the Save changes button below to save your modifications. If you wish to revert the changes made click the button in the top right corner.</Paragraph>
+                <HorizontalContainer alignItems="center">
+                    <Input
+                        backgroundColor="none"
+                        flex={1}
+                        borderWidth={2}
+                        type="text"
+                        name="label"
+                        value={label}
+                        onChange={(e) => setLabel(e.target.value)}
+                    />
+                    <SmallButtonWithAccent icon={Plus} onClick={() => handleAddLabel()} />
+                </HorizontalContainer>
+                <BigButton disabled={!isChanged} icon={Save} onClick={() => handleSubmit()}>{isLoading ? <Spinner color="#FBF9EF" /> : 'Save changes'}</BigButton>
+                {error && <SizableText color='red' >{error}</SizableText>}
+            </ProfileContainer>
         </VerticalContainer>
     )
 }

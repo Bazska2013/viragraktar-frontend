@@ -20,7 +20,6 @@ const StoreUsers = () => {
             setIsLoading(false);
             setError(error.response.data.message);
         } finally {
-            setIsLoading(false);
             if (response?.status === 200) {
                 setUsers(response.data);
             }
@@ -28,7 +27,7 @@ const StoreUsers = () => {
     };
 
     useEffect(() => {
-        fetchUsers();
+        fetchUsers().then(() => setIsLoading(false));
     }, []);
 
     if (isLoading) {
@@ -55,7 +54,7 @@ const StoreUsers = () => {
                        boxShadow="0px 0px 10px 1px rgba(0,0,0,0.1)"
                        borderRadius="$5"
             >
-                {Object.keys(users).map((user, index) => (
+                {Object.keys(users).map((user) => (
                     <Accordion.Item value={user} key={user}>
                         <Accordion.Trigger flexDirection="row" justifyContent="space-between">
                             {({open}) => (

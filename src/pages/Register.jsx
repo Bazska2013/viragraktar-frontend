@@ -34,10 +34,9 @@ const Register = () => {
     })
 
     const handleSubmit = async (values) => {
-        let response;
         setIsLoading(true);
         try {
-            response = await axios.post('/api/register', {
+            await axios.post('/api/register', {
                 email: values.email,
                 name: values.name,
                 password: values.password1,
@@ -47,7 +46,6 @@ const Register = () => {
             setIsLoading(false);
             setServerError(error.response.data.message);
         } finally {
-            setIsLoading(false);
             if (document.startViewTransition) {
                 document.startViewTransition(() => {
                     navigate('/login', {replace: true});
@@ -101,7 +99,7 @@ const Register = () => {
                         password1: '',
                         password2: ''
                     }}
-                    onSubmit={(values) => {handleSubmit(values)}}
+                    onSubmit={(values) => {handleSubmit(values).then(() => setIsLoading(false))}}
                 >
                     {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                         <Form noValidate onSubmit={formikSubmit}>

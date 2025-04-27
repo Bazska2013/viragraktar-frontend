@@ -1,18 +1,11 @@
-import {AnimatePresence, H2, Sheet, SizableText, Spinner} from "tamagui";
+import {H2, Sheet, SizableText, Spinner} from "tamagui";
 import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import React, {useEffect, useState} from "react";
 import Item from "../../components/item/buy/Item.jsx";
 import {ShoppingBasket} from "@tamagui/lucide-icons";
-import {
-    BigButton,
-    HorizontalContainer,
-    SmallButton,
-    SmallButtonWithAccent,
-    VerticalContainer
-} from "../../tamagui.config.ts";
+import {BigButton, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 import CombineItems from "../../components/item/buy/CombineItems.jsx";
-import SearchBar from "../../components/item/FilterBar.jsx";
 import FilterBar from "../../components/item/FilterBar.jsx";
 import {selectStore} from "../../features/store/storeSlice.js";
 import {useSelector} from "react-redux";
@@ -72,13 +65,13 @@ const Buy = () => {
     }
 
     useEffect(() => {
-        fetchItems().then((response) => {
+        fetchItems().then(() => {
             setFilterString('');
             setFilterLabels([]);
             setSign(JSON.parse(store.currency).sign);
             setBefore(JSON.parse(store.currency).before);
         });
-    }, []);
+    }, [store.currency]);
 
     useEffect(() => {
         if (selectedItems.length > 1) {
@@ -106,7 +99,7 @@ const Buy = () => {
         } else {
             setFilteredItems(items);
         }
-    }, [filterString]);
+    }, [filterString, items]);
 
     useEffect(() => {
         if (filterLabels.length > 0) {
@@ -114,7 +107,7 @@ const Buy = () => {
         } else {
             setFilteredItems(items);
         }
-    }, [filterLabels]);
+    }, [filterLabels, items]);
 
     return (
         <VerticalContainer width="95%" alignSelf="center">

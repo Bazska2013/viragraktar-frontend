@@ -7,6 +7,7 @@ import React, {useState} from "react";
 import {H2, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
 import {UserPen} from "@tamagui/lucide-icons";
 import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
+import PropTypes from "prop-types";
 
 const ChangeName = ({user}) => {
     const dispatch = useDispatch();
@@ -28,7 +29,6 @@ const ChangeName = ({user}) => {
             setIsLoading(false);
             setError(error.response.data.message);
         } finally {
-            setIsLoading(false);
             if (response?.status === 200) {
                 dispatch(setUser(response.data));
             }
@@ -37,54 +37,55 @@ const ChangeName = ({user}) => {
 
     return (
         <VerticalContainer>
-            {isLoading ? <>
-                <Spinner color="#292023">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </> : <VerticalContainer>
-                <H2>Change name</H2>
-                <ProfileContainer>
-                    <Formik
-                        validationSchema={schema}
-                        initialValues={{
-                            name: user.name,
-                            email: user.email
-                        }}
-                        onSubmit={(values) => {handleSubmit(values)}}
-                    >
-                        {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
-                            <Form noValidate onSubmit={formikSubmit}>
-                                <VerticalContainer>
-                                    <Label htmlFor="name">
-                                        <H4>Name</H4>
-                                    </Label>
-                                    <Input
-                                        backgroundColor="none"
-                                        flex={1}
-                                        borderWidth={2}
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        value={values.name}
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.name}
-                                    />
-                                    <SizableText size='small' color='red'>
-                                        {errors.name}
-                                    </SizableText>
-                                </VerticalContainer>
-                                <Separator />
-                                <Form.Trigger asChild>
-                                    <BigButton icon={UserPen} type='submit'>{isLoading ? <Spinner color="#FBF9EF" /> : 'Change name'}</BigButton>
-                                </Form.Trigger>
-                                {error && <SizableText color="red">{error}</SizableText>}
-                            </Form>
-                        )}
-                    </Formik>
-                </ProfileContainer>
-            </VerticalContainer>}
+            <H2>Change name</H2>
+            <ProfileContainer>
+                <Formik
+                    validationSchema={schema}
+                    initialValues={{
+                        name: user.name,
+                        email: user.email
+                    }}
+                    onSubmit={(values) => {handleSubmit(values).then(() => setIsLoading(false))}}
+                >
+                    {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
+                        <Form noValidate onSubmit={formikSubmit}>
+                            <VerticalContainer>
+                                <Label htmlFor="name">
+                                    <H4>Name</H4>
+                                </Label>
+                                <Input
+                                    backgroundColor="none"
+                                    flex={1}
+                                    borderWidth={2}
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.name}
+                                />
+                                <SizableText size='small' color='red'>
+                                    {errors.name}
+                                </SizableText>
+                            </VerticalContainer>
+                            <Separator />
+                            <Form.Trigger asChild>
+                                <BigButton icon={UserPen} type='submit'>{isLoading ? <Spinner color="#FBF9EF" /> : 'Change name'}</BigButton>
+                            </Form.Trigger>
+                            {error && <SizableText color="red">{error}</SizableText>}
+                        </Form>
+                    )}
+                </Formik>
+            </ProfileContainer>
         </VerticalContainer>
     );
+}
+
+ChangeName.propTypes = {
+    user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+    }).isRequired,
 }
 
 export default React.memo(ChangeName);

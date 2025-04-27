@@ -6,26 +6,8 @@ import React, {useEffect, useState} from "react";
 import {deleteStore, selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
 import {Spinner, SizableText, Separator, Group, H6, H4, H2, AlertDialog, YStack, XStack} from "tamagui";
-import {
-    BookKey,
-    BookUser,
-    ChevronRight,
-    FilePen,
-    LineChart,
-    LogOut,
-    Tags,
-    TextSearch,
-    UserPen,
-    UserSearch
-} from "@tamagui/lucide-icons";
-import {
-    VerticalContainer,
-    HorizontalContainer,
-    BigButton,
-    StyledListItem,
-    StyledGroup,
-    SmallButton, SmallButtonWithAccent
-} from "../../tamagui.config.ts";
+import {BookKey, BookUser, ChevronRight, FilePen, LineChart, LogOut, Tags, TextSearch, UserPen, UserSearch} from "@tamagui/lucide-icons";
+import {VerticalContainer, HorizontalContainer, BigButton, StyledListItem, StyledGroup, SmallButton,} from "../../tamagui.config.ts";
 import {logout} from "../../features/auth/authSlice.js";
 import ProfileDetails from "../../components/profile/ProfileDetails.jsx";
 import ChangeName from "../../components/profile/ChangeName.jsx";
@@ -114,7 +96,7 @@ const Profile = () => {
         } finally {
             if (response?.status === 204) {
                 dispatch(deleteStore());
-                handleLogout();
+                await handleLogout();
             }
         }
     }
@@ -125,7 +107,7 @@ const Profile = () => {
             setSign(JSON.parse(store.currency).sign);
             setBefore(JSON.parse(store.currency).before);
         }
-    }, []);
+    }, [store]);
 
     useEffect(() => {
         const intervalId = setInterval(() => {

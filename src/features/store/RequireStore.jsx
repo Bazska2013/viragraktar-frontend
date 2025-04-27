@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "../../axiosConfig.js";
 import {Navigate} from "react-router-dom";
 import {Spinner} from "react-bootstrap";
+import PropTypes from "prop-types";
 
 export const RequireStore = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +35,7 @@ export const RequireStore = ({children}) => {
         }
 
         checkStore();
-    }, [store]);
+    }, [dispatch, store]);
 
     if (isLoading) {
         return <Spinner color="#292023" animation="border" role="status">
@@ -42,5 +43,13 @@ export const RequireStore = ({children}) => {
         </Spinner>;
     }
 
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
+
     return hasStore ? children : <Navigate to={'/profile'} replace />
+}
+
+RequireStore.propTypes = {
+    children: PropTypes.node.isRequired,
 }

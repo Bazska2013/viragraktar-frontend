@@ -1,30 +1,12 @@
-import {
-    Form,
-    H2,
-    H4, H6, Image,
-    Input,
-    Label,
-    Separator,
-    Sheet,
-    SheetScrollView,
-    SizableText,
-    Spinner,
-    Square,
-    TextArea
-} from 'tamagui'
-import {
-    BigButton,
-    EditContainer,
-    HorizontalContainer,
-    SmallButton,
-    VerticalContainer
-} from "../../../tamagui.config.ts";
+import {Form, H2, H4, H6, Input, Label, Separator, Sheet, SheetScrollView, SizableText, Spinner, Square} from 'tamagui'
+import {BigButton, HorizontalContainer, SmallButton, VerticalContainer} from "../../../tamagui.config.ts";
 import {Save, Upload, X} from "@tamagui/lucide-icons";
 import React, {useEffect, useState} from "react";
 import {Formik} from "formik";
 import * as yup from "yup";
 import axios from "../../../axiosConfig.js";
 import Labels from "./Labels.jsx";
+import PropTypes from "prop-types";
 
 const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, sign}) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +15,6 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, 
 
     const [combinedName, setCombinedName] = useState('');
     const [combinedPrice, setCombinedPrice] = useState(0);
-    const [combinedStock, setCombinedStock] = useState(1);
     const [combinedLabels, setCombinedLabels] = useState([]);
 
     useEffect(() => {
@@ -64,15 +45,15 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, 
             connections: items,
         }
         try {
-            const formDataForNew = new FormData();
-            formDataForNew.set('name', values.name);
-            formDataForNew.set('description', JSON.stringify(description));
-            formDataForNew.set('price', values.price);
-            formDataForNew.set('stock', values.stock);
+            const formData = new FormData();
+            formData.set('name', values.name);
+            formData.set('description', JSON.stringify(description));
+            formData.set('price', values.price);
+            formData.set('stock', values.stock);
             if (image) {
-                formDataForNew.set('image', image);
+                formData.set('image', image);
             }
-            response = await axios.post('/api/item', formDataForNew, {
+            response = await axios.post('/api/item', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -126,7 +107,7 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, 
                                     initialValues={{
                                         name: combinedName || '',
                                         price: combinedPrice || 0,
-                                        stock: combinedStock || 1,
+                                        stock: 1,
                                     }}
                                     onSubmit={(values) => handleSubmit(values)}
                                 >
@@ -160,7 +141,6 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, 
                                                         id="labels"
                                                         value={combinedLabels}
                                                         onChange={setCombinedLabels}
-                                                        isInvalid={!!errors.description}
                                                         combined
                                                     />
                                                 </VerticalContainer>
@@ -244,6 +224,15 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, 
             </Sheet.Frame>
         </>
     )
+}
+
+CombineItems.propTypes = {
+    items: PropTypes.array.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    refetchItems: PropTypes.func.isRequired,
+    emptySelection: PropTypes.func.isRequired,
+    before: PropTypes.bool,
+    sign: PropTypes.string,
 }
 
 export default React.memo(CombineItems);

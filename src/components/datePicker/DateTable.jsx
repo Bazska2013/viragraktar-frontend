@@ -1,5 +1,6 @@
 import {DateButton} from "../../tamagui.config.ts";
 import React from "react";
+import PropTypes from "prop-types";
 
 const DateTable = ({elements, days, setValue, selected}) => {
 
@@ -57,6 +58,16 @@ const DateTable = ({elements, days, setValue, selected}) => {
             </tbody>
         </table>
     )
+}
+
+DateTable.propTypes = {
+    elements: PropTypes.array,
+    days: PropTypes.array,
+    setValue: PropTypes.func.isRequired,
+    selected: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]).isRequired
 }
 
 export default React.memo(DateTable);

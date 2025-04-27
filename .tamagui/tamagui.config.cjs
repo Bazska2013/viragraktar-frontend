@@ -47577,8 +47577,7 @@ var BigButton = (0, import_core56.styled)(Button2, {
     scale: 0.95
   },
   disabledStyle: {
-    backgroundColor: "#44363A",
-    border: "none"
+    backgroundColor: "#44363A"
   },
   size: "$6"
 });
@@ -47597,8 +47596,7 @@ var SmallButtonWithAccent = (0, import_core56.styled)(Button2, {
     scale: 0.95
   },
   disabledStyle: {
-    backgroundColor: "#fffaf5",
-    border: "none"
+    backgroundColor: "#fffaf5"
   },
   size: "$3"
 });
@@ -47618,8 +47616,7 @@ var SmallButton = (0, import_core56.styled)(Button2, {
     scale: 0.95
   },
   disabledStyle: {
-    backgroundColor: "#fafafa",
-    border: "none"
+    backgroundColor: "#fafafa"
   },
   size: "$3"
 });

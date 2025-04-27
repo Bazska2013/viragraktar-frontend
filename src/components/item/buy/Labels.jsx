@@ -1,12 +1,12 @@
 import {HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../../tamagui.config.ts";
-import {H6, Input, Separator, SizableText, Square} from "tamagui";
+import {H6, Input, Separator} from "tamagui";
 import {useSelector} from "react-redux";
 import {selectStore} from "../../../features/store/storeSlice.js";
 import React, {useEffect, useState} from "react";
-import {Form} from "react-bootstrap";
 import {Plus, X} from "@tamagui/lucide-icons";
+import PropTypes from "prop-types";
 
-const Labels = ({value, id, onChange, isInvalid, combined}) => {
+const Labels = ({value, onChange, combined}) => {
     const store = useSelector(selectStore);
 
     const [labels, setLabels] = useState([]);
@@ -18,7 +18,7 @@ const Labels = ({value, id, onChange, isInvalid, combined}) => {
         if (combined) {
             setSelectedLabels(value)
         }
-    }, [value]);
+    }, [combined, value]);
 
     const handleAddToSelected = (label) => {
         if (!selectedLabels.includes(label)) {
@@ -40,20 +40,22 @@ const Labels = ({value, id, onChange, isInvalid, combined}) => {
         } else {
             setFilteredLabels(labels);
         }
-    }, [searchField]);
+    }, [labels, searchField]);
 
     useEffect(() => {
         if (value !== selectedLabels) {
             onChange(selectedLabels);
         }
-    }, [selectedLabels]);
+    }, [selectedLabels, onChange]);
 
     useEffect(() => {
         if (store) {
-            setLabels(JSON.parse(store.labels));
-            setFilteredLabels(JSON.parse(store.labels));
+            const allLabels = JSON.parse(store.labels);
+            const filteredLabels = allLabels.filter(label => !selectedLabels.includes(label));
+            setLabels(filteredLabels);
+            setFilteredLabels(filteredLabels);
         }
-    }, [store]);
+    }, [store, selectedLabels]);
 
     return (
         <VerticalContainer>
@@ -68,19 +70,25 @@ const Labels = ({value, id, onChange, isInvalid, combined}) => {
             <Separator />
             <H6>Available labels</H6>
             <HorizontalContainer flexWrap="wrap">
-                {filteredLabels.map((label, index) => (
+                {filteredLabels.map((label) => (
                     <SmallButton iconAfter={Plus} onClick={() => handleAddToSelected(label)} borderWidth={1} padding="$2" borderRadius="$5" key={label}>{label}</SmallButton>
                 ))}
             </HorizontalContainer>
             <Separator />
             <H6>Selected labels</H6>
             <HorizontalContainer flexWrap="wrap">
-                {selectedLabels && selectedLabels.map((label, index) => (
+                {selectedLabels && selectedLabels.map((label) => (
                     <SmallButtonWithAccent iconAfter={X} onClick={() => handleRemoveFromSelected(label)} borderWidth={1} padding="$2" borderRadius="$5" key={label}>{label}</SmallButtonWithAccent>
                 ))}
             </HorizontalContainer>
         </VerticalContainer>
     )
+}
+
+Labels.propTypes = {
+    value: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+    combined: PropTypes.bool
 }
 
 export default React.memo(Labels);

@@ -3,8 +3,8 @@ import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import React, {useState} from "react";
-import {Checkbox, Input, Label, SizableText, Form, Spinner, H4, Separator, Switch} from "tamagui";
-import {Check, Save} from "@tamagui/lucide-icons";
+import {Input, Label, SizableText, Form, Spinner, H4, Separator, Switch} from "tamagui";
+import {Save} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {createStore} from "../../features/store/storeSlice.js";
 import {useDispatch} from "react-redux";
@@ -32,7 +32,6 @@ const CreateStore = () => {
             setIsLoading(false);
             setError(error.response.data.message);
         } finally {
-            setIsLoading(false);
             dispatch(createStore(response.data));
             if (document.startViewTransition) {
                 document.startViewTransition(() => {
@@ -42,14 +41,6 @@ const CreateStore = () => {
                 navigate('/sell', {replace: true});
             }
         }
-    }
-
-    if (isLoading) {
-        return (
-            <Spinner color="#292023">
-                <span className="visually-hidden">Loading...</span>
-            </Spinner>
-        )
     }
 
     return (
@@ -64,7 +55,7 @@ const CreateStore = () => {
                         sign: '',
                     }}
                     onSubmit={(values) => {
-                        handleSubmit(values)
+                        handleSubmit(values).then(() => setIsLoading(false));
                     }}
                 >
                     {({ handleSubmit: formikSubmit, handleChange, values, errors, setFieldValue }) => (
@@ -120,7 +111,7 @@ const CreateStore = () => {
                                 </VerticalContainer>
                                 <Separator />
                                 <Form.Trigger asChild>
-                                    <BigButton icon={Save} type="submit">Create store</BigButton>
+                                    <BigButton icon={Save} type="submit">{isLoading ? <Spinner color="#FBF9EF" /> : 'Create store'}</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color='red' >{error}</SizableText>}
                             </VerticalContainer>

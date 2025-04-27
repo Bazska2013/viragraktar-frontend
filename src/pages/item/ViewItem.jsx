@@ -53,7 +53,7 @@ const ViewItem = () => {
             setSign(JSON.parse(store.currency).sign);
             setBefore(JSON.parse(store.currency).before);
         });
-    }, [id]);
+    }, [id, store.currency]);
 
     if (fetchError) {
         return (
@@ -93,7 +93,7 @@ const ViewItem = () => {
                     <H4>Labels of the item</H4>
                     <HorizontalContainer flexWrap="wrap">
                         {item && JSON.parse(item.description).labels.map((label, index) => (
-                            <SizableText key={label}>{label}</SizableText>
+                            <SizableText key={label || index}>{label}</SizableText>
                         ))}
                     </HorizontalContainer>
                 </VerticalContainer>
@@ -123,7 +123,7 @@ const ViewItem = () => {
                             <H4>Created by combining:</H4>
                             <VerticalContainer>
                                 {item && JSON.parse(item.description).connections.map((combinedItem, index) => (
-                                    <SmallButton key={combinedItem.id} icon={FileSearch}
+                                    <SmallButton key={combinedItem.id || index} icon={FileSearch}
                                                  onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/sell/view/' + combinedItem.id)) : navigate('/sell/view/' + combinedItem.id)}}
                                     >
                                         {combinedItem.name}

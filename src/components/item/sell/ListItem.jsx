@@ -1,15 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Group, H4, Image, Input, SizableText, Button, Square} from "tamagui";
+import {H4, Image, Input, SizableText, Square} from "tamagui";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {FileSearch, Minus, Plus, ShoppingCart, X} from "@tamagui/lucide-icons";
-import {
-    VerticalContainer,
-    HorizontalContainer,
-    SmallButtonWithAccent,
-    SmallButton,
-    StyledGroup
-} from "../../../tamagui.config.ts";
+import {VerticalContainer, HorizontalContainer, SmallButtonWithAccent, SmallButton, StyledGroup} from "../../../tamagui.config.ts";
 import {useNavigate} from "react-router-dom";
+import PropTypes from "prop-types";
 
 const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sign, before }) => {
     const [amount, setAmount] = useState(0);
@@ -57,7 +52,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sig
             setIsChanged(true);
             editCart({...item, amount: amount});
         }
-    }, [amount]);
+    }, [amount, item]);
 
     useEffect(() => {
         if (!isItemInCart) {
@@ -131,11 +126,27 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sig
                                  >
                         {screenSize > 768 ? 'View details' : ''}
                     </SmallButton>
-                    <SmallButtonWithAccent width="100%" icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? "1" : "0.5"} onClick={() => handleAddToCart()}>{screenSize > 768 ? 'Add to cart' : ''}</SmallButtonWithAccent>
+                    <SmallButtonWithAccent width="100%" icon={ShoppingCart} disabled={!isChanged} opacity={isChanged ? 1 : 0.5} onClick={() => handleAddToCart()}>{screenSize > 768 ? 'Add to cart' : ''}</SmallButtonWithAccent>
                 </VerticalContainer>
             </HorizontalContainer>
         </VerticalContainer>
     )
+}
+
+ListItem.propTypes = {
+    item: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        stock: PropTypes.number.isRequired,
+        image: PropTypes.string,
+    }).isRequired,
+    addToCart: PropTypes.func.isRequired,
+    isItemInCart: PropTypes.bool.isRequired,
+    editCart: PropTypes.func.isRequired,
+    removeFromCart: PropTypes.func.isRequired,
+    sign: PropTypes.string.isRequired,
+    before: PropTypes.bool.isRequired,
 }
 
 export default React.memo(ListItem);

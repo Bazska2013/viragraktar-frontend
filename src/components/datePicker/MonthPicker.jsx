@@ -2,6 +2,7 @@ import {VerticalContainer} from "../../tamagui.config.ts";
 import {H6} from "tamagui";
 import DateTable from "./DateTable.jsx";
 import React from "react";
+import PropTypes from "prop-types";
 
 const MonthPicker = ({currentMonth, setMonth}) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -12,6 +13,11 @@ const MonthPicker = ({currentMonth, setMonth}) => {
             <DateTable elements={months} selected={months[currentMonth]} setValue={setMonth} />
         </VerticalContainer>
     )
+}
+
+MonthPicker.propTypes = {
+    currentMonth: PropTypes.number.isRequired,
+    setMonth: PropTypes.func.isRequired,
 }
 
 export default React.memo(MonthPicker);

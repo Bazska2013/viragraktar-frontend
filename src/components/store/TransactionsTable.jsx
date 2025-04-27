@@ -2,6 +2,7 @@ import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {H4, H6, SizableText} from "tamagui";
 import axios from "../../axiosConfig.js";
 import React, {useEffect, useState} from "react";
+import PropTypes from "prop-types";
 
 const TransactionsTable = ({distShown, items, transactions, sign, before, transShown, totalShown}) => {
     const [storeUsers, setStoreUsers] = useState([]);
@@ -81,7 +82,7 @@ const TransactionsTable = ({distShown, items, transactions, sign, before, transS
                             <tbody>
                             {items.map((item, index) => {
                                 return (
-                                    <tr key={item.id} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
+                                    <tr key={item.id || index} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                         <td><SizableText>{item.name}</SizableText></td>
                                         <td><SizableText>{before ? sign + item.price : item.price + " " + sign}</SizableText></td>
                                         <td><SizableText>{item.amount}</SizableText></td>
@@ -116,7 +117,7 @@ const TransactionsTable = ({distShown, items, transactions, sign, before, transS
                             <tbody>
                             {transactions.map((item, index) => {
                                 return (
-                                    <tr key={item.id} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
+                                    <tr key={item.id || index} style={{textAlign: 'center', borderBottom: '1px solid #ddd'}}>
                                         <td><SizableText>{generateDate(item.created_at)}</SizableText></td>
                                         <td><SizableText>{generateTime(item.created_at)}</SizableText></td>
                                         <td><SizableText>{findUserName(item.user_id)}</SizableText></td>
@@ -146,6 +147,16 @@ const TransactionsTable = ({distShown, items, transactions, sign, before, transS
             }
         </VerticalContainer>
     )
+}
+
+TransactionsTable.propTypes = {
+    distShown: PropTypes.bool,
+    items: PropTypes.array,
+    transactions: PropTypes.array,
+    sign: PropTypes.string,
+    before: PropTypes.bool,
+    transShown: PropTypes.bool,
+    totalShown: PropTypes.bool
 }
 
 export default React.memo(TransactionsTable);

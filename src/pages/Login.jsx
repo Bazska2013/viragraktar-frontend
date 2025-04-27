@@ -5,10 +5,9 @@ import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {login} from "../features/auth/authSlice.js";
 import {useDispatch} from "react-redux";
-import {Input, Label, SizableText, Form, Spinner, H1, H2, H4, Separator, Image, H6, Square} from "tamagui";
+import {Input, Label, SizableText, Form, Spinner, H1, H2, H4, Separator, H6, Square} from "tamagui";
 import {AtSign, LogIn, ShoppingCart, Store, User} from "@tamagui/lucide-icons";
-import {BigButton, HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
-import SplashIcon from "../assets/storefront-dark.svg"
+import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -47,7 +46,6 @@ const Login = () => {
             setIsLoading(false);
             setServerError(error.response?.data?.message);
         } finally {
-            setIsLoading(false);
             let token;
             if (typeof response?.data === 'string') {
                 token = response.data.split('|')[1];
@@ -108,7 +106,7 @@ const Login = () => {
                         email: '',
                         password: ''
                     }}
-                    onSubmit={(values) => {handleSubmit(values)}}
+                    onSubmit={(values) => {handleSubmit(values).then(() => setIsLoading(false))}}
                 >
                     {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                         <Form noValidate onSubmit={formikSubmit}>

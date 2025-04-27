@@ -28,12 +28,14 @@ const JoinStore = () => {
             setError(error.response.data.message);
         } finally {
             setIsLoading(false);
-            if (document.startViewTransition) {
-                document.startViewTransition(() => {
+            if (response.status === 200) {
+                if (document.startViewTransition) {
+                    document.startViewTransition(() => {
+                        navigate('/sell', {replace: true});
+                    });
+                } else {
                     navigate('/sell', {replace: true});
-                });
-            } else {
-                navigate('/sell', {replace: true});
+                }
             }
         }
     }
@@ -41,17 +43,13 @@ const JoinStore = () => {
     return (
         <VerticalContainer>
             <H4>Join a store</H4>
-            {isLoading ? <>
-                <Spinner color="#292023">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </> : <ProfileContainer>
+            <ProfileContainer>
                 <Formik
                     validationSchema={schema}
                     initialValues={{
                         code: '',
                     }}
-                    onSubmit={(values) => {handleSubmit(values)}}
+                    onSubmit={(values) => {handleSubmit(values).then(() => setIsLoading(false))}}
                 >
                     {({handleSubmit: formikSubmit, handleChange, values, errors}) => (
                         <Form noValidate onSubmit={formikSubmit}>
@@ -84,7 +82,7 @@ const JoinStore = () => {
                     )
                     }
                 </Formik>
-        </ProfileContainer>}
+            </ProfileContainer>
         </VerticalContainer>
     )
 }

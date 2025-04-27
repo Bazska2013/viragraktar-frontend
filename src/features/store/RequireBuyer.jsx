@@ -1,6 +1,7 @@
 import {useSelector} from "react-redux";
 import {selectCurrentUser} from "../auth/userSlice.js";
 import {Navigate} from "react-router-dom";
+import PropTypes from "prop-types";
 
 export const RequireBuyer = ({children}) => {
     const user = useSelector(selectCurrentUser);
@@ -10,4 +11,8 @@ export const RequireBuyer = ({children}) => {
     }
 
     return <Navigate to={'/profile'} replace />;
+}
+
+RequireBuyer.propTypes = {
+    children: PropTypes.node.isRequired,
 }

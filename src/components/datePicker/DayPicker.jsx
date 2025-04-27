@@ -1,5 +1,6 @@
 import DateTable from "./DateTable.jsx";
 import React from "react";
+import PropTypes from "prop-types";
 
 const DayPicker = ({currentDay, currentMonth, currentYear, setDay}) => {
 
@@ -20,6 +21,13 @@ const DayPicker = ({currentDay, currentMonth, currentYear, setDay}) => {
     return (
         <DateTable days={weeks} selected={currentDay} setValue={setDay} />
     )
+}
+
+DayPicker.propTypes = {
+    currentDay: PropTypes.number.isRequired,
+    currentMonth: PropTypes.number.isRequired,
+    currentYear: PropTypes.number.isRequired,
+    setDay: PropTypes.func.isRequired
 }
 
 export default React.memo(DayPicker);

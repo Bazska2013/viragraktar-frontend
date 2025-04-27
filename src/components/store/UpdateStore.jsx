@@ -4,8 +4,8 @@ import axios from "../../axiosConfig.js";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {createStore, selectStore} from "../../features/store/storeSlice.js";
-import {Checkbox, Input, Label, SizableText, Form, Spinner, H4, Separator, H2, Group, Switch} from "tamagui";
-import {Check, Save} from "@tamagui/lucide-icons";
+import {Input, Label, SizableText, Form, Spinner, H4, Separator, H2, Switch} from "tamagui";
+import {Save} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const UpdateStore = () => {
@@ -32,7 +32,6 @@ const UpdateStore = () => {
             setIsLoading(false);
             setError(error.response.data.message);
         } finally {
-            setIsLoading(false);
             if (response?.status === 200) {
                 dispatch(createStore(response.data));
             }
@@ -59,7 +58,7 @@ const UpdateStore = () => {
                         before: store ? JSON.parse(store.currency).before : false,
                     }}
                     onSubmit={(values) => {
-                        handleSubmit(values)
+                        handleSubmit(values).then(() => setIsLoading(false));
                     }}
                 >
                     {({handleSubmit: formikSubmit, handleChange, values, errors, setFieldValue}) => (
@@ -115,7 +114,7 @@ const UpdateStore = () => {
                                 </VerticalContainer>
                                 <Separator />
                                 <Form.Trigger asChild>
-                                    <BigButton icon={Save} type="submit">Update store</BigButton>
+                                    <BigButton icon={Save} type="submit">{isLoading ? <Spinner color="#FBF9EF" /> : 'Update store'}</BigButton>
                                 </Form.Trigger>
                                 {error && <SizableText color='red' >{error}</SizableText>}
                             </VerticalContainer>

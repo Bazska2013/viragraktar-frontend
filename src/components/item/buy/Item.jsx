@@ -2,15 +2,10 @@ import React, {useEffect, useState} from "react";
 import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
-import {Spinner, SizableText, Image, Group, Input, H4} from "tamagui"
+import {Spinner, SizableText, Image, Input, H4} from "tamagui"
 import {Check, X, Plus, Minus, PenSquare, CheckSquare, Square} from "@tamagui/lucide-icons";
-import {
-    HorizontalContainer,
-    SmallButton,
-    SmallButtonWithAccent,
-    StyledGroup,
-    VerticalContainer
-} from "../../../tamagui.config.ts";
+import {HorizontalContainer, SmallButton, SmallButtonWithAccent, StyledGroup, VerticalContainer} from "../../../tamagui.config.ts";
+import PropTypes from "prop-types";
 
 const Item = ({props, refetch, addToSelection, removeFromSelection, sign, before}) => {
 
@@ -82,7 +77,7 @@ const Item = ({props, refetch, addToSelection, removeFromSelection, sign, before
         } else {
             removeFromSelection(item);
         }
-    }, [selected]);
+    }, [selected, addToSelection, removeFromSelection, item]);
 
     if (isLoading) {
         return (
@@ -163,6 +158,15 @@ const Item = ({props, refetch, addToSelection, removeFromSelection, sign, before
             </VerticalContainer>
         </HorizontalContainer>
     )
+}
+
+Item.propTypes = {
+    props: PropTypes.object.isRequired,
+    refetch: PropTypes.func.isRequired,
+    addToSelection: PropTypes.func.isRequired,
+    removeFromSelection: PropTypes.func.isRequired,
+    sign: PropTypes.string.isRequired,
+    before: PropTypes.bool.isRequired,
 }
 
 export default React.memo(Item);

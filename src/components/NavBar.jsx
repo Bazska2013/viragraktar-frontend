@@ -56,7 +56,6 @@ const NavBar = () => {
                 navigate(newPath, { replace: true });
             });
         } else {
-            // fallback for unsupported browsers
             navigate(newPath, { replace: true });
         }
     };
