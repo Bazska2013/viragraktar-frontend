@@ -13,6 +13,7 @@ import NewItem from "./pages/item/NewItem.jsx";
 import EditItem from "./pages/item/EditItem.jsx";
 import "./App.css"
 import ViewItem from "./pages/item/ViewItem.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 function App() {
 
@@ -78,6 +79,7 @@ function App() {
                     } />
                     <Route path={'/login'} element={<Login/>}/>
                     <Route path={'/register'} element={<Register/>}/>
+                    <Route path={'/*'} element={<NotFound />} />
                 </Route>
             </Routes>
         </BrowserRouter>

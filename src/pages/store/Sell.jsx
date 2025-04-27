@@ -34,7 +34,6 @@ const Sell = () => {
             setIsLoading(false);
             setError(error.response.data.message);
         } finally {
-            setIsLoading(false);
             if (response?.status === 200) {
                 setItems(response.data);
                 setFilteredItems(response.data);
@@ -43,13 +42,25 @@ const Sell = () => {
     }
 
     useEffect(() => {
+        setFilteredItems([]);
         fetchItems().then(() => {
             setFilterString('');
             setFilterLabels([]);
             setSign(JSON.parse(store.currency).sign);
             setBefore(JSON.parse(store.currency).before);
+            if (items.length > 0) {
+                setIsLoading(false);
+            } else {
+                const timeout = setTimeout(() => {
+                    if (items.length === 0) {
+                        setIsLoading(false);
+                    }
+                }, 5000);
+
+                return () => clearTimeout(timeout);
+            }
         });
-    }, [store.currency]);
+    }, [filteredItems.length, store.currency]);
 
     useEffect(() => {
         if (cart.length > 0) {

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {H2, H4, Image, Separator, SizableText, Spinner, Square} from "tamagui";
+import {H2, H4, H6, Image, Separator, SizableText, Spinner, Square} from "tamagui";
 import {EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 import {FileSearch, X} from "@tamagui/lucide-icons";
 import {useNavigate, useParams} from "react-router-dom";
@@ -39,7 +39,7 @@ const ViewItem = () => {
             response = await axios.get('/api/item/' + id);
         } catch (error) {
             setIsLoading(false);
-            setFetchError(error.response.data.message);
+            setFetchError(error.response.data.error);
         } finally {
             setIsLoading(false);
             if (response?.status === 200) {
@@ -57,7 +57,21 @@ const ViewItem = () => {
 
     if (fetchError) {
         return (
-            <SizableText color="red" >{fetchError}</SizableText>
+            <EditContainer
+                padding="$3"
+                marginBottom="5rem"
+                width={screenSize > 1280 ? '50%' : screenSize > 768 ? '75%' : '100%'}
+            >
+                <HorizontalContainer marginTop="3rem" alignItems="center" justifyContent="space-between">
+                    <H2 marginBottom="1rem">View item</H2>
+                    <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
+                            onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/sell', {replace: true})) : navigate('/sell', {replace: true})}}
+                    >
+                        <X color="#292023" size="$3" />
+                    </Square>
+                </HorizontalContainer>
+                <H6 color="red" >{fetchError}</H6>
+            </EditContainer>
         )
     }
 

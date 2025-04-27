@@ -3,9 +3,30 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
-import {SizableText, Form, Spinner, Label, Input, Image, H4, Separator, H2, Square, H6} from "tamagui";
-import {Save, Upload, X} from "@tamagui/lucide-icons";
-import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
+import {
+    SizableText,
+    Form,
+    Spinner,
+    Label,
+    Input,
+    Image,
+    H4,
+    Separator,
+    H2,
+    Square,
+    H6,
+    AlertDialog,
+    YStack, XStack
+} from "tamagui";
+import {Save, Trash, Upload, X} from "@tamagui/lucide-icons";
+import {
+    BigButton,
+    EditContainer,
+    HorizontalContainer,
+    SmallButton,
+    SmallButtonWithAccent,
+    VerticalContainer
+} from "../../tamagui.config.ts";
 import Labels from "../../components/item/buy/Labels.jsx";
 import {selectStore} from "../../features/store/storeSlice.js";
 import {useSelector} from "react-redux";
@@ -43,7 +64,7 @@ const EditItem = () => {
             response = await axios.get('/api/item/' + id);
         } catch (error) {
             setIsLoading(false);
-            setFetchError(error.response.data.message);
+            setFetchError(error.response.data.error);
         } finally {
             setIsLoading(false);
             if (response?.status === 200) {
@@ -100,6 +121,28 @@ const EditItem = () => {
         }
     }
 
+    const handleDelete = async () => {
+        let response;
+        setIsLoading(true);
+        try {
+            response = await axios.delete('/api/item/' + item.id);
+        } catch (error) {
+            setIsLoading(false);
+            setServerError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 204) {
+                if (document.startViewTransition) {
+                    document.startViewTransition(() => {
+                        navigate('/buy', {replace: true});
+                    });
+                } else {
+                    navigate('/buy', {replace: true});
+                }
+            }
+        }
+    }
+
     useEffect(() => {
         fetchItem().then(() => {
             setSign(JSON.parse(store.currency).sign);
@@ -109,7 +152,21 @@ const EditItem = () => {
 
     if (fetchError) {
         return (
-            <SizableText color="red" >{fetchError}</SizableText>
+            <EditContainer
+                padding="$3"
+                marginBottom="5rem"
+                width={screenSize > 1280 ? '50%' : screenSize > 768 ? '75%' : '100%'}
+            >
+                <HorizontalContainer marginTop="3rem" alignItems="center" justifyContent="space-between">
+                    <H2 marginBottom="1rem">Edit item</H2>
+                    <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
+                            onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy', {replace: true})) : navigate('/buy', {replace: true})}}
+                    >
+                        <X color="#292023" size="$3" />
+                    </Square>
+                </HorizontalContainer>
+                <H4 color="red" >{fetchError}</H4>
+            </EditContainer>
         )
     }
 
@@ -255,6 +312,56 @@ const EditItem = () => {
                     </Form>
                 )}
             </Formik>
+            <AlertDialog native>
+                <AlertDialog.Trigger asChild>
+                    <SmallButtonWithAccent icon={Trash}>Delete item</SmallButtonWithAccent>
+                </AlertDialog.Trigger>
+
+                <AlertDialog.Portal>
+                    <AlertDialog.Overlay
+                        key="overlay"
+                        animation="quick"
+                        opacity={0.5}
+                        enterStyle={{ opacity: 0 }}
+                        exitStyle={{ opacity: 0 }}
+                    />
+                    <AlertDialog.Content
+                        bordered
+                        elevate
+                        key="content"
+                        animation={[
+                            'quick',
+                            {
+                                opacity: {
+                                    overshootClamping: true,
+                                },
+                            },
+                        ]}
+                        enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+                        exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+                        x={0}
+                        scale={1}
+                        opacity={1}
+                        y={0}
+                    >
+                        <YStack gap="$4">
+                            <AlertDialog.Title>Action required</AlertDialog.Title>
+                            <AlertDialog.Description>
+                                Are you sure you want to delete this item? This action cannot be undone.
+                            </AlertDialog.Description>
+
+                            <XStack gap="$3" justifyContent="flex-end">
+                                <AlertDialog.Cancel asChild>
+                                    <SmallButton>Cancel</SmallButton>
+                                </AlertDialog.Cancel>
+                                <AlertDialog.Action asChild>
+                                    <BigButton size="$3" theme="accent" onClick={handleDelete}>Confirm</BigButton>
+                                </AlertDialog.Action>
+                            </XStack>
+                        </YStack>
+                    </AlertDialog.Content>
+                </AlertDialog.Portal>
+            </AlertDialog>
         </EditContainer>
     )
 }

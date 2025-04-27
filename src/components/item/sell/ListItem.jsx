@@ -11,6 +11,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sig
     const [isChanged, setIsChanged] = useState(false);
     const [screenSize, setScreenSize] = useState(window.innerWidth);
     const navigate = useNavigate();
+    const [isThereStock, setIsThereStock] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -58,17 +59,18 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sig
         if (!isItemInCart) {
             setAmount(0);
         }
+        if (item.stock > 0) {
+            setIsThereStock(true);
+        } else {
+            setIsThereStock(false);
+        }
     }, [item, isItemInCart]);
 
     const handleAddToCart = () => {
         let newItem = {...item, amount: amount};
-        addToCart(newItem);
-    }
-
-    if (item.stock === 0) {
-        return (
-            <></>
-        )
+        if (isThereStock) {
+            addToCart(newItem);
+        }
     }
 
     return (
@@ -105,7 +107,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sig
                     alignItems="center"
                 >
                     <StyledGroup orientation='vertical' width="100%">
-                        <SmallButtonWithAccent icon={Plus} name="plus" onClick={(e) => handleChange(e, 'plus')} />
+                        <SmallButtonWithAccent icon={Plus} name="plus" disabled={!isThereStock} onClick={(e) => handleChange(e, 'plus')} />
                         <Input
                             textAlign="center"
                             width="100%"
@@ -115,11 +117,12 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sig
                             type="number"
                             name="amount"
                             min={0}
+                            disabled={!isThereStock}
                             max={item.stock}
                             value={amount + '/' + item.stock}
                             onChange={(e) => handleChange(e, '')}
                         />
-                        <SmallButtonWithAccent icon={Minus} disabled={!isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
+                        <SmallButtonWithAccent icon={Minus} disabled={!isThereStock || !isChanged} chromeless={!isChanged} name="minus" onClick={(e) => handleChange(e, 'minus')} />
                     </StyledGroup>
                     <SmallButton width="100%" icon={FileSearch}
                                  onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/sell/view/' + item.id)) : navigate('/sell/view/' + item.id)}}

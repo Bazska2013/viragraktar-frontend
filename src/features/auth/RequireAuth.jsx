@@ -38,7 +38,7 @@ export const RequireAuth = ({ children }) => {
     }
 
     if (error) {
-        return <div className="error-message">{error}</div>;
+        return <div className="error-message">{error.message}</div>;
     }
 
     return isAuthenticated ? children : <Navigate to="/login" replace />;
