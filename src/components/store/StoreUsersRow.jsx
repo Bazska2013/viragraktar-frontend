@@ -2,9 +2,16 @@ import React, {useState} from "react";
 import axios from "../../axiosConfig.js";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
-import {SizableText, Spinner, Separator, Label, Switch, H6} from "tamagui";
+import {SizableText, Spinner, Separator, Label, Switch, H6, AlertDialog, YStack, XStack} from "tamagui";
 import {Save, Trash} from "@tamagui/lucide-icons";
-import {HorizontalContainer, SmallButtonWithAccent, StyledGroup, VerticalContainer} from "../../tamagui.config.ts";
+import {
+    BigButton,
+    HorizontalContainer,
+    SmallButton,
+    SmallButtonWithAccent,
+    StyledGroup,
+    VerticalContainer
+} from "../../tamagui.config.ts";
 import PropTypes from "prop-types";
 
 const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name, email}) => {
@@ -74,6 +81,9 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
     }
 
     const handleDelete = async () => {
+        if (currentUser.id === id) {
+            return
+        }
         let response;
         setIsLoading(true);
         try {
@@ -143,7 +153,56 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
             <Separator />
             <StyledGroup orientation="horizontal" justifyContent="space-between" alignSelf="center">
                 <SmallButtonWithAccent boxShadow="unset" icon={Save} disabled={!isChanged} opacity={isChanged ? 1 : 0.5} onClick={handleSave}>Save changes</SmallButtonWithAccent>
-                <SmallButtonWithAccent boxShadow="unset" icon={Trash} disabled={currentUser.id === id} opacity={currentUser.id !== id ? 1 : 0.5} onClick={handleDelete}>Remove user</SmallButtonWithAccent>
+                <AlertDialog native>
+                    <AlertDialog.Trigger asChild>
+                        <SmallButtonWithAccent boxShadow="unset" icon={Trash} disabled={currentUser.id === id} opacity={currentUser.id !== id ? 1 : 0.5}>Remove user</SmallButtonWithAccent>
+                    </AlertDialog.Trigger>
+
+                    <AlertDialog.Portal>
+                        <AlertDialog.Overlay
+                            key="overlay"
+                            animation="quick"
+                            opacity={0.5}
+                            enterStyle={{ opacity: 0 }}
+                            exitStyle={{ opacity: 0 }}
+                        />
+                        <AlertDialog.Content
+                            bordered
+                            elevate
+                            key="content"
+                            animation={[
+                                'quick',
+                                {
+                                    opacity: {
+                                        overshootClamping: true,
+                                    },
+                                },
+                            ]}
+                            enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+                            exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+                            x={0}
+                            scale={1}
+                            opacity={1}
+                            y={0}
+                        >
+                            <YStack gap="$4">
+                                <AlertDialog.Title>Action required</AlertDialog.Title>
+                                <AlertDialog.Description>
+                                    Are you sure you want to remove this user from the store?
+                                </AlertDialog.Description>
+
+                                <XStack gap="$3" justifyContent="flex-end">
+                                    <AlertDialog.Cancel asChild>
+                                        <SmallButton>Cancel</SmallButton>
+                                    </AlertDialog.Cancel>
+                                    <AlertDialog.Action asChild>
+                                        <BigButton size="$3" theme="accent" onClick={handleDelete}>Confirm</BigButton>
+                                    </AlertDialog.Action>
+                                </XStack>
+                            </YStack>
+                        </AlertDialog.Content>
+                    </AlertDialog.Portal>
+                </AlertDialog>
             </StyledGroup>
         </VerticalContainer>
     )

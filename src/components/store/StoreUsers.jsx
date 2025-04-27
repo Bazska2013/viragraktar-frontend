@@ -20,6 +20,7 @@ const StoreUsers = () => {
             setIsLoading(false);
             setError(error.response.data.message);
         } finally {
+            setIsLoading(false);
             if (response?.status === 200) {
                 setUsers(response.data);
             }

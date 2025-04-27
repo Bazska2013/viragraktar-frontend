@@ -3,10 +3,13 @@ import {ShoppingCart, Store, User} from "@tamagui/lucide-icons";
 import {BigButton, VerticalContainer} from "../tamagui.config.ts";
 import React, {useCallback, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {selectCurrentUser} from "../features/auth/userSlice.js";
 
 const NotFound = () => {
 
     const [currentIcon, setCurrentIcon] = useState('store');
+    const user = useSelector(selectCurrentUser);
     const navigate = useNavigate();
 
     const [screenSize, setScreenSize] = useState(window.innerWidth);
@@ -40,18 +43,26 @@ const NotFound = () => {
     const handleNavigateBack = useCallback(() => {
         if (document.startViewTransition) {
             document.startViewTransition(() => {
-                navigate('/profile', { replace: true });
+                if (user) {
+                    navigate('/profile', { replace: true });
+                } else {
+                    navigate('/login', { replace: true });
+                }
             });
         } else {
-            navigate('/profile', { replace: true });
+            if (user) {
+                navigate('/profile', { replace: true });
+            } else {
+                navigate('/login', { replace: true });
+            }
         }
-    }, [navigate]);
+    }, [navigate, user]);
 
     return (
     <VerticalContainer alignItems="center">
         <H1 fontSize={screenSize > 1280 ? 400 : 200} marginTop={screenSize > 1280 ? 100 : 50} marginBottom={screenSize > 1280 ? 150 : 50}>404</H1>
         <H4>Page not found</H4>
-        <BigButton onPress={handleNavigateBack}>Navigate to the Profile page</BigButton>
+        <BigButton onPress={handleNavigateBack}>{user ? 'Navigate to the Profile page' : 'Navigate to the Login page'}</BigButton>
         <VerticalContainer alignItems="center">
             <Square position="absolute" animation="slow" opacity={currentIcon === 'store' ? 1 : 0} rotate={currentIcon === 'store' ? '0deg' : '360deg'} scale={currentIcon === 'store' ? 1 : 0}>
                 <Store size="$10" />

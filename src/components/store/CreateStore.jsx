@@ -8,6 +8,7 @@ import {Save} from "@tamagui/lucide-icons";
 import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {createStore} from "../../features/store/storeSlice.js";
 import {useDispatch} from "react-redux";
+import {setUser} from "../../features/auth/userSlice.js";
 
 const CreateStore = () => {
     const navigate = useNavigate();
@@ -30,15 +31,38 @@ const CreateStore = () => {
             });
         } catch (error) {
             setIsLoading(false);
-            setError(error.response.data.message);
+            if (error.response.status === 500) {
+                setError('Server error, the given store name is already taken');
+            } else {
+                setError(error.response.data.message);
+            }
         } finally {
-            dispatch(createStore(response.data));
+            await Promise.all([
+                dispatch(createStore(response.data)),
+                fetchUserData()
+            ]);
             if (document.startViewTransition) {
                 document.startViewTransition(() => {
-                    navigate('/sell', {replace: true});
+                    navigate('/buy', {replace: true});
                 });
             } else {
-                navigate('/sell', {replace: true});
+                navigate('/buy', {replace: true});
+            }
+        }
+    }
+
+    const fetchUserData = async () => {
+        let response;
+        setIsLoading(true);
+        try {
+            response = await axios.get('/api/user');
+        } catch (error) {
+            setIsLoading(false);
+            setError(error.response.data.message);
+        } finally {
+            setIsLoading(false);
+            if (response?.status === 200) {
+                dispatch(setUser(response.data));
             }
         }
     }

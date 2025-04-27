@@ -62,6 +62,13 @@ const ModifyLabels = () => {
         }
     }
 
+    const handleOnKeyPress = (e) => {
+        if (e.key === 'Enter' && label.length > 0) {
+            e.preventDefault();
+            handleAddLabel();
+        }
+    }
+
     const resetChanges = () => {
         setLabels(JSON.parse(store.labels));
         setLabel('');
@@ -95,6 +102,7 @@ const ModifyLabels = () => {
                         name="label"
                         value={label}
                         onChange={(e) => setLabel(e.target.value)}
+                        onKeyPress={handleOnKeyPress}
                     />
                     <SmallButtonWithAccent icon={Plus} onClick={() => handleAddLabel()} />
                 </HorizontalContainer>
