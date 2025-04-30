@@ -4,7 +4,7 @@ import {selectCurrentUser} from "../features/auth/userSlice.js";
 import {selectStore} from "../features/store/storeSlice.js";
 import React, {useEffect, useState} from "react";
 import {SizableText, Tabs, XStack} from "tamagui";
-import {ShoppingCart, Store, User} from "@tamagui/lucide-icons";
+import {ShoppingCart, Store, User} from "lucide-react";
 
 const NavBar = () => {
     const currentPage = window.location.pathname;

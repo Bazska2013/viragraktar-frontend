@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import React, {useEffect, useState} from "react";
 import Item from "../../components/item/buy/Item.jsx";
-import {ShoppingBasket} from "@tamagui/lucide-icons";
+import {ShoppingBasket} from "lucide-react";
 import {BigButton, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 import CombineItems from "../../components/item/buy/CombineItems.jsx";
 import FilterBar from "../../components/item/FilterBar.jsx";

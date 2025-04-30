@@ -4,7 +4,7 @@ import {Formik} from "formik";
 import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import React, {useState} from "react";
 import {Input, Label, SizableText, Form, Spinner, H4, Separator, Switch} from "tamagui";
-import {Save} from "@tamagui/lucide-icons";
+import {Save} from "lucide-react";
 import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {createStore} from "../../features/store/storeSlice.js";
 import {useDispatch} from "react-redux";

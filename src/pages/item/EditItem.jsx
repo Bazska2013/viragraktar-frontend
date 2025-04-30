@@ -4,7 +4,7 @@ import axios from "../../axiosConfig.js";
 import {Formik} from "formik";
 import * as yup from "yup";
 import {SizableText, Form, Spinner, Label, Input, Image, H4, Separator, H2, Square, H6, AlertDialog, YStack, XStack} from "tamagui";
-import {Save, Trash, Upload, X} from "@tamagui/lucide-icons";
+import {Save, Trash, Upload, X} from "lucide-react";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
 import Labels from "../../components/item/buy/Labels.jsx";
 import {selectStore} from "../../features/store/storeSlice.js";
@@ -141,7 +141,7 @@ const EditItem = () => {
                     <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
                             onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy', {replace: true})) : navigate('/buy', {replace: true})}}
                     >
-                        <X color="#292023" size="$3" />
+                        <X color="#292023" size={50} />
                     </Square>
                 </HorizontalContainer>
                 <H4 color="red" >{fetchError}</H4>
@@ -160,7 +160,7 @@ const EditItem = () => {
                 <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
                         onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy', {replace: true})) : navigate('/buy', {replace: true})}}
                 >
-                    <X color="#292023" size="$3" />
+                    <X color="#292023" size={50} />
                 </Square>
             </HorizontalContainer>
             <Formik

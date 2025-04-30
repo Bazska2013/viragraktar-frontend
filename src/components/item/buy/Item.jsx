@@ -3,7 +3,7 @@ import axios from "../../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import flowerImage from "../../../assets/defaultFlower.svg";
 import {Spinner, SizableText, Image, Input, H4} from "tamagui"
-import {Check, X, Plus, Minus, PenSquare, CheckSquare, Square} from "@tamagui/lucide-icons";
+import {Check, X, Plus, Minus, PenSquare, CheckSquare, Square} from "lucide-react";
 import {HorizontalContainer, SmallButton, SmallButtonWithAccent, StyledGroup, VerticalContainer} from "../../../tamagui.config.ts";
 import PropTypes from "prop-types";
 

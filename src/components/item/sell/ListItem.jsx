@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {H4, Image, Input, SizableText, Square} from "tamagui";
 import flowerImage from "../../../assets/defaultFlower.svg";
-import {FileSearch, Minus, Plus, ShoppingCart, X} from "@tamagui/lucide-icons";
+import {FileSearch, Minus, Plus, ShoppingCart, X} from "lucide-react";
 import {VerticalContainer, HorizontalContainer, SmallButtonWithAccent, SmallButton, StyledGroup} from "../../../tamagui.config.ts";
 import {useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
@@ -83,7 +83,7 @@ const ListItem = ({ item, addToCart, isItemInCart, editCart, removeFromCart, sig
             padding="$3"
         >
             <Square animation="quick" hoverStyle={{scale: 1.1}} pressStyle={{scale: 0.9}} scale={isChanged ? 1 : 0} opacity={isChanged ? 1 : 0} alignSelf="flex-end" marginBottom={0} onClick={() => setAmount(0)}>
-                <X color="#292023" size="$1" />
+                <X color="#292023" />
             </Square>
             <HorizontalContainer
                 flex={1}

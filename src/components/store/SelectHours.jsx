@@ -1,5 +1,5 @@
 import {Checkbox, Group, H4, H5, H6, Input, Label} from "tamagui";
-import {Check} from "@tamagui/lucide-icons";
+import {Check} from "lucide-react";
 import {HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
 import React, {useEffect, useState, useCallback} from "react";
 import PropTypes from "prop-types";

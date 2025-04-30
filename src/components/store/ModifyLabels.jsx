@@ -2,7 +2,7 @@ import {BigButton, HorizontalContainer, ProfileContainer, SmallButton, SmallButt
 import {H2, H4, Input, Paragraph, Separator, SizableText, Spinner, Square} from "tamagui";
 import {selectStore, createStore} from "../../features/store/storeSlice.js";
 import {useDispatch, useSelector} from "react-redux";
-import {Plus, Save, SkipBack, X} from "@tamagui/lucide-icons";
+import {Plus, Save, SkipBack, X} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import axios from "../../axiosConfig.js";
 
@@ -82,7 +82,7 @@ const ModifyLabels = () => {
             <ProfileContainer>
                 <H4>Available labels</H4>
                 <Square position="absolute" top={20} right={20} animation="quick" hoverStyle={{scale: 1.1}} pressStyle={{scale: 0.9}} scale={isChanged ? 1 : 0} opacity={isChanged ? 1 : 0} onClick={() => resetChanges()}>
-                    <SkipBack size="$2" />
+                    <SkipBack size={40} />
                 </Square>
                 <Paragraph>Click on the available labels listed below to remove them from your store. Items that already have the selected label will continue to have it. You have to manually remove them from the individual items.</Paragraph>
                 <HorizontalContainer flexWrap="wrap">

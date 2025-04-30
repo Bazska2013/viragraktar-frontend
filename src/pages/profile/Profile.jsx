@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 import {deleteStore, selectStore} from "../../features/store/storeSlice.js";
 import StoreUsers from "../../components/store/StoreUsers.jsx";
 import {Spinner, SizableText, Separator, Group, H6, H4, H2, AlertDialog, YStack, XStack} from "tamagui";
-import {BookKey, BookUser, ChevronRight, FilePen, LineChart, LogOut, Tags, TextSearch, UserPen, UserSearch} from "@tamagui/lucide-icons";
+import {BookKey, BookUser, ChevronRight, FilePen, LineChart, LogOut, Tags, TextSearch, UserPen, UserSearch} from "lucide-react";
 import {VerticalContainer, HorizontalContainer, BigButton, StyledListItem, StyledGroup, SmallButton,} from "../../tamagui.config.ts";
 import {logout} from "../../features/auth/authSlice.js";
 import ProfileDetails from "../../components/profile/ProfileDetails.jsx";

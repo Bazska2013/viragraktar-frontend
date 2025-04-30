@@ -3,7 +3,7 @@ import {H6, Input, Separator} from "tamagui";
 import {useSelector} from "react-redux";
 import {selectStore} from "../../../features/store/storeSlice.js";
 import React, {useEffect, useState} from "react";
-import {Plus, X} from "@tamagui/lucide-icons";
+import {Plus, X} from "lucide-react";
 import PropTypes from "prop-types";
 
 const Labels = ({value, onChange, combined}) => {

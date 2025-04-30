@@ -1,6 +1,6 @@
 import {BigButton, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 import {H2, Input, YStack} from "tamagui";
-import {Filter, FilterX, Search} from "@tamagui/lucide-icons";
+import {Filter, FilterX, Search} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import {selectStore} from "../../features/store/storeSlice.js";
 import {useSelector} from "react-redux";
@@ -74,7 +74,9 @@ const FilterBar = ({title, onTextChange, onLabelChange}) => {
                         value={searchField}
                         onChange={handleChangeSearch}
                     />
-                    <Search position="absolute" size="$1" right={10} top={12} />
+                    <YStack position="absolute" right={10} top={12}>
+                        <Search size={20} />
+                    </YStack>
                 </YStack>
                 <BigButton size="$4" icon={searchOpen ? FilterX : Filter} onClick={() => handleChangeOpen()}>{searchOpen ? 'Remove filters' : 'Filter'}</BigButton>
             </HorizontalContainer>

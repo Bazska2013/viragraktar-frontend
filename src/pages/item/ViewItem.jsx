@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {H2, H4, H6, Image, Separator, SizableText, Spinner, Square} from "tamagui";
 import {EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
-import {FileSearch, X} from "@tamagui/lucide-icons";
+import {FileSearch, X} from "lucide-react";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "../../axiosConfig.js";
 import flowerImage from "../../assets/defaultFlower.svg";
@@ -67,7 +67,7 @@ const ViewItem = () => {
                     <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
                             onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/sell', {replace: true})) : navigate('/sell', {replace: true})}}
                     >
-                        <X color="#292023" size="$3" />
+                        <X color="#292023" size={50} />
                     </Square>
                 </HorizontalContainer>
                 <H6 color="red" >{fetchError}</H6>
@@ -94,7 +94,7 @@ const ViewItem = () => {
                 <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
                         onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/sell', {replace: true})) : navigate('/sell', {replace: true})}}
                 >
-                    <X color="#292023" size="$3" />
+                    <X color="#292023" size={50} />
                 </Square>
             </HorizontalContainer>
             <VerticalContainer>

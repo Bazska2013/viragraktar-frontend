@@ -4,7 +4,7 @@ import {Form} from "react-bootstrap";
 import React, {useEffect, useRef, useState} from "react";
 import axios from "../../axiosConfig.js";
 import {VictoryAxis, VictoryBar, VictoryChart, VictoryLine, VictoryPie, VictoryScatter, VictoryTheme} from "victory";
-import {Check, Download, LineChart} from "@tamagui/lucide-icons";
+import {Check, Download, LineChart} from "lucide-react";
 import DatePicker from "../datePicker/DatePicker.jsx";
 import TransactionsTable from "./TransactionsTable.jsx";
 import {Document, Image, Page, PDFDownloadLink, Text, View} from '@react-pdf/renderer';

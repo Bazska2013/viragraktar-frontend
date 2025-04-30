@@ -4,7 +4,7 @@ import * as yup from "yup";
 import axios from "../../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {Save, Upload, X} from "@tamagui/lucide-icons";
+import {Save, Upload, X} from "lucide-react";
 import {BigButton, EditContainer, HorizontalContainer, SmallButton, VerticalContainer} from "../../tamagui.config.ts";
 import {useSelector} from "react-redux";
 import {selectStore} from "../../features/store/storeSlice.js";
@@ -100,7 +100,7 @@ const NewItem = () => {
                 <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}}
                         onClick={() => {document.startViewTransition ? document.startViewTransition(() => navigate('/buy', {replace: true})) : navigate('/buy', {replace: true})}}
                 >
-                    <X color="#292023" size="$3" />
+                    <X color="#292023" size={50} />
                 </Square>
             </HorizontalContainer>
             <Formik

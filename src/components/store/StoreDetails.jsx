@@ -1,4 +1,4 @@
-import {ClipboardCopy} from "@tamagui/lucide-icons";
+import {ClipboardCopy} from "lucide-react";
 import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import {H2, H4, Separator, SizableText} from "tamagui";
 import React, {useEffect, useState} from "react";

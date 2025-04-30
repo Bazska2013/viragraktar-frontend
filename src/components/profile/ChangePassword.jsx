@@ -4,7 +4,7 @@ import axios from "../../axiosConfig.js";
 import {setUser} from "../../features/auth/userSlice.js";
 import React, {useState} from "react";
 import {H2, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
-import {BookKey} from "@tamagui/lucide-icons";
+import {BookKey} from "lucide-react";
 import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const ChangePassword = () => {

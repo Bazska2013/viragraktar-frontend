@@ -5,7 +5,7 @@ import {setUser} from "../../features/auth/userSlice.js";
 import {useDispatch} from "react-redux";
 import React, {useState} from "react";
 import {H2, Input, Label, SizableText, Form, Spinner, H4, Separator} from "tamagui";
-import {UserPen} from "@tamagui/lucide-icons";
+import {UserPen} from "lucide-react";
 import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 import PropTypes from "prop-types";
 

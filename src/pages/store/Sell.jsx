@@ -4,7 +4,7 @@ import ListItem from "../../components/item/sell/ListItem.jsx";
 import Cart from "../../components/item/sell/Cart.jsx";
 import {SizableText, Spinner, Sheet, H2} from "tamagui";
 import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../../tamagui.config.ts";
-import {Delete, ShoppingBasket} from "@tamagui/lucide-icons";
+import {Delete, ShoppingBasket} from "lucide-react";
 import FilterBar from "../../components/item/FilterBar.jsx";
 import {useSelector} from "react-redux";
 import {selectStore} from "../../features/store/storeSlice.js";

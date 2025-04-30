@@ -1,6 +1,6 @@
 import {Form, H2, H4, H6, Input, Label, Separator, Sheet, SheetScrollView, SizableText, Spinner, Square} from 'tamagui'
 import {BigButton, HorizontalContainer, SmallButton, VerticalContainer} from "../../../tamagui.config.ts";
-import {Save, Upload, X} from "@tamagui/lucide-icons";
+import {Save, Upload, X} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import {Formik} from "formik";
 import * as yup from "yup";
@@ -93,7 +93,7 @@ const CombineItems = ({items, closeModal, refetchItems, emptySelection, before, 
                         <HorizontalContainer alignItems="center" justifyContent="space-between">
                             <H2 marginTop="3rem" marginBottom="1rem">Combine selected items</H2>
                             <Square animation="quick" pressStyle={{scale: 0.8}} hoverStyle={{scale: 1.2}} alignSelf="flex-end" marginBottom={0} onClick={() => closeModal(false)}>
-                                <X color="#292023" size="$3" />
+                                <X color="#292023" size={50} />
                             </Square>
                         </HorizontalContainer>
                         <SizableText marginBottom="1rem">Swipe down to change the selected items</SizableText>

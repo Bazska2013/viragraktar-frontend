@@ -4,7 +4,7 @@ import axios from "../axiosConfig.js";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {Input, Label, SizableText, Form, Spinner, H2, H4, Separator, H1, H6, Square} from "tamagui";
-import {FileSignature, LogIn, ShoppingCart, Store, User} from "@tamagui/lucide-icons";
+import {FileSignature, LogIn, ShoppingCart, Store, User} from "lucide-react";
 import {BigButton, HorizontalContainer, SmallButtonWithAccent, VerticalContainer} from "../tamagui.config.ts";
 
 const Register = () => {
@@ -208,13 +208,13 @@ const Register = () => {
                     </VerticalContainer>
                     <VerticalContainer alignItems="center">
                         <Square position="absolute" animation="slow" opacity={currentIcon === 'store' ? 1 : 0} rotate={currentIcon === 'store' ? '0deg' : '360deg'} scale={currentIcon === 'store' ? 1 : 0}>
-                            <Store size="$15" />
+                            <Store size={150} />
                         </Square>
                         <Square position="absolute" animation="slow" opacity={currentIcon === 'cart' ? 1 : 0} rotate={currentIcon === 'cart' ? '360deg' : '0deg'} scale={currentIcon === 'cart' ? 1 : 0}>
-                            <ShoppingCart size="$15" />
+                            <ShoppingCart size={150} />
                         </Square>
                         <Square position="absolute" animation="slow" opacity={currentIcon === 'profile' ? 1 : 0} rotate={currentIcon === 'profile' ? '0deg' : '360deg'} scale={currentIcon === 'profile' ? 1 : 0}>
-                            <User size="$15" />
+                            <User size={150} />
                         </Square>
                     </VerticalContainer>
                 </VerticalContainer>

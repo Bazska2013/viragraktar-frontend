@@ -4,7 +4,7 @@ import axios from "../../axiosConfig.js";
 import StoreUsersRow from "./StoreUsersRow.jsx";
 import {Accordion, H2, H4, Square} from "tamagui";
 import {VerticalContainer} from "../../tamagui.config.ts";
-import {ChevronDown} from "@tamagui/lucide-icons";
+import {ChevronDown} from "lucide-react";
 
 const StoreUsers = () => {
     const [users, setUsers] = useState([]);
@@ -62,7 +62,7 @@ const StoreUsers = () => {
                                 <>
                                     <H4>{users[user].name}</H4>
                                     <Square animation="quick" rotate={open ? '180deg' : '0deg'}>
-                                        <ChevronDown size="$1" />
+                                        <ChevronDown size={40} />
                                     </Square>
                                 </>
 

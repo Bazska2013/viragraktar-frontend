@@ -4,7 +4,7 @@ import {Formik} from "formik";
 import * as yup from "yup";
 import React, {useState} from "react";
 import {Input, Label, SizableText, Form, Spinner, H4} from "tamagui";
-import {PenSquare} from "@tamagui/lucide-icons";
+import {PenSquare} from "lucide-react";
 import {BigButton, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const JoinStore = () => {

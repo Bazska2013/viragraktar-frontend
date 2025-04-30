@@ -1,6 +1,6 @@
 import {Button, Popover, YStack} from "tamagui";
 import {DateButton, HorizontalContainer, VerticalContainer} from "../../tamagui.config.ts";
-import {Calendar, ChevronLeft, ChevronRight} from "@tamagui/lucide-icons";
+import {Calendar, ChevronLeft, ChevronRight} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import YearPicker from "./YearPicker.jsx";
 import MonthPicker from "./MonthPicker.jsx";

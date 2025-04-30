@@ -1,5 +1,5 @@
-import {H1, H2, H4, Paragraph, Square} from "tamagui";
-import {ShoppingCart, Store, User} from "@tamagui/lucide-icons";
+import {H1, H4, Square} from "tamagui";
+import {ShoppingCart, Store, User} from "lucide-react";
 import {BigButton, VerticalContainer} from "../tamagui.config.ts";
 import React, {useCallback, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -65,13 +65,13 @@ const NotFound = () => {
         <BigButton onPress={handleNavigateBack}>{user ? 'Navigate to the Profile page' : 'Navigate to the Login page'}</BigButton>
         <VerticalContainer alignItems="center">
             <Square position="absolute" animation="slow" opacity={currentIcon === 'store' ? 1 : 0} rotate={currentIcon === 'store' ? '0deg' : '360deg'} scale={currentIcon === 'store' ? 1 : 0}>
-                <Store size="$10" />
+                <Store size={150} />
             </Square>
             <Square position="absolute" animation="slow" opacity={currentIcon === 'cart' ? 1 : 0} rotate={currentIcon === 'cart' ? '360deg' : '0deg'} scale={currentIcon === 'cart' ? 1 : 0}>
-                <ShoppingCart size="$10" />
+                <ShoppingCart size={150} />
             </Square>
             <Square position="absolute" animation="slow" opacity={currentIcon === 'profile' ? 1 : 0} rotate={currentIcon === 'profile' ? '0deg' : '360deg'} scale={currentIcon === 'profile' ? 1 : 0}>
-                <User size="$10" />
+                <User size={150} />
             </Square>
         </VerticalContainer>
     </VerticalContainer>

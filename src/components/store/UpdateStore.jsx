@@ -5,7 +5,7 @@ import SelectOpeningHours from "./SelectOpeningHours.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {createStore, selectStore} from "../../features/store/storeSlice.js";
 import {Input, Label, SizableText, Form, Spinner, H4, Separator, H2, Switch} from "tamagui";
-import {Save} from "@tamagui/lucide-icons";
+import {Save} from "lucide-react";
 import {BigButton, HorizontalContainer, ProfileContainer, VerticalContainer} from "../../tamagui.config.ts";
 
 const UpdateStore = () => {

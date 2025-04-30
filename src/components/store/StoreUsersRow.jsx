@@ -3,7 +3,7 @@ import axios from "../../axiosConfig.js";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser, setUser} from "../../features/auth/userSlice.js";
 import {SizableText, Spinner, Separator, Label, Switch, H6, AlertDialog, YStack, XStack} from "tamagui";
-import {Save, Trash} from "@tamagui/lucide-icons";
+import {Save, Trash} from "lucide-react";
 import {BigButton, HorizontalContainer, SmallButton, SmallButtonWithAccent, StyledGroup, VerticalContainer} from "../../tamagui.config.ts";
 import PropTypes from "prop-types";
 
