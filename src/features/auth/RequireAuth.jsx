@@ -37,7 +37,7 @@ export const RequireAuth = ({ children }) => {
         </Spinner>;
     }
 
-    if (error) {
+    if (error && isAuthenticated) {
         return <div className="error-message">{error.message}</div>;
     }
 

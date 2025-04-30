@@ -37,6 +37,7 @@ const Sell = () => {
             if (response?.status === 200) {
                 setItems(response.data);
                 setFilteredItems(response.data);
+                setIsLoading(false);
             }
         }
     }
