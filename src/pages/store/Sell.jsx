@@ -43,10 +43,7 @@ const Sell = () => {
     }
 
     useEffect(() => {
-        setFilteredItems([]);
         fetchItems().then(() => {
-            setFilterString('');
-            setFilterLabels([]);
             setSign(JSON.parse(store.currency).sign);
             setBefore(JSON.parse(store.currency).before);
             if (items.length > 0) {
@@ -61,7 +58,7 @@ const Sell = () => {
                 return () => clearTimeout(timeout);
             }
         });
-    }, [filteredItems.length, store.currency]);
+    }, [items.length, store.currency]);
 
     useEffect(() => {
         if (cart.length > 0) {

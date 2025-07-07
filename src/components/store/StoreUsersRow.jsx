@@ -28,7 +28,7 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
                 setIsBuyerR(checked);
                 break;
             case 'admin':
-                if (currentUser.id === user.id) {
+                if (currentUser?.id === user?.id) {
                     return;
                 }
                 setIsAdminR(checked);
@@ -139,7 +139,7 @@ const StoreUsersRow = ({isSeller, isBuyer, isAdmin, user, id, refetchUsers, name
                 <Label htmlFor={name + 'admin'}>
                     <H6>Admin</H6>
                 </Label>
-                <Switch checked={isAdminR} disabled={currentUser.id === user?.id} opacity={currentUser.id !== id ? "1" : "0.5"} id={name + 'admin'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'admin')}>
+                <Switch checked={isAdminR} disabled={currentUser?.id === user?.id} opacity={currentUser?.id !== id ? "1" : "0.5"} id={name + 'admin'} size="$3" onCheckedChange={(checked) => handleChange(checked, 'admin')}>
                     <Switch.Thumb animation="bouncy" />
                 </Switch>
             </HorizontalContainer>
